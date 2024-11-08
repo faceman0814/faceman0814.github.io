@@ -4,9 +4,21 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YZLV0NMXNB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-YZLV0NMXNB');
+    </script>
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    
     <title>FaceMan&#39;s Blog</title>
     <meta name="viewport" content="width=device-width,minimum-scale=1">
-    <meta name="description" content="The last theme you&#39;ll ever need. Maybe.">
+    <meta name="description" content="从0开始，直到1。">
     <meta name="generator" content="Hugo 0.138.0">
     
     
@@ -43,15 +55,15 @@
     <meta property="og:url" content="https://blog.faceman.cn/tags/">
   <meta property="og:site_name" content="FaceMan&#39;s Blog">
   <meta property="og:title" content="Tags">
-  <meta property="og:description" content="The last theme you&#39;ll ever need. Maybe.">
+  <meta property="og:description" content="从0开始，直到1。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="website">
 
   <meta itemprop="name" content="Tags">
-  <meta itemprop="description" content="The last theme you&#39;ll ever need. Maybe.">
+  <meta itemprop="description" content="从0开始，直到1。">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Tags">
-  <meta name="twitter:description" content="The last theme you&#39;ll ever need. Maybe.">
+  <meta name="twitter:description" content="从0开始，直到1。">
 
       
     
@@ -62,7 +74,7 @@
 
   
   
-  <header class="cover bg-top" style="background-image: url('https://blog.faceman.cn/images/gohugo-default-sample-hero-image.jpg');">
+  <header class="cover bg-top" style="background-image: url('https://blog.faceman.cn/images/background.jpg');">
     
     <div class="bg-black-60">
       <nav class="pv3 ph3 ph4-ns" role="navigation">
@@ -121,11 +133,69 @@
   <div class="flex justify-between">
   <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.faceman.cn/" >
     &copy;  FaceMan's Blog 2024 
+
+  
   </a>
     <div><div class="ananke-socials"></div>
 </div>
+    <div class="footer-container">
+      本站总访问量<span id="busuanzi_value_site_pv"></span>次
+      &nbsp;
+      <span id="sitetime">载入运行时间...</span>
+    </div>
   </div>
+ 
 </footer>
+<style>
+  .footer-container {
+    color: white; 
+    display: flex;
+    justify-content: center;  
+    align-items: center;      
+  }
+</style>
+<script>
+  function siteTime() {
+      var seconds = 1000;
+      var minutes = seconds * 60;
+      var hours = minutes * 60;
+      var days = hours * 24;
+      var years = days * 365;
+      var today = new Date();
+      var startYear = 2024;
+      var startMonth = 11;
+      var startDate = 8;
+      var startHour = 14;
+      var startMinute = 15;
+      var startSecond = 11;
+      var todayYear = today.getFullYear();
+      var todayMonth = today.getMonth() + 1;
+      var todayDate = today.getDate();
+      var todayHour = today.getHours();
+      var todayMinute = today.getMinutes();
+      var todaySecond = today.getSeconds();
+      var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+      var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+      var diff = t2 - t1;
+      var diffYears = Math.floor(diff / years);
+      var diffDays = Math.floor((diff / days) - diffYears * 365);
+      var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+      var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+          minutes);
+      var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+          diffMinutes * minutes) / seconds);
+      if (startYear == todayYear) {
+          
+          document.getElementById("sitetime").innerHTML = "博客已运行 " + diffDays + " 天 " + diffHours +
+              " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+      } else {
+          
+          document.getElementById("sitetime").innerHTML = "博客已运行 " + diffYears + " 年 " + diffDays +
+              " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+      }
+  }
+  setInterval(siteTime, 1000);
 
+</script>
   </body>
 </html>
