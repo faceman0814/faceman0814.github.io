@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>FaceManBLOG</title>
-    <link>https://facemanblog.faceman.cn/</link>
+    <link>https://faceman0814.github.io/</link>
     <description>Recent content on FaceManBLOG</description>
     <generator>Hugo</generator>
     <language>en</language>
     <lastBuildDate>Fri, 08 Nov 2024 09:06:54 +0800</lastBuildDate>
-    <atom:link href="https://facemanblog.faceman.cn/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://faceman0814.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>测试博客</title>
-      <link>https://facemanblog.faceman.cn/post/first-post/</link>
+      <link>https://faceman0814.github.io/post/first-post/</link>
       <pubDate>Fri, 08 Nov 2024 09:06:54 +0800</pubDate>
-      <guid>https://facemanblog.faceman.cn/post/first-post/</guid>
+      <guid>https://faceman0814.github.io/post/first-post/</guid>
       <description></description>
     </item>
   </channel>
