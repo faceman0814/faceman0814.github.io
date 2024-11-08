@@ -2,61 +2,61 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://hugo.faceman.cn/fr/categories/</loc>
+    <loc>https://blog.faceman.cn/fr/categories/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-CN"
-                href="https://hugo.faceman.cn/categories/"
+                href="https://blog.faceman.cn/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
-                href="https://hugo.faceman.cn/en/categories/"
+                href="https://blog.faceman.cn/en/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="fr-FR"
-                href="https://hugo.faceman.cn/fr/categories/"
+                href="https://blog.faceman.cn/fr/categories/"
                 />
   </url><url>
-    <loc>https://hugo.faceman.cn/fr/</loc>
+    <loc>https://blog.faceman.cn/fr/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-CN"
-                href="https://hugo.faceman.cn/"
+                href="https://blog.faceman.cn/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
-                href="https://hugo.faceman.cn/en/"
+                href="https://blog.faceman.cn/en/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="fr-FR"
-                href="https://hugo.faceman.cn/fr/"
+                href="https://blog.faceman.cn/fr/"
                 />
   </url><url>
-    <loc>https://hugo.faceman.cn/fr/tags/</loc>
+    <loc>https://blog.faceman.cn/fr/tags/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-CN"
-                href="https://hugo.faceman.cn/tags/"
+                href="https://blog.faceman.cn/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en-US"
-                href="https://hugo.faceman.cn/en/tags/"
+                href="https://blog.faceman.cn/en/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="fr-FR"
-                href="https://hugo.faceman.cn/fr/tags/"
+                href="https://blog.faceman.cn/fr/tags/"
                 />
   </url>
 </urlset>
