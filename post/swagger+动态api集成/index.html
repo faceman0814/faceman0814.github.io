@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YZLV0NMXNB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+  
+      gtag('config', 'G-YZLV0NMXNB');
+    </script>
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <title>Swagger&#43;动态API集成 | FaceMan&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="集成Swagger
+
+首先，在你的.NET Core项目中安装需要的包。你可以通过NuGet包管理器来安装它，也可以直接复制粘贴安装，以下是包名和版本。
+
+		&lt;PackageReference Include=&#34;Swashbuckle.AspNetCore&#34; Version=&#34;6.4.0&#34; /&gt;
+		&lt;PackageReference Include=&#34;Swashbuckle.AspNetCore.Filters&#34; Version=&#34;8.0.2&#34; /&gt;
+
+.Net 6以后取消了StartUp，配置都在Program中，这里采用新写法。
+
+var builder = WebApplication.CreateBuilder(args);
+// 配置文件读取
+var basePath = AppContext.BaseDirectory;
+var config = new ConfigurationBuilder()
+                .SetBasePath(basePath)
+                .AddJsonFile(&#34;appsettings.json&#34;, optional: true, reloadOnChange: true)
+                .Build();
+                
+#region 添加Swagger文档服务
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =&gt;
+{
+    //添加响应头信息。它可以帮助开发者查看 API 响应中包含的 HTTP 头信息，从而更好地理解 API 的行为。
+    options.OperationFilter&lt;AddResponseHeadersFilter&gt;();
+    //摘要中添加授权信息。它会在每个需要授权的操作旁边显示一个锁图标，提醒开发者该操作需要身份验证。
+    options.OperationFilter&lt;AppendAuthorizeToSummaryOperationFilter&gt;();
+    //加安全需求信息。它会根据 API 的安全配置（如 OAuth2、JWT 等）自动生成相应的安全需求描述，帮助开发者了解哪些操作需要特定的安全配置。
+    options.OperationFilter&lt;SecurityRequirementsOperationFilter&gt;();
+    //options.DocumentFilter&lt;RemoveAppSuffixFilter&gt;();
+    options.SwaggerDoc(&#34;v1&#34;, new OpenApiInfo
+    {
+        Title = &#34;xxxFrameWork API&#34;,
+        Version = &#34;v1&#34;,
+        Description = &#34;xxxFrameWork API 接口文档&#34;,
+        Contact = new OpenApiContact()
+        {
+            Name = &#34;xxxxx&#34;,
+            Email = &#34;xxxxx@qq.com&#34;,
+            Url = new Uri(&#34;https://github.com/xxxxx&#34;)
+        }
+    });
+});
+
+#endregion 添加Swagger文档服务
+
+//开发环境才开启文档。
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(options =&gt;
+    {
+        //配置Endpoint路径和文档标题
+        options.SwaggerEndpoint(&#34;/swagger/v1/swagger.json&#34;, &#34;v1 Docs&#34;);
+        //配置路由前缀，RoutePrefix是Swagger UI的根路径。
+        //options.RoutePrefix = String.Empty;
+        //设置默认模型展开深度。默认值为3，可以设置成-1以完全展开所有模型。
+        //options.DefaultModelExpandDepth(-1);
+        // 启用深链接功能后，用户可以直接通过URL访问特定的API操作或模型，而不需要手动导航到相应的位置。
+        options.EnableDeepLinking();
+        options.DocExpansion(DocExpansion.None); //swagger文档展开方式，none为折叠，list为列表
+    });
+}
+动态API
+Swagger文档的原理是扫描控制器来生成，动态API则是自定义类控制器，然后让接口继承，自定义控制器识别规则，实现思路：">
+    <meta name="generator" content="Hugo 0.138.0">
+    
+    
+    
+      <meta name="robots" content="index, follow">
+    
+    
+      <meta name="author" content = "faceman">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.db6c21efb4e09e483e0c106d04ec594269510609667187bff9445c47d37114c9.css" >
+
+
+
+    
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="https://blog.faceman.cn/post/swagger&#43;%E5%8A%A8%E6%80%81api%E9%9B%86%E6%88%90/">
+    
+
+    <meta property="og:url" content="https://blog.faceman.cn/post/swagger&#43;%E5%8A%A8%E6%80%81api%E9%9B%86%E6%88%90/">
+  <meta property="og:site_name" content="FaceMan&#39;s Blog">
+  <meta property="og:title" content="Swagger&#43;动态API集成">
+  <meta property="og:description" content="集成Swagger 首先，在你的.NET Core项目中安装需要的包。你可以通过NuGet包管理器来安装它，也可以直接复制粘贴安装，以下是包名和版本。 &lt;PackageReference Include=&#34;Swashbuckle.AspNetCore&#34; Version=&#34;6.4.0&#34; /&gt; &lt;PackageReference Include=&#34;Swashbuckle.AspNetCore.Filters&#34; Version=&#34;8.0.2&#34; /&gt; .Net 6以后取消了StartUp，配置都在Program中，这里采用新写法。 var builder = WebApplication.CreateBuilder(args); // 配置文件读取 var basePath = AppContext.BaseDirectory; var config = new ConfigurationBuilder() .SetBasePath(basePath) .AddJsonFile(&#34;appsettings.json&#34;, optional: true, reloadOnChange: true) .Build(); #region 添加Swagger文档服务 builder.Services.AddEndpointsApiExplorer(); builder.Services.AddSwaggerGen(options =&gt; { //添加响应头信息。它可以帮助开发者查看 API 响应中包含的 HTTP 头信息，从而更好地理解 API 的行为。 options.OperationFilter&lt;AddResponseHeadersFilter&gt;(); //摘要中添加授权信息。它会在每个需要授权的操作旁边显示一个锁图标，提醒开发者该操作需要身份验证。 options.OperationFilter&lt;AppendAuthorizeToSummaryOperationFilter&gt;(); //加安全需求信息。它会根据 API 的安全配置（如 OAuth2、JWT 等）自动生成相应的安全需求描述，帮助开发者了解哪些操作需要特定的安全配置。 options.OperationFilter&lt;SecurityRequirementsOperationFilter&gt;(); //options.DocumentFilter&lt;RemoveAppSuffixFilter&gt;(); options.SwaggerDoc(&#34;v1&#34;, new OpenApiInfo { Title = &#34;xxxFrameWork API&#34;, Version = &#34;v1&#34;, Description = &#34;xxxFrameWork API 接口文档&#34;, Contact = new OpenApiContact() { Name = &#34;xxxxx&#34;, Email = &#34;xxxxx@qq.com&#34;, Url = new Uri(&#34;https://github.com/xxxxx&#34;) } }); }); #endregion 添加Swagger文档服务 //开发环境才开启文档。 if (app.Environment.IsDevelopment()) { app.UseSwagger(); app.UseSwaggerUI(options =&gt; { //配置Endpoint路径和文档标题 options.SwaggerEndpoint(&#34;/swagger/v1/swagger.json&#34;, &#34;v1 Docs&#34;); //配置路由前缀，RoutePrefix是Swagger UI的根路径。 //options.RoutePrefix = String.Empty; //设置默认模型展开深度。默认值为3，可以设置成-1以完全展开所有模型。 //options.DefaultModelExpandDepth(-1); // 启用深链接功能后，用户可以直接通过URL访问特定的API操作或模型，而不需要手动导航到相应的位置。 options.EnableDeepLinking(); options.DocExpansion(DocExpansion.None); //swagger文档展开方式，none为折叠，list为列表 }); } 动态API Swagger文档的原理是扫描控制器来生成，动态API则是自定义类控制器，然后让接口继承，自定义控制器识别规则，实现思路：">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-11-08T17:18:05+08:00">
+    <meta property="article:modified_time" content="2024-11-08T17:18:05+08:00">
+
+  <meta itemprop="name" content="Swagger&#43;动态API集成">
+  <meta itemprop="description" content="集成Swagger 首先，在你的.NET Core项目中安装需要的包。你可以通过NuGet包管理器来安装它，也可以直接复制粘贴安装，以下是包名和版本。 &lt;PackageReference Include=&#34;Swashbuckle.AspNetCore&#34; Version=&#34;6.4.0&#34; /&gt; &lt;PackageReference Include=&#34;Swashbuckle.AspNetCore.Filters&#34; Version=&#34;8.0.2&#34; /&gt; .Net 6以后取消了StartUp，配置都在Program中，这里采用新写法。 var builder = WebApplication.CreateBuilder(args); // 配置文件读取 var basePath = AppContext.BaseDirectory; var config = new ConfigurationBuilder() .SetBasePath(basePath) .AddJsonFile(&#34;appsettings.json&#34;, optional: true, reloadOnChange: true) .Build(); #region 添加Swagger文档服务 builder.Services.AddEndpointsApiExplorer(); builder.Services.AddSwaggerGen(options =&gt; { //添加响应头信息。它可以帮助开发者查看 API 响应中包含的 HTTP 头信息，从而更好地理解 API 的行为。 options.OperationFilter&lt;AddResponseHeadersFilter&gt;(); //摘要中添加授权信息。它会在每个需要授权的操作旁边显示一个锁图标，提醒开发者该操作需要身份验证。 options.OperationFilter&lt;AppendAuthorizeToSummaryOperationFilter&gt;(); //加安全需求信息。它会根据 API 的安全配置（如 OAuth2、JWT 等）自动生成相应的安全需求描述，帮助开发者了解哪些操作需要特定的安全配置。 options.OperationFilter&lt;SecurityRequirementsOperationFilter&gt;(); //options.DocumentFilter&lt;RemoveAppSuffixFilter&gt;(); options.SwaggerDoc(&#34;v1&#34;, new OpenApiInfo { Title = &#34;xxxFrameWork API&#34;, Version = &#34;v1&#34;, Description = &#34;xxxFrameWork API 接口文档&#34;, Contact = new OpenApiContact() { Name = &#34;xxxxx&#34;, Email = &#34;xxxxx@qq.com&#34;, Url = new Uri(&#34;https://github.com/xxxxx&#34;) } }); }); #endregion 添加Swagger文档服务 //开发环境才开启文档。 if (app.Environment.IsDevelopment()) { app.UseSwagger(); app.UseSwaggerUI(options =&gt; { //配置Endpoint路径和文档标题 options.SwaggerEndpoint(&#34;/swagger/v1/swagger.json&#34;, &#34;v1 Docs&#34;); //配置路由前缀，RoutePrefix是Swagger UI的根路径。 //options.RoutePrefix = String.Empty; //设置默认模型展开深度。默认值为3，可以设置成-1以完全展开所有模型。 //options.DefaultModelExpandDepth(-1); // 启用深链接功能后，用户可以直接通过URL访问特定的API操作或模型，而不需要手动导航到相应的位置。 options.EnableDeepLinking(); options.DocExpansion(DocExpansion.None); //swagger文档展开方式，none为折叠，list为列表 }); } 动态API Swagger文档的原理是扫描控制器来生成，动态API则是自定义类控制器，然后让接口继承，自定义控制器识别规则，实现思路：">
+  <meta itemprop="datePublished" content="2024-11-08T17:18:05+08:00">
+  <meta itemprop="dateModified" content="2024-11-08T17:18:05+08:00">
+  <meta itemprop="wordCount" content="899">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Swagger&#43;动态API集成">
+  <meta name="twitter:description" content="集成Swagger 首先，在你的.NET Core项目中安装需要的包。你可以通过NuGet包管理器来安装它，也可以直接复制粘贴安装，以下是包名和版本。 &lt;PackageReference Include=&#34;Swashbuckle.AspNetCore&#34; Version=&#34;6.4.0&#34; /&gt; &lt;PackageReference Include=&#34;Swashbuckle.AspNetCore.Filters&#34; Version=&#34;8.0.2&#34; /&gt; .Net 6以后取消了StartUp，配置都在Program中，这里采用新写法。 var builder = WebApplication.CreateBuilder(args); // 配置文件读取 var basePath = AppContext.BaseDirectory; var config = new ConfigurationBuilder() .SetBasePath(basePath) .AddJsonFile(&#34;appsettings.json&#34;, optional: true, reloadOnChange: true) .Build(); #region 添加Swagger文档服务 builder.Services.AddEndpointsApiExplorer(); builder.Services.AddSwaggerGen(options =&gt; { //添加响应头信息。它可以帮助开发者查看 API 响应中包含的 HTTP 头信息，从而更好地理解 API 的行为。 options.OperationFilter&lt;AddResponseHeadersFilter&gt;(); //摘要中添加授权信息。它会在每个需要授权的操作旁边显示一个锁图标，提醒开发者该操作需要身份验证。 options.OperationFilter&lt;AppendAuthorizeToSummaryOperationFilter&gt;(); //加安全需求信息。它会根据 API 的安全配置（如 OAuth2、JWT 等）自动生成相应的安全需求描述，帮助开发者了解哪些操作需要特定的安全配置。 options.OperationFilter&lt;SecurityRequirementsOperationFilter&gt;(); //options.DocumentFilter&lt;RemoveAppSuffixFilter&gt;(); options.SwaggerDoc(&#34;v1&#34;, new OpenApiInfo { Title = &#34;xxxFrameWork API&#34;, Version = &#34;v1&#34;, Description = &#34;xxxFrameWork API 接口文档&#34;, Contact = new OpenApiContact() { Name = &#34;xxxxx&#34;, Email = &#34;xxxxx@qq.com&#34;, Url = new Uri(&#34;https://github.com/xxxxx&#34;) } }); }); #endregion 添加Swagger文档服务 //开发环境才开启文档。 if (app.Environment.IsDevelopment()) { app.UseSwagger(); app.UseSwaggerUI(options =&gt; { //配置Endpoint路径和文档标题 options.SwaggerEndpoint(&#34;/swagger/v1/swagger.json&#34;, &#34;v1 Docs&#34;); //配置路由前缀，RoutePrefix是Swagger UI的根路径。 //options.RoutePrefix = String.Empty; //设置默认模型展开深度。默认值为3，可以设置成-1以完全展开所有模型。 //options.DefaultModelExpandDepth(-1); // 启用深链接功能后，用户可以直接通过URL访问特定的API操作或模型，而不需要手动导航到相应的位置。 options.EnableDeepLinking(); options.DocExpansion(DocExpansion.None); //swagger文档展开方式，none为折叠，list为列表 }); } 动态API Swagger文档的原理是扫描控制器来生成，动态API则是自定义类控制器，然后让接口继承，自定义控制器识别规则，实现思路：">
+
+      
+    
+	
+  </head><body class="ma0 avenir bg-near-white production">
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('https://blog.faceman.cn/images/esmeralda.jpg');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        FaceMan&#39;s Blog
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/post/" title="Posts 页">
+              Posts
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"><a href="https://github.com/faceman0814" target="_blank" rel="noopener"
+        class="ananke-social-link link-transition github link dib z-999 pt3 pt0-l mr1"
+        title="follow on GitHub - Opens in a new window"
+        aria-label="follow on GitHub - Opens in a new window">
+      <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+            
+          </span></a></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Swagger&#43;动态API集成</div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside><div id="sharing" class="mt3 ananke-socials"><a href="mailto:?&amp;body=https%3A%2F%2Fblog.faceman.cn%2Fpost%2Fswagger%2B%25E5%258A%25A8%25E6%2580%2581api%25E9%259B%2586%25E6%2588%2590%2F&amp;subject=Swagger%2B%E5%8A%A8%E6%80%81API%E9%9B%86%E6%88%90"
+        class="ananke-social-link email no-underline"
+        title="Share on Email" aria-label="Share on Email"
+        target="_blank" rel="nofollow noopener noreferrer">
+        <span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M64 112c-8.8 0-16 7.2-16 16l0 22.1L220.5 291.7c20.7 17 50.4 17 71.1 0L464 150.1l0-22.1c0-8.8-7.2-16-16-16L64 112zM48 212.2L48 384c0 8.8 7.2 16 16 16l384 0c8.8 0 16-7.2 16-16l0-171.8L322 328.8c-38.4 31.5-93.7 31.5-132 0L48 212.2zM0 128C0 92.7 28.7 64 64 64l384 0c35.3 0 64 28.7 64 64l0 256c0 35.3-28.7 64-64 64L64 448c-35.3 0-64-28.7-64-64L0 128z"/></svg>
+                
+              </span></a></div>
+<h1 class="f1 athelas mt3 mb1">Swagger&#43;动态API集成</h1>
+      
+      <p class="tracked">
+         <strong>faceman</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2024-11-08T17:18:05+08:00">十一月 8, 2024</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h2 id="集成swagger">集成Swagger</h2>
+<ol>
+<li>首先，在你的.NET Core项目中安装需要的包。你可以通过NuGet包管理器来安装它，也可以直接复制粘贴安装，以下是包名和版本。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>		&lt;PackageReference Include=<span style="color:#e6db74">&#34;Swashbuckle.AspNetCore&#34;</span> Version=<span style="color:#e6db74">&#34;6.4.0&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>		&lt;PackageReference Include=<span style="color:#e6db74">&#34;Swashbuckle.AspNetCore.Filters&#34;</span> Version=<span style="color:#e6db74">&#34;8.0.2&#34;</span> /&gt;
+</span></span></code></pre></div><ol start="2">
+<li>.Net 6以后取消了StartUp，配置都在Program中，这里采用新写法。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> builder = WebApplication.CreateBuilder(args);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 配置文件读取</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> basePath = AppContext.BaseDirectory;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> config = <span style="color:#66d9ef">new</span> ConfigurationBuilder()
+</span></span><span style="display:flex;"><span>                .SetBasePath(basePath)
+</span></span><span style="display:flex;"><span>                .AddJsonFile(<span style="color:#e6db74">&#34;appsettings.json&#34;</span>, optional: <span style="color:#66d9ef">true</span>, reloadOnChange: <span style="color:#66d9ef">true</span>)
+</span></span><span style="display:flex;"><span>                .Build();
+</span></span><span style="display:flex;"><span>                
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#region</span> <span style="color:#960050;background-color:#1e0010">添加</span>Swagger文档服务
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>builder.Services.AddEndpointsApiExplorer();
+</span></span><span style="display:flex;"><span>builder.Services.AddSwaggerGen(options =&gt;
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//添加响应头信息。它可以帮助开发者查看 API 响应中包含的 HTTP 头信息，从而更好地理解 API 的行为。</span>
+</span></span><span style="display:flex;"><span>    options.OperationFilter&lt;AddResponseHeadersFilter&gt;();
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//摘要中添加授权信息。它会在每个需要授权的操作旁边显示一个锁图标，提醒开发者该操作需要身份验证。</span>
+</span></span><span style="display:flex;"><span>    options.OperationFilter&lt;AppendAuthorizeToSummaryOperationFilter&gt;();
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//加安全需求信息。它会根据 API 的安全配置（如 OAuth2、JWT 等）自动生成相应的安全需求描述，帮助开发者了解哪些操作需要特定的安全配置。</span>
+</span></span><span style="display:flex;"><span>    options.OperationFilter&lt;SecurityRequirementsOperationFilter&gt;();
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//options.DocumentFilter&lt;RemoveAppSuffixFilter&gt;();</span>
+</span></span><span style="display:flex;"><span>    options.SwaggerDoc(<span style="color:#e6db74">&#34;v1&#34;</span>, <span style="color:#66d9ef">new</span> OpenApiInfo
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        Title = <span style="color:#e6db74">&#34;xxxFrameWork API&#34;</span>,
+</span></span><span style="display:flex;"><span>        Version = <span style="color:#e6db74">&#34;v1&#34;</span>,
+</span></span><span style="display:flex;"><span>        Description = <span style="color:#e6db74">&#34;xxxFrameWork API 接口文档&#34;</span>,
+</span></span><span style="display:flex;"><span>        Contact = <span style="color:#66d9ef">new</span> OpenApiContact()
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            Name = <span style="color:#e6db74">&#34;xxxxx&#34;</span>,
+</span></span><span style="display:flex;"><span>            Email = <span style="color:#e6db74">&#34;xxxxx@qq.com&#34;</span>,
+</span></span><span style="display:flex;"><span>            Url = <span style="color:#66d9ef">new</span> Uri(<span style="color:#e6db74">&#34;https://github.com/xxxxx&#34;</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#endregion</span> <span style="color:#960050;background-color:#1e0010">添加</span>Swagger文档服务
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//开发环境才开启文档。</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (app.Environment.IsDevelopment())
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    app.UseSwagger();
+</span></span><span style="display:flex;"><span>    app.UseSwaggerUI(options =&gt;
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//配置Endpoint路径和文档标题</span>
+</span></span><span style="display:flex;"><span>        options.SwaggerEndpoint(<span style="color:#e6db74">&#34;/swagger/v1/swagger.json&#34;</span>, <span style="color:#e6db74">&#34;v1 Docs&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//配置路由前缀，RoutePrefix是Swagger UI的根路径。</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//options.RoutePrefix = String.Empty;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//设置默认模型展开深度。默认值为3，可以设置成-1以完全展开所有模型。</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//options.DefaultModelExpandDepth(-1);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 启用深链接功能后，用户可以直接通过URL访问特定的API操作或模型，而不需要手动导航到相应的位置。</span>
+</span></span><span style="display:flex;"><span>        options.EnableDeepLinking();
+</span></span><span style="display:flex;"><span>        options.DocExpansion(DocExpansion.None); <span style="color:#75715e">//swagger文档展开方式，none为折叠，list为列表</span>
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="动态api">动态API</h2>
+<p>Swagger文档的原理是扫描控制器来生成，动态API则是自定义类控制器，然后让接口继承，自定义控制器识别规则，实现思路：</p>
+<ol>
+<li>定义一个接口或特性用来标识这是个控制器，Mvc中实现的核心是ControllerFeatureProvider类，重写IsController的判断逻辑。</li>
+<li>继承IApplicationModelConvention重写Apply，如果是继承了自定义的控制器接口就根据规则标记Http请求类型。比如Abp中继承了IApplicationService接口，Swagger会自动识别,且遵循约定大于规范原则，将Get开头的请求都默认是Get请求，Del开头的请求默认是Delete请求。</li>
+<li>配置应用程序部分管理器，添加自定义的控制器特性提供程序</li>
+<li>配置MvcOptions，添加自定义的应用程序模型约定</li>
+</ol>
+<p>模仿Abp的实现</p>
+<h3 id="创建iapplicationservice用来标识自定义控制器的接口或特性">创建IApplicationService用来标识自定义控制器的接口或特性</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span> <span style="color:#75715e">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">/// 动态WebAPI接口</span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">IApplicationService</span>
+</span></span><span style="display:flex;"><span> {
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/// 动态WebAPI特性</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">  [AttributeUsage(AttributeTargets.Class, Inherited = true)]</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DynamicWebApiAttribute</span> : Attribute
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>创建ApplicationServiceControllerFeatureProvider类来继承ControllerFeatureProvider类</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#75715e">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 自定义控制器特性提供程序，用于将实现了 IApplicationService 接口的类识别为控制器。</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ApplicationServiceControllerFeatureProvider</span> : ControllerFeatureProvider
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// 判断给定的类型是否为控制器。</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;param name=&#34;typeInfo&#34;&gt;要判断的类型信息。&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;returns&gt;如果类型是控制器，则返回 true；否则返回 false。&lt;/returns&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">bool</span> IsController(TypeInfo typeInfo)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 检查类型是否实现了 IApplicationService 接口</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">typeof</span>(IApplicationService).IsAssignableFrom(typeInfo))
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 检查类型是否满足以下条件：</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">var</span> type = typeInfo.AsType();
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> ((<span style="color:#66d9ef">typeof</span>(IApplicationService).IsAssignableFrom(type) || <span style="color:#75715e">//判断是否继承ICoreDynamicController接口</span>
+</span></span><span style="display:flex;"><span>                type.IsDefined(<span style="color:#66d9ef">typeof</span>(DynamicWebApiAttribute), <span style="color:#66d9ef">true</span>) ||<span style="color:#75715e">// 判断是否标记了DynamicAPIAttribute特性</span>
+</span></span><span style="display:flex;"><span>                 type.BaseType == <span style="color:#66d9ef">typeof</span>(Controller)) &amp;&amp;
+</span></span><span style="display:flex;"><span>                typeInfo.IsPublic &amp;&amp; !typeInfo.IsAbstract &amp;&amp; !typeInfo.IsGenericType &amp;&amp; !typeInfo.IsInterface)<span style="color:#75715e">//必须是Public、不能是抽象类、必须是非泛型的</span>
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 如果不满足上述条件，则返回 false</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="创建httpmethodconfigure配置类">创建HttpMethodConfigure配置类</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HttpMethodConfigure</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> MethodKey { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> List&lt;<span style="color:#66d9ef">string</span>&gt; MethodVal { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><h3 id="创建applicationserviceconvention继承iapplicationmodelconvention">创建ApplicationServiceConvention继承IApplicationModelConvention</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#75715e">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// 自定义应用程序模型约定，用于配置实现了 IApplicationService 接口的控制器。</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ApplicationServiceConvention</span> : IApplicationModelConvention
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> IConfiguration _configuration;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> List&lt;HttpMethodConfigure&gt; httpMethods = <span style="color:#66d9ef">new</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> ApplicationServiceConvention(IConfiguration configuration)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        _configuration = configuration;
+</span></span><span style="display:flex;"><span>        httpMethods = _configuration.GetSection(<span style="color:#e6db74">&#34;HttpMethodInfo&#34;</span>).Get&lt;List&lt;HttpMethodConfigure&gt;&gt;();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// 应用约定</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;param name=&#34;application&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> Apply(ApplicationModel application)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//循环每一个控制器信息</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">foreach</span> (<span style="color:#66d9ef">var</span> controller <span style="color:#66d9ef">in</span> application.Controllers)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">var</span> controllerType = controller.ControllerType.AsType();
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//是否继承IApplicationService接口</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">typeof</span>(IApplicationService).IsAssignableFrom(controllerType))
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">//Actions就是接口的方法</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">foreach</span> (<span style="color:#66d9ef">var</span> item <span style="color:#66d9ef">in</span> controller.Actions)
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    ConfigureSelector(controller.ControllerName, item);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// 配置选择器</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;param name=&#34;controllerName&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;param name=&#34;action&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> ConfigureSelector(<span style="color:#66d9ef">string</span> controllerName, ActionModel action)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//如果属性路由模型为空，则移除</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i = <span style="color:#ae81ff">0</span>; i &lt; action.Selectors.Count; i++)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (action.Selectors[i].AttributeRouteModel <span style="color:#66d9ef">is</span> <span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                action.Selectors.Remove(action.Selectors[i]);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//去除路径中的AppService后缀</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (controllerName.EndsWith(<span style="color:#e6db74">&#34;AppService&#34;</span>))
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                controllerName = controllerName.Substring(<span style="color:#ae81ff">0</span>, controllerName.Length - <span style="color:#ae81ff">10</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//如果有选择器，则遍历选择器，添加默认路由</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (action.Selectors.Any())
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">foreach</span> (<span style="color:#66d9ef">var</span> item <span style="color:#66d9ef">in</span> action.Selectors)
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">var</span> routePath = <span style="color:#66d9ef">string</span>.Concat(<span style="color:#e6db74">&#34;api/&#34;</span>, controllerName + <span style="color:#e6db74">&#34;/&#34;</span>, action.ActionName).Replace(<span style="color:#e6db74">&#34;//&#34;</span>, <span style="color:#e6db74">&#34;/&#34;</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">var</span> routeModel = <span style="color:#66d9ef">new</span> AttributeRouteModel(<span style="color:#66d9ef">new</span> RouteAttribute(routePath));
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">//如果没有设置路由，则添加路由</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (item.AttributeRouteModel == <span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    item.AttributeRouteModel = routeModel;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//如果没有选择器，则创建一个选择器并添加。</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            action.Selectors.Add(CreateActionSelector(controllerName, action));
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// 创建Action选择器</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;param name=&#34;controllerName&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;param name=&#34;action&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> SelectorModel CreateActionSelector(<span style="color:#66d9ef">string</span> controllerName, ActionModel action)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> selectorModel = <span style="color:#66d9ef">new</span> SelectorModel();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> actionName = action.ActionName;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">string</span> httpMethod = <span style="color:#66d9ef">string</span>.Empty;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//是否有HttpMethodAttribute</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> routeAttributes = action.ActionMethod.GetCustomAttributes(<span style="color:#66d9ef">typeof</span>(HttpMethodAttribute), <span style="color:#66d9ef">false</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//如果标记了HttpMethodAttribute</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (routeAttributes != <span style="color:#66d9ef">null</span> &amp;&amp; routeAttributes.Any())
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            httpMethod = routeAttributes.SelectMany(m =&gt; (m <span style="color:#66d9ef">as</span> HttpMethodAttribute).HttpMethods).ToList().Distinct().FirstOrDefault();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//大写方法名</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">var</span> methodName = action.ActionMethod.Name.ToUpper();
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//遍历HttpMethodInfo配置，匹配方法名</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">foreach</span> (<span style="color:#66d9ef">var</span> item <span style="color:#66d9ef">in</span> httpMethods)
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">foreach</span> (<span style="color:#66d9ef">var</span> method <span style="color:#66d9ef">in</span> item.MethodVal)
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> (methodName.StartsWith(method))
+</span></span><span style="display:flex;"><span>                    {
+</span></span><span style="display:flex;"><span>                        httpMethod = item.MethodKey;
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//如果没有找到对应的HttpMethod，默认使用POST</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (httpMethod == <span style="color:#66d9ef">string</span>.Empty)
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                httpMethod = <span style="color:#e6db74">&#34;POST&#34;</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ConfigureSelectorModel(selectorModel, action, controllerName, httpMethod);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// 配置选择器模型</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;param name=&#34;selectorModel&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;param name=&#34;action&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;param name=&#34;controllerName&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;param name=&#34;httpMethod&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> SelectorModel ConfigureSelectorModel(SelectorModel selectorModel, ActionModel action, <span style="color:#66d9ef">string</span> controllerName, <span style="color:#66d9ef">string</span> httpMethod)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">var</span> routePath = <span style="color:#66d9ef">string</span>.Concat(<span style="color:#e6db74">&#34;api/&#34;</span>, controllerName + <span style="color:#e6db74">&#34;/&#34;</span>, action.ActionName).Replace(<span style="color:#e6db74">&#34;//&#34;</span>, <span style="color:#e6db74">&#34;/&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//给此选择器添加路由</span>
+</span></span><span style="display:flex;"><span>        selectorModel.AttributeRouteModel = <span style="color:#66d9ef">new</span> AttributeRouteModel(<span style="color:#66d9ef">new</span> RouteAttribute(routePath));
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//添加HttpMethod</span>
+</span></span><span style="display:flex;"><span>        selectorModel.ActionConstraints.Add(<span style="color:#66d9ef">new</span> HttpMethodActionConstraint(<span style="color:#66d9ef">new</span>[] { httpMethod }));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> selectorModel;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="创建removeappfilter过滤类">创建RemoveAppFilter过滤类</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RemoveAppFilter</span> : IDocumentFilter
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 去掉控制器分类中的 &#34;App&#34; 后缀</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">foreach</span> (<span style="color:#66d9ef">var</span> path <span style="color:#66d9ef">in</span> swaggerDoc.Paths.Values)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">foreach</span> (<span style="color:#66d9ef">var</span> operation <span style="color:#66d9ef">in</span> path.Operations.Values)
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">var</span> tags = operation.Tags.Select(tag =&gt; <span style="color:#66d9ef">new</span> OpenApiTag
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    Name = tag.Name.Replace(<span style="color:#e6db74">&#34;AppService&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>, StringComparison.OrdinalIgnoreCase),
+</span></span><span style="display:flex;"><span>                    Description = tag.Description
+</span></span><span style="display:flex;"><span>                }).ToList();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                operation.Tags.Clear();
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">foreach</span> (<span style="color:#66d9ef">var</span> tag <span style="color:#66d9ef">in</span> tags)
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    operation.Tags.Add(tag);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="创建dynamicwebapiextensions">创建DynamicWebApiExtensions</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span> <span style="color:#75715e">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">/// 动态WebAPI扩展类，用于在ASP.NET Core应用程序中添加动态WebAPI功能。</span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DynamicWebApiExtensions</span>
+</span></span><span style="display:flex;"><span> {
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e">/// 为IMvcBuilder添加动态WebAPI功能。</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e">/// &lt;param name=&#34;builder&#34;&gt;IMvcBuilder实例。&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e">/// &lt;returns&gt;IMvcBuilder实例。&lt;/returns&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> IMvcBuilder AddDynamicWebApi(<span style="color:#66d9ef">this</span> IMvcBuilder builder, IConfiguration configuration)
+</span></span><span style="display:flex;"><span>     {
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">if</span> (builder == <span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span>         {
+</span></span><span style="display:flex;"><span>             <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> ArgumentNullException(nameof(builder));
+</span></span><span style="display:flex;"><span>         }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>         <span style="color:#75715e">// 配置应用程序部分管理器，添加自定义的控制器特性提供程序</span>
+</span></span><span style="display:flex;"><span>         builder.ConfigureApplicationPartManager(applicationPartManager =&gt;
+</span></span><span style="display:flex;"><span>         {
+</span></span><span style="display:flex;"><span>             applicationPartManager.FeatureProviders.Add(<span style="color:#66d9ef">new</span> ApplicationServiceControllerFeatureProvider());
+</span></span><span style="display:flex;"><span>         });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>         <span style="color:#75715e">// 配置MvcOptions，添加自定义的应用程序模型约定</span>
+</span></span><span style="display:flex;"><span>         builder.Services.Configure&lt;MvcOptions&gt;(options =&gt;
+</span></span><span style="display:flex;"><span>         {
+</span></span><span style="display:flex;"><span>             options.Conventions.Add(<span style="color:#66d9ef">new</span> ApplicationServiceConvention(configuration));
+</span></span><span style="display:flex;"><span>         });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">return</span> builder;
+</span></span><span style="display:flex;"><span>     }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e">/// 为IMvcCoreBuilder添加动态WebAPI功能。</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e">/// &lt;param name=&#34;builder&#34;&gt;IMvcCoreBuilder实例。&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e">/// &lt;returns&gt;IMvcCoreBuilder实例。&lt;/returns&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> IMvcCoreBuilder AddDynamicWebApi(<span style="color:#66d9ef">this</span> IMvcCoreBuilder builder, IConfiguration configuration)
+</span></span><span style="display:flex;"><span>     {
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">if</span> (builder == <span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span>         {
+</span></span><span style="display:flex;"><span>             <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> ArgumentNullException(nameof(builder));
+</span></span><span style="display:flex;"><span>         }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>         <span style="color:#75715e">// 配置应用程序部分管理器，添加自定义的控制器特性提供程序</span>
+</span></span><span style="display:flex;"><span>         builder.ConfigureApplicationPartManager(applicationPartManager =&gt;
+</span></span><span style="display:flex;"><span>         {
+</span></span><span style="display:flex;"><span>             applicationPartManager.FeatureProviders.Add(<span style="color:#66d9ef">new</span> ApplicationServiceControllerFeatureProvider());
+</span></span><span style="display:flex;"><span>         });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>         <span style="color:#75715e">// 配置MvcOptions，添加自定义的应用程序模型约定</span>
+</span></span><span style="display:flex;"><span>         builder.Services.Configure&lt;MvcOptions&gt;(options =&gt;
+</span></span><span style="display:flex;"><span>         {
+</span></span><span style="display:flex;"><span>             options.Conventions.Add(<span style="color:#66d9ef">new</span> ApplicationServiceConvention(configuration));
+</span></span><span style="display:flex;"><span>         });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">return</span> builder;
+</span></span><span style="display:flex;"><span>     }
+</span></span><span style="display:flex;"><span> }
+</span></span></code></pre></div><h3 id="program中配置">Program中配置</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#75715e">//注册动态API服务</span>
+</span></span><span style="display:flex;"><span>builder.Services.AddControllers().AddDynamicWebApi(builder.Configuration);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//必须要加，不然断点进不来</span>
+</span></span><span style="display:flex;"><span>app.MapControllers();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>builder.Services.AddSwaggerGen(options =&gt;
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">///其他代码</span>
+</span></span><span style="display:flex;"><span>    options.DocumentFilter&lt;RemoveAppFilter&gt;();
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">///其他代码</span>
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><h3 id="在appsettings配置http请求类型匹配规则">在Appsettings配置http请求类型匹配规则</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#e6db74">&#34;HttpMethodInfo&#34;</span>: [
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;MethodKey&#34;</span>: <span style="color:#e6db74">&#34;Get&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;MethodVal&#34;</span>: [ <span style="color:#e6db74">&#34;GET&#34;</span>, <span style="color:#e6db74">&#34;QUERY&#34;</span> ]
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;MethodKey&#34;</span>: <span style="color:#e6db74">&#34;Post&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;MethodVal&#34;</span>: [ <span style="color:#e6db74">&#34;CREATE&#34;</span>, <span style="color:#e6db74">&#34;SAVE&#34;</span>, <span style="color:#e6db74">&#34;INSERT&#34;</span>, <span style="color:#e6db74">&#34;ADD&#34;</span> ]
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;MethodKey&#34;</span>: <span style="color:#e6db74">&#34;Put&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;MethodVal&#34;</span>: [ <span style="color:#e6db74">&#34;UPDATE&#34;</span>, <span style="color:#e6db74">&#34;EDIT&#34;</span> ]
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;MethodKey&#34;</span>: <span style="color:#e6db74">&#34;Delete&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;MethodVal&#34;</span>: [ <span style="color:#e6db74">&#34;Delete&#34;</span>, <span style="color:#e6db74">&#34;REMOVE&#34;</span> ]
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><h3 id="创建测试类">创建测试类</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Test</span> : IApplicationService
+</span></span><span style="display:flex;"><span> {
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e">///领域层注释测试接口</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> Hello()
+</span></span><span style="display:flex;"><span>     {
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Hello from Class1&#34;</span>;
+</span></span><span style="display:flex;"><span>     }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> Get()
+</span></span><span style="display:flex;"><span>     {
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Get from Class1&#34;</span>;
+</span></span><span style="display:flex;"><span>     }
+</span></span><span style="display:flex;"><span> }
+</span></span></code></pre></div><p><img alt="在这里插入图片描述" src="https://i-blog.csdnimg.cn/direct/7a406a66b5a0474095e1a7fc40d1ce14.png"></p>
+<h2 id="将动态api配置swagger文档注释">将动态API配置Swagger文档注释</h2>
+<ol>
+<li>类库配置中设置xml文件生成地址</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span> &lt;GenerateDocumentationFile&gt;True&lt;/GenerateDocumentationFile&gt;
+</span></span><span style="display:flex;"><span> &lt;DocumentationFile&gt;bin<span style="color:#960050;background-color:#1e0010">\</span>Debug<span style="color:#960050;background-color:#1e0010">\</span>FlyFramework.Core.xml&lt;/DocumentationFile&gt;
+</span></span></code></pre></div><ol start="2">
+<li>在Host中的wwwroot创建ApiDocs文件夹</li>
+<li>Host主机配置xml文件复制地址，生成的xml文件会复制到对应的地址。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>&lt;ApiDocDir&gt;wwwroot<span style="color:#960050;background-color:#1e0010">\</span>ApiDocs&lt;/ApiDocDir&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;!--<span style="color:#960050;background-color:#1e0010">在构建项目后，复制所有以</span>FlyFramework开头的XML文档文件到指定的API文档目录<span style="color:#960050;background-color:#1e0010">。这通常用于将生成的</span>XML文档文件<span style="color:#960050;background-color:#1e0010">（例如</span>API注释<span style="color:#960050;background-color:#1e0010">）整理到一个目录中，便于进一步的处理或发布。这种做法可以适合于生成</span>API文档如Swagger时的使用场景<span style="color:#960050;background-color:#1e0010">。</span>--&gt;
+</span></span><span style="display:flex;"><span>&lt;Target Name=<span style="color:#e6db74">&#34;CopyXmlDocFileForBuild&#34;</span> AfterTargets=<span style="color:#e6db74">&#34;Build&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;ItemGroup&gt;
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>		&lt;!--Include=<span style="color:#e6db74">&#34;@(ReferencePath-&gt;&#39;%(RootDir)%(Directory)%(Filename).xml&#39;)&#34;</span><span style="color:#960050;background-color:#1e0010">：这行表示从所有项目引用（</span>ReferencePath<span style="color:#960050;background-color:#1e0010">）的路径中收集以</span>.xml为扩展名的文件<span style="color:#960050;background-color:#1e0010">。这些文件通常是生成的</span>XML文档文件<span style="color:#960050;background-color:#1e0010">。</span>--&gt;
+</span></span><span style="display:flex;"><span>		&lt;!--Condition=<span style="color:#e6db74">&#34;$([System.String]::new(&#39;%(FileName)&#39;).StartsWith(&#39;FlyFramework&#39;))&#34;</span><span style="color:#960050;background-color:#1e0010">：此条件用于过滤文件，仅包括文件名以</span>FlyFramework开头的XML文档文件<span style="color:#960050;background-color:#1e0010">。这保证只有相关的文档文件被选择。</span>--&gt;
+</span></span><span style="display:flex;"><span>		&lt;XmlDocFiles Include=<span style="color:#e6db74">&#34;@(ReferencePath-&gt;&#39;%(RootDir)%(Directory)%(Filename).xml&#39;)&#34;</span> Condition=<span style="color:#e6db74">&#34;$([System.String]::new(&#39;%(FileName)&#39;).StartsWith(&#39;FlyFramework&#39;))&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>	&lt;/ItemGroup&gt;
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	&lt;!--SourceFiles=<span style="color:#e6db74">&#34;@(XmlDocFiles)&#34;</span><span style="color:#960050;background-color:#1e0010">：指定要复制的源文件为上一步中定义的</span>XmlDocFiles集合<span style="color:#960050;background-color:#1e0010">。</span>--&gt;
+</span></span><span style="display:flex;"><span>	&lt;!--<span style="color:#960050;background-color:#1e0010">`</span>Condition=<span style="color:#e6db74">&#34;Exists(&#39;%(FullPath)&#39;)&#34;</span><span style="color:#960050;background-color:#1e0010">：确保复制前源文件存在，这是一种安全检查。</span>--&gt;
+</span></span><span style="display:flex;"><span>	&lt;!--DestinationFolder=<span style="color:#e6db74">&#34;$(ApiDocDir)&#34;</span><span style="color:#960050;background-color:#1e0010">：目的地文件夹为$</span>(ApiDocDir)<span style="color:#960050;background-color:#1e0010">，这个属性之前已经在项目文件中定义，指向存放</span>API文档的目录<span style="color:#960050;background-color:#1e0010">。</span>--&gt;
+</span></span><span style="display:flex;"><span>	&lt;!--SkipUnchangedFiles=<span style="color:#e6db74">&#34;true&#34;</span><span style="color:#960050;background-color:#1e0010">：此选项表示只有发生变化的文件会被复制，这可以提高效率，避免不必要的复制操作。</span>--&gt;
+</span></span><span style="display:flex;"><span>	&lt;Copy SourceFiles=<span style="color:#e6db74">&#34;@(XmlDocFiles)&#34;</span> Condition=<span style="color:#e6db74">&#34;Exists(&#39;%(FullPath)&#39;)&#34;</span> DestinationFolder=<span style="color:#e6db74">&#34;$(ApiDocDir)&#34;</span> SkipUnchangedFiles=<span style="color:#e6db74">&#34;true&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>&lt;/Target&gt;
+</span></span></code></pre></div><ol start="4">
+<li>在AddSwaggerGen增加配置</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#75715e">//遍历所有xml并加载</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> binXmlFiles =
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">new</span> DirectoryInfo(Path.Join(builder.Environment.WebRootPath, <span style="color:#e6db74">&#34;ApiDocs&#34;</span>))
+</span></span><span style="display:flex;"><span>        .GetFiles(<span style="color:#e6db74">&#34;*.xml&#34;</span>, SearchOption.TopDirectoryOnly);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">foreach</span> (<span style="color:#66d9ef">var</span> filePath <span style="color:#66d9ef">in</span> binXmlFiles.Select(item =&gt; item.FullName))
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    options.IncludeXmlComments(filePath, <span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="致谢">致谢</h2>
+<p>思路参考的大佬文章，大佬是从源码角度解释，我写这篇偏新手向，做了些拓展，原文指路：<a href="https://www.cnblogs.com/zhangnever/p/17131504.html">.Net Core后端架构实战【2-实现动态路由与Dynamic API】 - 江北、 - 博客园 (cnblogs.com)</a></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+        <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "FaceMan" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.faceman.cn/" >
+    &copy;  FaceMan's Blog 2024 
+
+  
+  </a>
+    <div><div class="ananke-socials"><a href="https://github.com/faceman0814" target="_blank" rel="noopener"
+        class="ananke-social-link link-transition github link dib z-999 pt3 pt0-l mr1"
+        title="follow on GitHub - Opens in a new window"
+        aria-label="follow on GitHub - Opens in a new window">
+      <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+            
+          </span></a></div>
+</div>
+    <div class="footer-container">
+      本站总访问量<span id="busuanzi_value_site_uv"></span>次
+      &nbsp;
+      <span id="sitetime">载入运行时间...</span>
+    </div>
+  </div>
+ 
+</footer>
+<style>
+  .footer-container {
+    color: white; 
+    display: flex;
+    justify-content: center;  
+    align-items: center;      
+  }
+</style>
+
+<script>
+  function siteTime() {
+      var seconds = 1000;
+      var minutes = seconds * 60;
+      var hours = minutes * 60;
+      var days = hours * 24;
+      var years = days * 365;
+      var today = new Date();
+      var startYear = 2024;
+      var startMonth = 11;
+      var startDate = 8;
+      var startHour = 14;
+      var startMinute = 15;
+      var startSecond = 11;
+      var todayYear = today.getFullYear();
+      var todayMonth = today.getMonth() + 1;
+      var todayDate = today.getDate();
+      var todayHour = today.getHours();
+      var todayMinute = today.getMinutes();
+      var todaySecond = today.getSeconds();
+      var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+      var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+      var diff = t2 - t1;
+      var diffYears = Math.floor(diff / years);
+      var diffDays = Math.floor((diff / days) - diffYears * 365);
+      var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+      var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+          minutes);
+      var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+          diffMinutes * minutes) / seconds);
+      if (startYear == todayYear) {
+          
+          document.getElementById("sitetime").innerHTML = "博客已运行 " + diffDays + " 天 " + diffHours +
+              " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+      } else {
+          
+          document.getElementById("sitetime").innerHTML = "博客已运行 " + diffYears + " 年 " + diffDays +
+              " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+      }
+  }
+  setInterval(siteTime, 1000);
+
+</script>
+  </body>
+</html>
+

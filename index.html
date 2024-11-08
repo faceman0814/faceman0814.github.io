@@ -60,8 +60,8 @@
 
   <meta itemprop="name" content="Hello, WelCome FaceMan&#39;Blog">
   <meta itemprop="description" content="从0开始，直到1。">
-  <meta itemprop="datePublished" content="2024-11-08T14:00:20+08:00">
-  <meta itemprop="dateModified" content="2024-11-08T14:00:20+08:00">
+  <meta itemprop="datePublished" content="2024-11-08T17:18:05+08:00">
+  <meta itemprop="dateModified" content="2024-11-08T17:18:05+08:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Hello, WelCome FaceMan&#39;Blog">
   <meta name="twitter:description" content="从0开始，直到1。">
@@ -162,22 +162,84 @@
       
           
         <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
-          <a href="/post/%E6%B5%8B%E8%AF%95/" class="db grow">
-            <img src="https://blog.faceman.cn/images/esmeralda.jpg" class="img" alt="image from 测试">
+          <a href="/post/swagger&#43;%E5%8A%A8%E6%80%81api%E9%9B%86%E6%88%90/" class="db grow">
+            <img src="https://blog.faceman.cn/images/esmeralda.jpg" class="img" alt="image from Swagger&#43;动态API集成">
           </a>
         </div>
       
       <div class="blah w-100 w-60-ns pl3-ns">
         <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/post/%E6%B5%8B%E8%AF%95/" class="color-inherit dim link">
-            测试
+          <a href="/post/swagger&#43;%E5%8A%A8%E6%80%81api%E9%9B%86%E6%88%90/" class="color-inherit dim link">
+            Swagger&#43;动态API集成
             </a>
         </h1>
         <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          <h1 id="hugo博客测试">Hugo博客测试</h1>
-<p>123</p>
+          <h2 id="集成swagger">集成Swagger</h2>
+<ol>
+<li>首先，在你的.NET Core项目中安装需要的包。你可以通过NuGet包管理器来安装它，也可以直接复制粘贴安装，以下是包名和版本。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>		&lt;PackageReference Include=<span style="color:#e6db74">&#34;Swashbuckle.AspNetCore&#34;</span> Version=<span style="color:#e6db74">&#34;6.4.0&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>		&lt;PackageReference Include=<span style="color:#e6db74">&#34;Swashbuckle.AspNetCore.Filters&#34;</span> Version=<span style="color:#e6db74">&#34;8.0.2&#34;</span> /&gt;
+</span></span></code></pre></div><ol start="2">
+<li>.Net 6以后取消了StartUp，配置都在Program中，这里采用新写法。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> builder = WebApplication.CreateBuilder(args);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 配置文件读取</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> basePath = AppContext.BaseDirectory;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> config = <span style="color:#66d9ef">new</span> ConfigurationBuilder()
+</span></span><span style="display:flex;"><span>                .SetBasePath(basePath)
+</span></span><span style="display:flex;"><span>                .AddJsonFile(<span style="color:#e6db74">&#34;appsettings.json&#34;</span>, optional: <span style="color:#66d9ef">true</span>, reloadOnChange: <span style="color:#66d9ef">true</span>)
+</span></span><span style="display:flex;"><span>                .Build();
+</span></span><span style="display:flex;"><span>                
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#region</span> <span style="color:#960050;background-color:#1e0010">添加</span>Swagger文档服务
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>builder.Services.AddEndpointsApiExplorer();
+</span></span><span style="display:flex;"><span>builder.Services.AddSwaggerGen(options =&gt;
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//添加响应头信息。它可以帮助开发者查看 API 响应中包含的 HTTP 头信息，从而更好地理解 API 的行为。</span>
+</span></span><span style="display:flex;"><span>    options.OperationFilter&lt;AddResponseHeadersFilter&gt;();
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//摘要中添加授权信息。它会在每个需要授权的操作旁边显示一个锁图标，提醒开发者该操作需要身份验证。</span>
+</span></span><span style="display:flex;"><span>    options.OperationFilter&lt;AppendAuthorizeToSummaryOperationFilter&gt;();
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//加安全需求信息。它会根据 API 的安全配置（如 OAuth2、JWT 等）自动生成相应的安全需求描述，帮助开发者了解哪些操作需要特定的安全配置。</span>
+</span></span><span style="display:flex;"><span>    options.OperationFilter&lt;SecurityRequirementsOperationFilter&gt;();
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//options.DocumentFilter&lt;RemoveAppSuffixFilter&gt;();</span>
+</span></span><span style="display:flex;"><span>    options.SwaggerDoc(<span style="color:#e6db74">&#34;v1&#34;</span>, <span style="color:#66d9ef">new</span> OpenApiInfo
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        Title = <span style="color:#e6db74">&#34;xxxFrameWork API&#34;</span>,
+</span></span><span style="display:flex;"><span>        Version = <span style="color:#e6db74">&#34;v1&#34;</span>,
+</span></span><span style="display:flex;"><span>        Description = <span style="color:#e6db74">&#34;xxxFrameWork API 接口文档&#34;</span>,
+</span></span><span style="display:flex;"><span>        Contact = <span style="color:#66d9ef">new</span> OpenApiContact()
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            Name = <span style="color:#e6db74">&#34;xxxxx&#34;</span>,
+</span></span><span style="display:flex;"><span>            Email = <span style="color:#e6db74">&#34;xxxxx@qq.com&#34;</span>,
+</span></span><span style="display:flex;"><span>            Url = <span style="color:#66d9ef">new</span> Uri(<span style="color:#e6db74">&#34;https://github.com/xxxxx&#34;</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#endregion</span> <span style="color:#960050;background-color:#1e0010">添加</span>Swagger文档服务
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//开发环境才开启文档。</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (app.Environment.IsDevelopment())
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    app.UseSwagger();
+</span></span><span style="display:flex;"><span>    app.UseSwaggerUI(options =&gt;
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//配置Endpoint路径和文档标题</span>
+</span></span><span style="display:flex;"><span>        options.SwaggerEndpoint(<span style="color:#e6db74">&#34;/swagger/v1/swagger.json&#34;</span>, <span style="color:#e6db74">&#34;v1 Docs&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//配置路由前缀，RoutePrefix是Swagger UI的根路径。</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//options.RoutePrefix = String.Empty;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//设置默认模型展开深度。默认值为3，可以设置成-1以完全展开所有模型。</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//options.DefaultModelExpandDepth(-1);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 启用深链接功能后，用户可以直接通过URL访问特定的API操作或模型，而不需要手动导航到相应的位置。</span>
+</span></span><span style="display:flex;"><span>        options.EnableDeepLinking();
+</span></span><span style="display:flex;"><span>        options.DocExpansion(DocExpansion.None); <span style="color:#75715e">//swagger文档展开方式，none为折叠，list为列表</span>
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="动态api">动态API</h2>
+<p>Swagger文档的原理是扫描控制器来生成，动态API则是自定义类控制器，然后让接口继承，自定义控制器识别规则，实现思路：</p>
         </div>
-          <a href="/post/%E6%B5%8B%E8%AF%95/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">继续阅读</a>
+          <a href="/post/swagger&#43;%E5%8A%A8%E6%80%81api%E9%9B%86%E6%88%90/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">继续阅读</a>
         
       </div>
     </div>
