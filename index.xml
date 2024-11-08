@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>FaceManBLOG</title>
+    <title>Ananke: Un thème pour Hugo on FaceMan&#39;s Blog</title>
     <link>https://hugo.faceman.cn/</link>
-    <description>Recent content on FaceManBLOG</description>
+    <description>Recent content in Ananke: Un thème pour Hugo on FaceMan&#39;s Blog</description>
     <generator>Hugo</generator>
-    <language>en</language>
-    <lastBuildDate>Fri, 08 Nov 2024 11:42:36 +0800</lastBuildDate>
+    <language>zh-CN</language>
+    <lastBuildDate></lastBuildDate>
     <atom:link href="https://hugo.faceman.cn/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Hugo创建个人博客</title>
-      <link>https://hugo.faceman.cn/post/hugo%E5%88%9B%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</link>
-      <pubDate>Fri, 08 Nov 2024 11:42:36 +0800</pubDate>
-      <guid>https://hugo.faceman.cn/post/hugo%E5%88%9B%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</guid>
-      <description>&lt;h1 id=&#34;安装hugo&#34;&gt;安装Hugo&lt;/h1&gt;&#xA;&lt;p&gt;测试&lt;/p&gt;&#xA;&lt;h1 id=&#34;安装git&#34;&gt;安装git&lt;/h1&gt;&#xA;&lt;p&gt;测试&lt;/p&gt;&#xA;&lt;h1 id=&#34;安装主题&#34;&gt;安装主题&lt;/h1&gt;&#xA;&lt;p&gt;测试&lt;/p&gt;</description>
-    </item>
   </channel>
 </rss>

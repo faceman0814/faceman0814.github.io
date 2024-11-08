@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <url>
-    <loc>https://hugo.faceman.cn/</loc>
-    <lastmod>2024-11-08T11:42:36+08:00</lastmod>
-  </url><url>
-    <loc>https://hugo.faceman.cn/post/hugo%E5%88%9B%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</loc>
-    <lastmod>2024-11-08T11:42:36+08:00</lastmod>
-  </url><url>
-    <loc>https://hugo.faceman.cn/post/</loc>
-    <lastmod>2024-11-08T11:42:36+08:00</lastmod>
-  </url><url>
-    <loc>https://hugo.faceman.cn/categories/</loc>
-  </url><url>
-    <loc>https://hugo.faceman.cn/tags/</loc>
-  </url>
-</urlset>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <sitemap>
+    <loc>https://hugo.faceman.cn/zh/sitemap.xml</loc>
+    
+      <lastmod>2024-11-08T14:00:20+08:00</lastmod>
+    
+  </sitemap>
+  
+  <sitemap>
+    <loc>https://hugo.faceman.cn/en/sitemap.xml</loc>
+    
+  </sitemap>
+  
+  <sitemap>
+    <loc>https://hugo.faceman.cn/fr/sitemap.xml</loc>
+    
+  </sitemap>
+  
+</sitemapindex>
