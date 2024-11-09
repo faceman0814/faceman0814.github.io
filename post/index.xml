@@ -6,8 +6,15 @@
     <description>Recent content in Posts on FaceMan&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 08 Nov 2024 17:18:05 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 08 Nov 2024 17:36:52 +0800</lastBuildDate>
     <atom:link href="https://blog.faceman.cn/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用Hugo搭建个人博客</title>
+      <link>https://blog.faceman.cn/post/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</link>
+      <pubDate>Fri, 08 Nov 2024 17:36:52 +0800</pubDate>
+      <guid>https://blog.faceman.cn/post/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</guid>
+      <description>&lt;h1 id=&#34;前言&#34;&gt;前言&lt;/h1&gt;&#xA;&lt;p&gt;先来说说写这篇博客的缘由&lt;/p&gt;&#xA;&lt;p&gt;一个程序员最好的门面是啥？除了github拥有star数高的开源项目之外当然是个人博客，无论是技术积累还是找工作，有一个属于自己的个人博客无疑是加分项，现在github上有各种开源的博客系统，优点是功能很多，但都有个问题就是大，我之前用Java的oneblog项目部署了一个博客，但由于我是买的阿里云2核2g服务器，部署上去之后由于太大系统崩了，我重启了3次才在docker重启之前关掉，就很尴尬。后面想了个办法是部署到自己的电脑的虚拟机上，然后通过frp+nginx映射出去，但问题又来了，我是笔记本没有办法保证像服务器一样一直运行着，于是，我摆烂了。后面刷B站的时候看到了数字游牧人的一个视频，了解到了hugo这个东西，于是我琢磨了一天弄了个博客出来，网上其实教程很多，但我跟着做都没有讲的很清楚，所以有了今天这篇文章。&lt;/p&gt;&#xA;&lt;h1 id=&#34;安装hugo&#34;&gt;安装Hugo&lt;/h1&gt;&#xA;&lt;p&gt;可以选择用包管理器安装或者在github上找到对应版本安装，这里我就以github上的举例。&#xA;&lt;a href=&#34;https://github.com/gohugoio/hugo/releases&#34;&gt;github地址&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;img alt=&#34;1731115361024&#34; src=&#34;https://blog.faceman.cn/images/article/1731114762985.png&#34;&gt;&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Swagger&#43;动态API集成</title>
       <link>https://blog.faceman.cn/post/swagger&#43;%E5%8A%A8%E6%80%81api%E9%9B%86%E6%88%90/</link>

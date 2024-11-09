@@ -12,6 +12,11 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://blog.faceman.cn/post/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2024-11-08T17:36:52+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://blog.faceman.cn/post/swagger&#43;%E5%8A%A8%E6%80%81api%E9%9B%86%E6%88%90/</loc>
     <lastmod>2024-11-08T17:18:05+08:00</lastmod>
     <changefreq>monthly</changefreq>
@@ -22,6 +27,10 @@
     <priority>0.5</priority>
   </url><url>
     <loc>https://blog.faceman.cn/tags/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://blog.faceman.cn/contact/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
