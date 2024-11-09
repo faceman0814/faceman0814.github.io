@@ -8,11 +8,41 @@
     <meta name="viewport" content="width=device-width,minimum-scale=1">
     <meta name="description" content="前言
 先来说说写这篇博客的缘由
-一个程序员最好的门面是啥？除了github拥有star数高的开源项目之外当然是个人博客，无论是技术积累还是找工作，有一个属于自己的个人博客无疑是加分项，现在github上有各种开源的博客系统，优点是功能很多，但都有个问题就是大，我之前用Java的oneblog项目部署了一个博客，但由于我是买的阿里云2核2g服务器，部署上去之后由于太大系统崩了，我重启了3次才在docker重启之前关掉，就很尴尬。后面想了个办法是部署到自己的电脑的虚拟机上，然后通过frp&#43;nginx映射出去，但问题又来了，我是笔记本没有办法保证像服务器一样一直运行着，于是，我摆烂了。后面刷B站的时候看到了数字游牧人的一个视频，了解到了hugo这个东西，于是我琢磨了一天弄了个博客出来，网上其实教程很多，但我跟着做都没有讲的很清楚，所以有了今天这篇文章。
-安装Hugo
-可以选择用包管理器安装或者在github上找到对应版本安装，这里我就以github上的举例。
-github地址
-">
+一个程序员最好的门面是啥？除了github拥有star数高的开源项目之外当然是个人博客，无论是技术积累还是找工作，有一个属于自己的个人博客无疑是加分项，现在github上有各种开源的博客系统，优点是功能很多，但都有个问题就是大，我之前用Java的oneblog项目部署了一个博客，但由于我是买的阿里云2核2g服务器，部署上去之后由于太大系统崩了，我重启了3次才在docker重启之前关掉，就很尴尬。后面想了个办法是部署到自己的电脑的虚拟机上，然后通过frp&#43;nginx映射出去，但问题又来了，我是笔记本没有办法保证像服务器一样一直运行着，于是，我摆烂了。后面刷B站的时候看到了数字游牧人的一个视频，了解到了hugo这个东西，于是我琢磨了一天弄了个博客出来，踩了一些坑，所以有了今天这篇文章，补充完整给新手小白们避坑。
+必要条件
+Hugo：Hugo中文文档
+Git
+这两个网上教程很多，这里就不详述了。
+Tips
+1.不翻墙访问
+前提：需要有一个自己的域名，如果想以https访问还需要配置证书。
+总所周知，github是需要翻墙才能访问，如果我们想不翻墙访问博客可以到github项目的Page页设置自域名（Custom domain）和nginx代理。
+1.配置nginx代理
+    error_log /var/log/nginx/error.log;
+
+    server {
+        listen 80;
+        listen 443 ssl;
+        server_name blog.faceman.cn; # 你的域名
+        ssl_protocols TLSv1.2 TLSv1.1 TLSv1; 
+  
+        ssl_certificate      /domains/fullchain.pem; # 证书位置
+        ssl_certificate_key  /domains/key.key; # 证书位置
+        ssl_prefer_server_ciphers on; 
+        ssl_session_timeout  5m;
+        if ($server_port = 80) {
+        rewrite ^(.*)$ https://$host$1 permanent;
+        }
+        location / {
+            proxy_pass https://faceman0814.github.io; # 映射地址
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            root /home/web/;
+            index index.php;
+        }
+    }
+重启nginx即可">
     <meta name="generator" content="Hugo 0.138.0">
     
     
@@ -24,7 +54,7 @@ github地址
     
 
     
-<link rel="stylesheet" href="/ananke/css/main.min.db6c21efb4e09e483e0c106d04ec594269510609667187bff9445c47d37114c9.css" >
+<link rel="stylesheet" href="/ananke/css/main.min.271fde29f9cbd44486afdc9e1ce1619124cf22553be5c1ba9d126fd09b36aa07.css" >
 
 
 
@@ -45,8 +75,13 @@ github地址
   <meta property="og:site_name" content="FaceMan&#39;s Blog">
   <meta property="og:title" content="使用Hugo搭建个人博客">
   <meta property="og:description" content="前言 先来说说写这篇博客的缘由
-一个程序员最好的门面是啥？除了github拥有star数高的开源项目之外当然是个人博客，无论是技术积累还是找工作，有一个属于自己的个人博客无疑是加分项，现在github上有各种开源的博客系统，优点是功能很多，但都有个问题就是大，我之前用Java的oneblog项目部署了一个博客，但由于我是买的阿里云2核2g服务器，部署上去之后由于太大系统崩了，我重启了3次才在docker重启之前关掉，就很尴尬。后面想了个办法是部署到自己的电脑的虚拟机上，然后通过frp&#43;nginx映射出去，但问题又来了，我是笔记本没有办法保证像服务器一样一直运行着，于是，我摆烂了。后面刷B站的时候看到了数字游牧人的一个视频，了解到了hugo这个东西，于是我琢磨了一天弄了个博客出来，网上其实教程很多，但我跟着做都没有讲的很清楚，所以有了今天这篇文章。
-安装Hugo 可以选择用包管理器安装或者在github上找到对应版本安装，这里我就以github上的举例。 github地址">
+一个程序员最好的门面是啥？除了github拥有star数高的开源项目之外当然是个人博客，无论是技术积累还是找工作，有一个属于自己的个人博客无疑是加分项，现在github上有各种开源的博客系统，优点是功能很多，但都有个问题就是大，我之前用Java的oneblog项目部署了一个博客，但由于我是买的阿里云2核2g服务器，部署上去之后由于太大系统崩了，我重启了3次才在docker重启之前关掉，就很尴尬。后面想了个办法是部署到自己的电脑的虚拟机上，然后通过frp&#43;nginx映射出去，但问题又来了，我是笔记本没有办法保证像服务器一样一直运行着，于是，我摆烂了。后面刷B站的时候看到了数字游牧人的一个视频，了解到了hugo这个东西，于是我琢磨了一天弄了个博客出来，踩了一些坑，所以有了今天这篇文章，补充完整给新手小白们避坑。
+必要条件 Hugo：Hugo中文文档
+Git
+这两个网上教程很多，这里就不详述了。
+Tips 1.不翻墙访问 前提：需要有一个自己的域名，如果想以https访问还需要配置证书。
+总所周知，github是需要翻墙才能访问，如果我们想不翻墙访问博客可以到github项目的Page页设置自域名（Custom domain）和nginx代理。
+1.配置nginx代理 error_log /var/log/nginx/error.log; server { listen 80; listen 443 ssl; server_name blog.faceman.cn; # 你的域名 ssl_protocols TLSv1.2 TLSv1.1 TLSv1; ssl_certificate /domains/fullchain.pem; # 证书位置 ssl_certificate_key /domains/key.key; # 证书位置 ssl_prefer_server_ciphers on; ssl_session_timeout 5m; if ($server_port = 80) { rewrite ^(.*)$ https://$host$1 permanent; } location / { proxy_pass https://faceman0814.github.io; # 映射地址 proxy_set_header Host $host; proxy_set_header X-Real-IP $remote_addr; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; root /home/web/; index index.php; } } 重启nginx即可">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="post">
@@ -55,16 +90,26 @@ github地址
 
   <meta itemprop="name" content="使用Hugo搭建个人博客">
   <meta itemprop="description" content="前言 先来说说写这篇博客的缘由
-一个程序员最好的门面是啥？除了github拥有star数高的开源项目之外当然是个人博客，无论是技术积累还是找工作，有一个属于自己的个人博客无疑是加分项，现在github上有各种开源的博客系统，优点是功能很多，但都有个问题就是大，我之前用Java的oneblog项目部署了一个博客，但由于我是买的阿里云2核2g服务器，部署上去之后由于太大系统崩了，我重启了3次才在docker重启之前关掉，就很尴尬。后面想了个办法是部署到自己的电脑的虚拟机上，然后通过frp&#43;nginx映射出去，但问题又来了，我是笔记本没有办法保证像服务器一样一直运行着，于是，我摆烂了。后面刷B站的时候看到了数字游牧人的一个视频，了解到了hugo这个东西，于是我琢磨了一天弄了个博客出来，网上其实教程很多，但我跟着做都没有讲的很清楚，所以有了今天这篇文章。
-安装Hugo 可以选择用包管理器安装或者在github上找到对应版本安装，这里我就以github上的举例。 github地址">
+一个程序员最好的门面是啥？除了github拥有star数高的开源项目之外当然是个人博客，无论是技术积累还是找工作，有一个属于自己的个人博客无疑是加分项，现在github上有各种开源的博客系统，优点是功能很多，但都有个问题就是大，我之前用Java的oneblog项目部署了一个博客，但由于我是买的阿里云2核2g服务器，部署上去之后由于太大系统崩了，我重启了3次才在docker重启之前关掉，就很尴尬。后面想了个办法是部署到自己的电脑的虚拟机上，然后通过frp&#43;nginx映射出去，但问题又来了，我是笔记本没有办法保证像服务器一样一直运行着，于是，我摆烂了。后面刷B站的时候看到了数字游牧人的一个视频，了解到了hugo这个东西，于是我琢磨了一天弄了个博客出来，踩了一些坑，所以有了今天这篇文章，补充完整给新手小白们避坑。
+必要条件 Hugo：Hugo中文文档
+Git
+这两个网上教程很多，这里就不详述了。
+Tips 1.不翻墙访问 前提：需要有一个自己的域名，如果想以https访问还需要配置证书。
+总所周知，github是需要翻墙才能访问，如果我们想不翻墙访问博客可以到github项目的Page页设置自域名（Custom domain）和nginx代理。
+1.配置nginx代理 error_log /var/log/nginx/error.log; server { listen 80; listen 443 ssl; server_name blog.faceman.cn; # 你的域名 ssl_protocols TLSv1.2 TLSv1.1 TLSv1; ssl_certificate /domains/fullchain.pem; # 证书位置 ssl_certificate_key /domains/key.key; # 证书位置 ssl_prefer_server_ciphers on; ssl_session_timeout 5m; if ($server_port = 80) { rewrite ^(.*)$ https://$host$1 permanent; } location / { proxy_pass https://faceman0814.github.io; # 映射地址 proxy_set_header Host $host; proxy_set_header X-Real-IP $remote_addr; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; root /home/web/; index index.php; } } 重启nginx即可">
   <meta itemprop="datePublished" content="2024-11-08T17:36:52+08:00">
   <meta itemprop="dateModified" content="2024-11-08T17:36:52+08:00">
-  <meta itemprop="wordCount" content="6">
+  <meta itemprop="wordCount" content="543">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="使用Hugo搭建个人博客">
   <meta name="twitter:description" content="前言 先来说说写这篇博客的缘由
-一个程序员最好的门面是啥？除了github拥有star数高的开源项目之外当然是个人博客，无论是技术积累还是找工作，有一个属于自己的个人博客无疑是加分项，现在github上有各种开源的博客系统，优点是功能很多，但都有个问题就是大，我之前用Java的oneblog项目部署了一个博客，但由于我是买的阿里云2核2g服务器，部署上去之后由于太大系统崩了，我重启了3次才在docker重启之前关掉，就很尴尬。后面想了个办法是部署到自己的电脑的虚拟机上，然后通过frp&#43;nginx映射出去，但问题又来了，我是笔记本没有办法保证像服务器一样一直运行着，于是，我摆烂了。后面刷B站的时候看到了数字游牧人的一个视频，了解到了hugo这个东西，于是我琢磨了一天弄了个博客出来，网上其实教程很多，但我跟着做都没有讲的很清楚，所以有了今天这篇文章。
-安装Hugo 可以选择用包管理器安装或者在github上找到对应版本安装，这里我就以github上的举例。 github地址">
+一个程序员最好的门面是啥？除了github拥有star数高的开源项目之外当然是个人博客，无论是技术积累还是找工作，有一个属于自己的个人博客无疑是加分项，现在github上有各种开源的博客系统，优点是功能很多，但都有个问题就是大，我之前用Java的oneblog项目部署了一个博客，但由于我是买的阿里云2核2g服务器，部署上去之后由于太大系统崩了，我重启了3次才在docker重启之前关掉，就很尴尬。后面想了个办法是部署到自己的电脑的虚拟机上，然后通过frp&#43;nginx映射出去，但问题又来了，我是笔记本没有办法保证像服务器一样一直运行着，于是，我摆烂了。后面刷B站的时候看到了数字游牧人的一个视频，了解到了hugo这个东西，于是我琢磨了一天弄了个博客出来，踩了一些坑，所以有了今天这篇文章，补充完整给新手小白们避坑。
+必要条件 Hugo：Hugo中文文档
+Git
+这两个网上教程很多，这里就不详述了。
+Tips 1.不翻墙访问 前提：需要有一个自己的域名，如果想以https访问还需要配置证书。
+总所周知，github是需要翻墙才能访问，如果我们想不翻墙访问博客可以到github项目的Page页设置自域名（Custom domain）和nginx代理。
+1.配置nginx代理 error_log /var/log/nginx/error.log; server { listen 80; listen 443 ssl; server_name blog.faceman.cn; # 你的域名 ssl_protocols TLSv1.2 TLSv1.1 TLSv1; ssl_certificate /domains/fullchain.pem; # 证书位置 ssl_certificate_key /domains/key.key; # 证书位置 ssl_prefer_server_ciphers on; ssl_session_timeout 5m; if ($server_port = 80) { rewrite ^(.*)$ https://$host$1 permanent; } location / { proxy_pass https://faceman0814.github.io; # 映射地址 proxy_set_header Host $host; proxy_set_header X-Real-IP $remote_addr; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; root /home/web/; index index.php; } } 重启nginx即可">
 
       
     
@@ -87,7 +132,7 @@ github地址
   
   
   
-  <header class="cover bg-center" style="background-image: url('https://blog.faceman.cn/images/background.jpg');">
+  <header class="cover bg-center" style="background-image: url('https://blog.faceman.cn/images/hugo.png');">
     <div class="bg-black-60">
       <nav class="pv3 ph3 ph4-ns" role="navigation">
   <div class="flex-l justify-between items-center center">
@@ -172,12 +217,190 @@ github地址
     </header>
     <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="前言">前言</h1>
 <p>先来说说写这篇博客的缘由</p>
-<p>一个程序员最好的门面是啥？除了github拥有star数高的开源项目之外当然是个人博客，无论是技术积累还是找工作，有一个属于自己的个人博客无疑是加分项，现在github上有各种开源的博客系统，优点是功能很多，但都有个问题就是大，我之前用Java的oneblog项目部署了一个博客，但由于我是买的阿里云2核2g服务器，部署上去之后由于太大系统崩了，我重启了3次才在docker重启之前关掉，就很尴尬。后面想了个办法是部署到自己的电脑的虚拟机上，然后通过frp+nginx映射出去，但问题又来了，我是笔记本没有办法保证像服务器一样一直运行着，于是，我摆烂了。后面刷B站的时候看到了数字游牧人的一个视频，了解到了hugo这个东西，于是我琢磨了一天弄了个博客出来，网上其实教程很多，但我跟着做都没有讲的很清楚，所以有了今天这篇文章。</p>
-<h1 id="安装hugo">安装Hugo</h1>
-<p>可以选择用包管理器安装或者在github上找到对应版本安装，这里我就以github上的举例。
-<a href="https://github.com/gohugoio/hugo/releases">github地址</a></p>
-<p><img alt="1731115361024" src="/images/article/1731114762985.png"></p>
-<ul class="pa0">
+<p>一个程序员最好的门面是啥？除了github拥有star数高的开源项目之外当然是个人博客，无论是技术积累还是找工作，有一个属于自己的个人博客无疑是加分项，现在github上有各种开源的博客系统，优点是功能很多，但都有个问题就是大，我之前用Java的oneblog项目部署了一个博客，但由于我是买的阿里云2核2g服务器，部署上去之后由于太大系统崩了，我重启了3次才在docker重启之前关掉，就很尴尬。后面想了个办法是部署到自己的电脑的虚拟机上，然后通过frp+nginx映射出去，但问题又来了，我是笔记本没有办法保证像服务器一样一直运行着，于是，我摆烂了。后面刷B站的时候看到了数字游牧人的一个视频，了解到了hugo这个东西，于是我琢磨了一天弄了个博客出来，踩了一些坑，所以有了今天这篇文章，补充完整给新手小白们避坑。</p>
+<h1 id="必要条件">必要条件</h1>
+<p>Hugo：<a href="https://www.gohugo.org/">Hugo中文文档</a></p>
+<p>Git</p>
+<p>这两个网上教程很多，这里就不详述了。</p>
+<h1 id="tips">Tips</h1>
+<h2 id="1不翻墙访问">1.不翻墙访问</h2>
+<p>前提：需要有一个自己的域名，如果想以https访问还需要配置证书。</p>
+<p>总所周知，github是需要翻墙才能访问，如果我们想不翻墙访问博客可以到github项目的Page页设置自域名（Custom domain）和nginx代理。</p>
+<h3 id="1配置nginx代理">1.配置nginx代理</h3>
+<pre tabindex="0"><code>    error_log /var/log/nginx/error.log;
+
+    server {
+        listen 80;
+        listen 443 ssl;
+        server_name blog.faceman.cn; # 你的域名
+        ssl_protocols TLSv1.2 TLSv1.1 TLSv1; 
+  
+        ssl_certificate      /domains/fullchain.pem; # 证书位置
+        ssl_certificate_key  /domains/key.key; # 证书位置
+        ssl_prefer_server_ciphers on; 
+        ssl_session_timeout  5m;
+        if ($server_port = 80) {
+        rewrite ^(.*)$ https://$host$1 permanent;
+        }
+        location / {
+            proxy_pass https://faceman0814.github.io; # 映射地址
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            root /home/web/;
+            index index.php;
+        }
+    }
+</code></pre><p>重启nginx即可</p>
+<h3 id="2设置自域名">2.设置自域名</h3>
+<p><img alt="1731135427227" src="/images/article/1731135427227.png"></p>
+<h2 id="2部署脚本">2.部署脚本</h2>
+<p>为了简化部署流程，我写了一套Windows版本的脚本分享给大家</p>
+<pre tabindex="0"><code>param(
+    [string]$commitMessage = &#34;博客更新&#34;
+)
+
+# 输出部署更新信息
+Write-Host &#34;正在部署到GitHub...&#34; -ForegroundColor Green
+
+# 构建项目
+&amp; hugo
+
+# 进入Public文件夹
+Set-Location public
+
+# 将更改添加到git
+git add .
+
+# 提交更改
+Write-Host $commitMessage -ForegroundColor Green
+git commit -m $commitMessage
+
+# 拉取最新的远程仓库更改以避免冲突
+git pull origin main
+
+# 推送源和构建仓库
+git push origin main
+
+# 返回到项目根目录
+Set-Location ..
+</code></pre><p>根目录下面保存为deploy.ps1(powershell脚本格式)</p>
+<pre tabindex="0"><code>//在根目录下运行
+/deploy.ps1 &#34;提交内容&#34; //默认提交内容为博客更新
+</code></pre><p>我用的ananke主题有些小问题，比如：</p>
+<ul>
+<li>github地址生成的时候会有些乱码导致跳转404</li>
+<li>静态图片部署的时候会被损坏</li>
+</ul>
+<p>我在脚本处理，如果你们没有这个问题可以略过。</p>
+<pre tabindex="0"><code>param(
+    [string]$commitMessage = &#34;博客更新&#34;
+)
+
+# 输出部署更新信息
+Write-Host &#34;正在部署到GitHub...&#34; -ForegroundColor Green
+
+# 构建项目
+&amp; hugo
+
+# 进入Public文件夹
+Set-Location public
+
+# 扫描所有文件并替换指定字符串
+$replacements = @{
+    &#34;https://github.com/faceman0814&#34; = &#34;https://github.com/faceman0814&#34;;
+    &#34;最近博客&#34; = &#34;最近博客&#34;;
+}
+
+# 扫描所有文件并替换指定字符串
+Get-ChildItem -Recurse | Where-Object { !$_.PSIsContainer } | ForEach-Object {
+    $content = Get-Content $_.FullName -Raw
+    foreach ($oldText in $replacements.Keys) {
+        $newText = $replacements[$oldText]
+        $content = $content -replace [regex]::Escape($oldText), $newText
+    }
+    Set-Content $_.FullName -Value $content
+}
+
+# 复制 images 文件夹，使用相对路径回退到根目录再访问static/images
+$sourcePath = &#34;..\static\images&#34;
+$destinationPath = &#34;.\images&#34;
+Copy-Item -Path $sourcePath\* -Destination $destinationPath -Force -Recurse
+
+
+# 将更改添加到git
+git add .
+
+# 提交更改
+Write-Host $commitMessage -ForegroundColor Green
+git commit -m $commitMessage
+
+# 拉取最新的远程仓库更改以避免冲突
+git pull origin main
+
+# 推送源和构建仓库
+git push origin main
+
+# 返回到项目根目录
+Set-Location ..
+</code></pre><h2 id="页脚加运行时间">页脚加运行时间</h2>
+<p>在页脚加入代码</p>
+<pre tabindex="0"><code> &lt;div class=&#34;footer-container&#34;&gt;
+      &lt;span id=&#34;sitetime&#34;&gt;载入运行时间...&lt;/span&gt;
+ &lt;/div&gt;
+
+&lt;script&gt;
+  function siteTime() {
+      var seconds = 1000;
+      var minutes = seconds * 60;
+      var hours = minutes * 60;
+      var days = hours * 24;
+      var years = days * 365;
+      var today = new Date();
+      var startYear = 2024;
+      var startMonth = 11;
+      var startDate = 8;
+      var startHour = 14;
+      var startMinute = 15;
+      var startSecond = 11;
+      var todayYear = today.getFullYear();
+      var todayMonth = today.getMonth() + 1;
+      var todayDate = today.getDate();
+      var todayHour = today.getHours();
+      var todayMinute = today.getMinutes();
+      var todaySecond = today.getSeconds();
+      var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+      var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+      var diff = t2 - t1;
+      var diffYears = Math.floor(diff / years);
+      var diffDays = Math.floor((diff / days) - diffYears * 365);
+      var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+      var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+          minutes);
+      var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+          diffMinutes * minutes) / seconds);
+      if (startYear == todayYear) {
+          //document.getElementById(&#34;year&#34;).innerHTML = todayYear;
+          document.getElementById(&#34;sitetime&#34;).innerHTML = &#34;博客已运行 &#34; + diffDays + &#34; 天 &#34; + diffHours +
+              &#34; 小时 &#34; + diffMinutes + &#34; 分钟 &#34; + diffSeconds + &#34; 秒&#34;;
+      } else {
+          //document.getElementById(&#34;year&#34;).innerHTML = startYear + &#34; - &#34; + todayYear;
+          document.getElementById(&#34;sitetime&#34;).innerHTML = &#34;博客已运行 &#34; + diffYears + &#34; 年 &#34; + diffDays +
+              &#34; 天 &#34; + diffHours + &#34; 小时 &#34; + diffMinutes + &#34; 分钟 &#34; + diffSeconds + &#34; 秒&#34;;
+      }
+  }
+  setInterval(siteTime, 1000);
+
+&lt;/script&gt;
+</code></pre><h2 id="添加访问量计数工具">添加访问量计数工具</h2>
+<pre tabindex="0"><code>&lt;script async src=&#34;https://busuanzi.icodeq.com/busuanzi.pure.mini.js&#34;&gt;&lt;/script&gt;
+
+本文总阅读量 &lt;span id=&#34;busuanzi_value_page_pv&#34;&gt;&lt;/span&gt; 次
+
+本站总访问量 &lt;span id=&#34;busuanzi_value_site_pv&#34;&gt;&lt;/span&gt; 次
+
+本站总访客数 &lt;span id=&#34;busuanzi_value_site_uv&#34;&gt;&lt;/span&gt; 人
+</code></pre><ul class="pa0">
   
 </ul>
 <div class="mt6 instapaper_ignoref">
@@ -220,8 +443,7 @@ github地址
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
   <div class="flex justify-between">
   <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.faceman.cn/" >
-    &copy;  FaceMan's Blog 2024 
-
+    &copy;  FaceMan's Blog 2024-11-9 15:42 
   
   </a>
     <div><div class="ananke-socials"><a href="https://github.com/faceman0814" target="_blank" rel="noopener"
@@ -239,7 +461,8 @@ github地址
       <span id="sitetime">载入运行时间...</span>
     </div>
   </div>
- 
+  </div>
+  
 </footer>
 <style>
   .footer-container {

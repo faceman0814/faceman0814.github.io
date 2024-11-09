@@ -22,7 +22,7 @@ var config = new ConfigurationBuilder()
                 .SetBasePath(basePath)
                 .AddJsonFile(&#34;appsettings.json&#34;, optional: true, reloadOnChange: true)
                 .Build();
-                
+              
 #region 添加Swagger文档服务
 
 builder.Services.AddEndpointsApiExplorer();
@@ -81,7 +81,7 @@ Swagger文档的原理是扫描控制器来生成，动态API则是自定义类�
     
 
     
-<link rel="stylesheet" href="/ananke/css/main.min.db6c21efb4e09e483e0c106d04ec594269510609667187bff9445c47d37114c9.css" >
+<link rel="stylesheet" href="/ananke/css/main.min.271fde29f9cbd44486afdc9e1ce1619124cf22553be5c1ba9d126fd09b36aa07.css" >
 
 
 
@@ -138,7 +138,7 @@ Swagger文档的原理是扫描控制器来生成，动态API则是自定义类�
   
   
   
-  <header class="cover bg-center" style="background-image: url('https://blog.faceman.cn/images/esmeralda.jpg');">
+  <header class="cover bg-center" style="background-image: url('https://blog.faceman.cn/images/Swagger.png');">
     <div class="bg-black-60">
       <nav class="pv3 ph3 ph4-ns" role="navigation">
   <div class="flex-l justify-between items-center center">
@@ -237,7 +237,7 @@ Swagger文档的原理是扫描控制器来生成，动态API则是自定义类�
 </span></span><span style="display:flex;"><span>                .SetBasePath(basePath)
 </span></span><span style="display:flex;"><span>                .AddJsonFile(<span style="color:#e6db74">&#34;appsettings.json&#34;</span>, optional: <span style="color:#66d9ef">true</span>, reloadOnChange: <span style="color:#66d9ef">true</span>)
 </span></span><span style="display:flex;"><span>                .Build();
-</span></span><span style="display:flex;"><span>                
+</span></span><span style="display:flex;"><span>              
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#region</span> <span style="color:#960050;background-color:#1e0010">添加</span>Swagger文档服务
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>builder.Services.AddEndpointsApiExplorer();
@@ -633,12 +633,12 @@ Swagger文档的原理是扫描控制器来生成，动态API则是自定义类�
 </span></span><span style="display:flex;"><span>&lt;!--<span style="color:#960050;background-color:#1e0010">在构建项目后，复制所有以</span>FlyFramework开头的XML文档文件到指定的API文档目录<span style="color:#960050;background-color:#1e0010">。这通常用于将生成的</span>XML文档文件<span style="color:#960050;background-color:#1e0010">（例如</span>API注释<span style="color:#960050;background-color:#1e0010">）整理到一个目录中，便于进一步的处理或发布。这种做法可以适合于生成</span>API文档如Swagger时的使用场景<span style="color:#960050;background-color:#1e0010">。</span>--&gt;
 </span></span><span style="display:flex;"><span>&lt;Target Name=<span style="color:#e6db74">&#34;CopyXmlDocFileForBuild&#34;</span> AfterTargets=<span style="color:#e6db74">&#34;Build&#34;</span>&gt;
 </span></span><span style="display:flex;"><span>	&lt;ItemGroup&gt;
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>		&lt;!--Include=<span style="color:#e6db74">&#34;@(ReferencePath-&gt;&#39;%(RootDir)%(Directory)%(Filename).xml&#39;)&#34;</span><span style="color:#960050;background-color:#1e0010">：这行表示从所有项目引用（</span>ReferencePath<span style="color:#960050;background-color:#1e0010">）的路径中收集以</span>.xml为扩展名的文件<span style="color:#960050;background-color:#1e0010">。这些文件通常是生成的</span>XML文档文件<span style="color:#960050;background-color:#1e0010">。</span>--&gt;
 </span></span><span style="display:flex;"><span>		&lt;!--Condition=<span style="color:#e6db74">&#34;$([System.String]::new(&#39;%(FileName)&#39;).StartsWith(&#39;FlyFramework&#39;))&#34;</span><span style="color:#960050;background-color:#1e0010">：此条件用于过滤文件，仅包括文件名以</span>FlyFramework开头的XML文档文件<span style="color:#960050;background-color:#1e0010">。这保证只有相关的文档文件被选择。</span>--&gt;
 </span></span><span style="display:flex;"><span>		&lt;XmlDocFiles Include=<span style="color:#e6db74">&#34;@(ReferencePath-&gt;&#39;%(RootDir)%(Directory)%(Filename).xml&#39;)&#34;</span> Condition=<span style="color:#e6db74">&#34;$([System.String]::new(&#39;%(FileName)&#39;).StartsWith(&#39;FlyFramework&#39;))&#34;</span> /&gt;
 </span></span><span style="display:flex;"><span>	&lt;/ItemGroup&gt;
-</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	&lt;!--SourceFiles=<span style="color:#e6db74">&#34;@(XmlDocFiles)&#34;</span><span style="color:#960050;background-color:#1e0010">：指定要复制的源文件为上一步中定义的</span>XmlDocFiles集合<span style="color:#960050;background-color:#1e0010">。</span>--&gt;
 </span></span><span style="display:flex;"><span>	&lt;!--<span style="color:#960050;background-color:#1e0010">`</span>Condition=<span style="color:#e6db74">&#34;Exists(&#39;%(FullPath)&#39;)&#34;</span><span style="color:#960050;background-color:#1e0010">：确保复制前源文件存在，这是一种安全检查。</span>--&gt;
 </span></span><span style="display:flex;"><span>	&lt;!--DestinationFolder=<span style="color:#e6db74">&#34;$(ApiDocDir)&#34;</span><span style="color:#960050;background-color:#1e0010">：目的地文件夹为$</span>(ApiDocDir)<span style="color:#960050;background-color:#1e0010">，这个属性之前已经在项目文件中定义，指向存放</span>API文档的目录<span style="color:#960050;background-color:#1e0010">。</span>--&gt;
@@ -701,8 +701,7 @@ Swagger文档的原理是扫描控制器来生成，动态API则是自定义类�
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
   <div class="flex justify-between">
   <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.faceman.cn/" >
-    &copy;  FaceMan's Blog 2024 
-
+    &copy;  FaceMan's Blog 2024-11-9 15:42 
   
   </a>
     <div><div class="ananke-socials"><a href="https://github.com/faceman0814" target="_blank" rel="noopener"
@@ -720,7 +719,8 @@ Swagger文档的原理是扫描控制器来生成，动态API则是自定义类�
       <span id="sitetime">载入运行时间...</span>
     </div>
   </div>
- 
+  </div>
+  
 </footer>
 <style>
   .footer-container {
