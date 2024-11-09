@@ -18,7 +18,7 @@
     
 
     
-<link rel="stylesheet" href="/ananke/css/main.min.271fde29f9cbd44486afdc9e1ce1619124cf22553be5c1ba9d126fd09b36aa07.css" >
+<link rel="stylesheet" href="/ananke/css/main.min.62fb708857ebae80c5e3f8ebc5db80e351ff1cf6ba2d9dbb62aa1a00537c4e6e.css" >
 
 
 
@@ -49,6 +49,8 @@
 
   <meta itemprop="name" content="Tags">
   <meta itemprop="description" content="从0开始，直到1。">
+  <meta itemprop="datePublished" content="2024-11-09T15:54:48+08:00">
+  <meta itemprop="dateModified" content="2024-11-09T15:54:48+08:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Tags">
   <meta name="twitter:description" content="从0开始，直到1。">
@@ -88,14 +90,14 @@
         <ul class="pl0 mr3">
           
           <li class="list f5 f4-ns fw4 dib pr3">
-            <a class="hover-white no-underline white-90" href="/post/" title="Posts 页">
-              Posts
+            <a class="hover-white no-underline white-90" href="/contact/" title="与我联系 页">
+              与我联系
             </a>
           </li>
           
           <li class="list f5 f4-ns fw4 dib pr3">
-            <a class="hover-white no-underline white-90" href="/contact/" title="与我联系 页">
-              与我联系
+            <a class="hover-white no-underline white-90" href="/post/" title="博客 页">
+              博客
             </a>
           </li>
           
@@ -135,6 +137,1161 @@
   <div class="mw8 center">
     <section class="ph4">
       
+        <h2 class="f1">
+          <a href="/tags/docker/" class="link blue hover-black">
+            Tag: Docker
+          </a>
+        </h2>
+        
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        十一月 9, 2024
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="/post/ubuntu%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BDdocker%E5%92%8Cdockercompose/" class="link black dim">
+        Ubuntu一键安装卸载docker和dockercompose
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="前言">前言</h1>
+<p>在新建的服务器上，我们一般会用几条命令来下载安装docker和docker-compose，这里为了避免每次都去搜索安装命令，所以写成脚本，本文仅支持Ubuntu\CentOS。</p>
+<h1 id="一docker是什么">一、docker是什么？</h1>
+<p>Docker是一个开源的容器化平台，用于构建、部署和管理应用程序。它采用了轻量级的容器技术，可以在不同的操作系统上运行，并提供了一种将应用程序及其依赖项打包到可移植的容器中的方式。</p>
+<p>以下是Docker的一些重要特点和概念：</p>
+<ul>
+<li>容器化：Docker利用Linux内核的容器功能来隔离应用程序及其依赖项。每个容器都是一个独立的运行环境，具有自己的文件系统、进程空间和资源限制。容器可以快速启动、停止和迁移，而且相互之间彼此隔离，避免了应用程序之间的冲突和依赖问题。</li>
+<li>镜像：Docker使用镜像来构建容器。镜像是一个只读的模板，包含了应用程序运行所需的所有文件系统、库和依赖项。通过使用Dockerfile定义构建步骤，可以创建自定义的镜像。镜像可以从Docker Hub等镜像仓库中获取，也可以通过构建自己的镜像进行定制。</li>
+<li>容器注册表：Docker Hub是Docker官方的公共镜像注册表，提供了大量的基础镜像供用户使用。除此之外，还有其他的公共和私有镜像注册表，用户可以在其中存储和分享自己的镜像。</li>
+<li>Docker引擎：Docker引擎是运行和管理容器的核心组件。它包括一个守护进程（Docker daemon）和一个命令行客户端（Docker CLI）。守护进程负责构建、运行和管理容器，而命令行客户端提供了交互式的接口来与守护进程进行通信。</li>
+<li>编排和管理工具：Docker提供了一系列的编排和管理工具，用于简化多个容器的部署和管理。例如，Docker Compose允许通过一个YAML文件描述多个容器的关系和配置，并通过一条命令启动、停止和扩展整个应用程序的容器集群。</li>
+<li>跨平台支持：Docker可以在不同的操作系统上运行，包括Linux、Windows和MacOS等。对于Linux平台，Docker直接使用操作系统的容器功能；而对于Windows和MacOS，Docker使用一个轻量级的虚拟机（称为Docker Desktop）来提供容器化环境。</li>
+<li>生态系统：Docker拥有庞大的开发者社区和丰富的生态系统。社区提供了大量的文档、教程和示例代码，以及交流和支持的平台。此外，还有许多第三方工具和服务，如监控工具、CI/CD集成等，与Docker集成，进一步扩展了其功能和用途。</li>
+</ul>
+    </div>
+  <a href="/post/ubuntu%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BDdocker%E5%92%8Cdockercompose/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">继续阅读</a>
+  </div>
+  <style>
+    .nested-copy-line-height {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;  
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  </style>
+        
+      
+        <h2 class="f1">
+          <a href="/tags/ubuntu/" class="link blue hover-black">
+            Tag: Ubuntu
+          </a>
+        </h2>
+        
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        十一月 9, 2024
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="/post/ubuntu%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BDdocker%E5%92%8Cdockercompose/" class="link black dim">
+        Ubuntu一键安装卸载docker和dockercompose
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="前言">前言</h1>
+<p>在新建的服务器上，我们一般会用几条命令来下载安装docker和docker-compose，这里为了避免每次都去搜索安装命令，所以写成脚本，本文仅支持Ubuntu\CentOS。</p>
+<h1 id="一docker是什么">一、docker是什么？</h1>
+<p>Docker是一个开源的容器化平台，用于构建、部署和管理应用程序。它采用了轻量级的容器技术，可以在不同的操作系统上运行，并提供了一种将应用程序及其依赖项打包到可移植的容器中的方式。</p>
+<p>以下是Docker的一些重要特点和概念：</p>
+<ul>
+<li>容器化：Docker利用Linux内核的容器功能来隔离应用程序及其依赖项。每个容器都是一个独立的运行环境，具有自己的文件系统、进程空间和资源限制。容器可以快速启动、停止和迁移，而且相互之间彼此隔离，避免了应用程序之间的冲突和依赖问题。</li>
+<li>镜像：Docker使用镜像来构建容器。镜像是一个只读的模板，包含了应用程序运行所需的所有文件系统、库和依赖项。通过使用Dockerfile定义构建步骤，可以创建自定义的镜像。镜像可以从Docker Hub等镜像仓库中获取，也可以通过构建自己的镜像进行定制。</li>
+<li>容器注册表：Docker Hub是Docker官方的公共镜像注册表，提供了大量的基础镜像供用户使用。除此之外，还有其他的公共和私有镜像注册表，用户可以在其中存储和分享自己的镜像。</li>
+<li>Docker引擎：Docker引擎是运行和管理容器的核心组件。它包括一个守护进程（Docker daemon）和一个命令行客户端（Docker CLI）。守护进程负责构建、运行和管理容器，而命令行客户端提供了交互式的接口来与守护进程进行通信。</li>
+<li>编排和管理工具：Docker提供了一系列的编排和管理工具，用于简化多个容器的部署和管理。例如，Docker Compose允许通过一个YAML文件描述多个容器的关系和配置，并通过一条命令启动、停止和扩展整个应用程序的容器集群。</li>
+<li>跨平台支持：Docker可以在不同的操作系统上运行，包括Linux、Windows和MacOS等。对于Linux平台，Docker直接使用操作系统的容器功能；而对于Windows和MacOS，Docker使用一个轻量级的虚拟机（称为Docker Desktop）来提供容器化环境。</li>
+<li>生态系统：Docker拥有庞大的开发者社区和丰富的生态系统。社区提供了大量的文档、教程和示例代码，以及交流和支持的平台。此外，还有许多第三方工具和服务，如监控工具、CI/CD集成等，与Docker集成，进一步扩展了其功能和用途。</li>
+</ul>
+    </div>
+  <a href="/post/ubuntu%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BDdocker%E5%92%8Cdockercompose/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">继续阅读</a>
+  </div>
+  <style>
+    .nested-copy-line-height {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;  
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  </style>
+        
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        十一月 9, 2024
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="/post/ubuntu%E5%AE%89%E8%A3%85clash/" class="link black dim">
+        Ubuntu安装Clash
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <ol>
+<li>
+<p>下载配置文件或者导入订阅连接配置。</p>
+<ol>
+<li>下载连接（由于clash作者删库跑路了，所以我这里提供一个安装包）</li>
+</ol>
+<p>链接：https://pan.baidu.com/s/1Rz5Sb-1hhCSy_XjgzpKWvA
+提取码：vaaz
+2. 解压,已解压可跳过</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#000">gzip</span> <span style="color:#000">-d</span> <span style="color:#000">clash</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">gz</span>
+</span></span></code></pre></div><ol start="3">
+<li>
+<p>赋值权限</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#000">sudo</span> <span style="color:#000">chmod</span> <span style="color:#0000cf;font-weight:bold">+777</span> <span style="color:#000">clash</span>
+</span></span></code></pre></div></li>
+<li>
+<p>第一次执行创建必要文件：./clash</p>
+<ol>
+<li>安装过程可能会出现网络问题下载不了，可以直接复制下载链接到外部现在再传进去是一样的。
+<img src="https://faceman-blog.oss-cn-chengdu.aliyuncs.com/oneblog/20240115000642959.png"></li>
+</ol>
+</li>
+<li>
+<p>去代理软件复制节点订阅地址</p>
+<ol>
+<li>这里可以复制所有节点地址也可以自己配置节点然后生成地址
+<img src="https://faceman-blog.oss-cn-chengdu.aliyuncs.com/oneblog/20240115000642895.png"></li>
+</ol>
+</li>
+<li>
+<p>配置文件获取。</p>
+<h3 id="方法一">方法一</h3>
+<p>命令行获取</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#204a87">wget </span><span style="color:#000">-U</span> <span style="color:#4e9a06">&#34;Mozilla/6.0&#34;</span> <span style="color:#000">-O</span> <span style="color:#000;font-weight:bold">~/.</span><span style="color:#000">config</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">clash</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">config</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">yaml</span> <span style="color:#000">你的Clash订阅链接网址</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">## 主订阅链接：https://wmdy.355365.xyz/link/w1FRr398wFCOa0XK?clash=2</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">## 备用订阅链接：https://dy.wmyun.men/link/w1FRr398wFCOa0XK?clash=2</span>
+</span></span></code></pre></div><h3 id="方法二">方法二</h3>
+<ol>
+<li>用windows的clash软件获取配置文件
+<img src="https://faceman-blog.oss-cn-chengdu.aliyuncs.com/oneblog/20240115000642825.png"></li>
+<li>将获取的config文件替换到/root/.config/clash/config.yaml</li>
+</ol>
+</li>
+<li>
+<p>最后的文件结构应该是这样
+<img src="https://faceman-blog.oss-cn-chengdu.aliyuncs.com/oneblog/20240115000642749.png"></p>
+</li>
+<li>
+<p>代理改成手动并配置端口，如果是云服务器，需要打开对应的端口。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 编辑环境变量</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">sudo</span> <span style="color:#000">nano</span> <span style="color:#000;font-weight:bold">/</span><span style="color:#000">etc</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">environment</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 配置手动代理</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">http_proxy</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;http://127.0.0.1:7890&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">https_proxy</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;https://127.0.0.1:7890&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">socks_proxy</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;socks5h://127.0.0.1:7891&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">no_proxy</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;localhost,127.0.0.1,::1&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># CTRL+X 保存</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 应用环境变量 </span>
+</span></span><span style="display:flex;"><span><span style="color:#000">source</span> <span style="color:#000;font-weight:bold">/</span><span style="color:#000">etc</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">environment</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 查看代理服务配置</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">env</span> <span style="color:#000;font-weight:bold">|</span> <span style="color:#000">grep</span> <span style="color:#000">-i</span> <span style="color:#000">proxy</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 重启</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">sudo</span> <span style="color:#000">reboot</span>
+</span></span></code></pre></div></li>
+<li>
+<p>配置服务</p>
+<ol>
+<li>
+<p>vim /etc/systemd/system/clash.service</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">Unit</span><span style="color:#000;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">Description</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">Clash</span> <span style="color:#ce5c00;font-weight:bold">-</span> <span style="color:#000">A</span> <span style="color:#000">rule</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">based</span> <span style="color:#000">tunnel</span> <span style="color:#204a87;font-weight:bold">in</span> <span style="color:#000">Go</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">Documentation</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">https</span><span style="color:#ce5c00;font-weight:bold">:</span><span style="color:#8f5902;font-style:italic">//github.com/Dreamacro/clash/wiki
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">Service</span><span style="color:#000;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">OOMScoreAdjust</span><span style="color:#ce5c00;font-weight:bold">=-</span><span style="color:#0000cf;font-weight:bold">1000</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">ExecStart</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#a40000">/usr/local/bin/clash -f /root/.config/clash/config.yaml</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">Restart</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">on</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">failure</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">RestartSec</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">5</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">Install</span><span style="color:#000;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">WantedBy</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">multi</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">user</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">target</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong><strong>将 clash执行程序拷贝到 /usr/local/bin</strong></strong></p>
+    </div>
+  <a href="/post/ubuntu%E5%AE%89%E8%A3%85clash/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">继续阅读</a>
+  </div>
+  <style>
+    .nested-copy-line-height {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;  
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  </style>
+        
+      
+        <h2 class="f1">
+          <a href="/tags/.net/" class="link blue hover-black">
+            Tag: .Net
+          </a>
+        </h2>
+        
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        十一月 9, 2024
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="/post/c%23%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BD%95%E8%BD%ACpdfwordmd%E6%96%87%E4%BB%B6/" class="link black dim">
+        C#实现对话记录转PDF、Word、MD文件
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="前言">前言</h1>
+<p>工作中有个场景是chatgpt聊天对话记录下载支持PDF、Word、MD格式，于是有了本篇文章。</p>
+<h1 id="实现思路">实现思路</h1>
+<p>对话中可能会用md格式的回答，且因为不能直接转成pdf或者word，所以这里通过方法转成md或者html代码，使用html格式转成pdf或者word。</p>
+<h1 id="代码实现">代码实现</h1>
+<h2 id="需要的nuget包">需要的nuget包</h2>
+<ul>
+<li>html转pdf
+iTextSharp
+itextsharp.xmlworker</li>
+<li>html转word
+FreeSpire.Doc</li>
+<li>md转html
+Markdig</li>
+</ul>
+<h2 id="创建htmlhelper帮助类">创建HtmlHelper帮助类</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">/// HTML帮助类</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">class</span> <span style="color:#000">HtmlHelper</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic">/// 字体路径</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">private</span> <span style="color:#204a87;font-weight:bold">static</span> <span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">FontPath</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#000">HtmlHelper</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">fontPath</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">FontPath</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">fontPath</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#000">HtmlHelper</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic">//将html字符串转为pdf字节数组</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">byte</span><span style="color:#000;font-weight:bold">[]</span> <span style="color:#000">ConvertHtmlTextToPDF</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">htmlText</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">string</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">IsNullOrEmpty</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">htmlText</span><span style="color:#000;font-weight:bold">))</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">return</span> <span style="color:#204a87;font-weight:bold">null</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">try</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">MemoryStream</span> <span style="color:#000">outputStream</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">MemoryStream</span><span style="color:#000;font-weight:bold">();</span> <span style="color:#8f5902;font-style:italic">//要把PDF寫到哪個串流</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">byte</span><span style="color:#000;font-weight:bold">[]</span> <span style="color:#000">data</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">Encoding</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">UTF8</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">GetBytes</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">htmlText</span><span style="color:#000;font-weight:bold">);</span> <span style="color:#8f5902;font-style:italic">//字串轉成byte[]</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">MemoryStream</span> <span style="color:#000">msInput</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">MemoryStream</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">data</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">Document</span> <span style="color:#000">doc</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">Document</span><span style="color:#000;font-weight:bold">();</span> <span style="color:#8f5902;font-style:italic">//要寫PDF的文件，建構子沒填的話預設直式A4</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">PdfWriter</span> <span style="color:#000">writer</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">PdfWriter</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">GetInstance</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">doc</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">outputStream</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#8f5902;font-style:italic">//指定文件預設開檔時的縮放為100%</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">PdfDestination</span> <span style="color:#000">pdfDest</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">PdfDestination</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">PdfDestination</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">XYZ</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">doc</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">PageSize</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Height</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#0000cf;font-weight:bold">1f</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#8f5902;font-style:italic">//開啟Document文件 </span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">doc</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Open</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#8f5902;font-style:italic">//使用XMLWorkerHelper把Html parse到PDF檔裡</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">XMLWorkerHelper</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">GetInstance</span><span style="color:#000;font-weight:bold">().</span><span style="color:#000">ParseXHtml</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">writer</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">doc</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">msInput</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">null</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Encoding</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">UTF8</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">UnicodeFontFactory</span><span style="color:#000;font-weight:bold">());</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#8f5902;font-style:italic">//將pdfDest設定的資料寫到PDF檔</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">PdfAction</span> <span style="color:#000">action</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">PdfAction</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">GotoLocalPage</span><span style="color:#000;font-weight:bold">(</span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">pdfDest</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">writer</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">writer</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">SetOpenAction</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">action</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">doc</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Close</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">msInput</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Close</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">outputStream</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Close</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">outputStream</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ToArray</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">catch</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">Exception</span> <span style="color:#000">ex</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">throw</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">UserFriendlyException</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;转PDF时异常,请联系管理员！&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">ex</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic">//将html字符串转为word字节数组</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">byte</span><span style="color:#000;font-weight:bold">[]</span> <span style="color:#000">ConvertHtmlTextToWord</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">htmlText</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">string</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">IsNullOrEmpty</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">htmlText</span><span style="color:#000;font-weight:bold">))</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">return</span> <span style="color:#204a87;font-weight:bold">null</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">try</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">MemoryStream</span> <span style="color:#000">outputStream</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">MemoryStream</span><span style="color:#000;font-weight:bold">();</span> <span style="color:#8f5902;font-style:italic">//要把Word寫到哪個串流</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">byte</span><span style="color:#000;font-weight:bold">[]</span> <span style="color:#000">data</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">Encoding</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">UTF8</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">GetBytes</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">htmlText</span><span style="color:#000;font-weight:bold">);</span> <span style="color:#8f5902;font-style:italic">//字串轉成byte[]</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">MemoryStream</span>  <span style="color:#000">stream</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">MemoryStream</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">data</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">Spire</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Doc</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Document</span> <span style="color:#000">doc</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">Spire</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Doc</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Document</span><span style="color:#000;font-weight:bold">();</span> <span style="color:#8f5902;font-style:italic">//要寫Word的文件，建構子沒填的話預設直式A4</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">doc</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">LoadFromStream</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">stream</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">FileFormat</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Html</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">XHTMLValidationType</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">None</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">doc</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">SaveToStream</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">outputStream</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">FileFormat</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Docx</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">doc</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Close</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">outputStream</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ToArray</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">catch</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">Exception</span> <span style="color:#000">ex</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">throw</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">UserFriendlyException</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;转Word时异常,请联系管理员！&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">ex</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic">//字体工厂</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">class</span> <span style="color:#000">UnicodeFontFactory</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#000">FontFactoryImp</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">override</span> <span style="color:#000">Font</span> <span style="color:#000">GetFont</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">fontname</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">encoding</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">bool</span> <span style="color:#000">embedded</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">float</span> <span style="color:#000">size</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">int</span> <span style="color:#000">style</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">BaseColor</span> <span style="color:#000">color</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">bool</span> <span style="color:#000">cached</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">BaseFont</span> <span style="color:#000">baseFont</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">BaseFont</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">CreateFont</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">FontPath</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">BaseFont</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">IDENTITY_H</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">BaseFont</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">EMBEDDED</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">return</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">Font</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">baseFont</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">size</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">style</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">color</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><h2 id="创建测试信息类">创建测试信息类</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">class</span> <span style="color:#000">Message</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">Type</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#204a87;font-weight:bold">get</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#204a87;font-weight:bold">set</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">Context</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#204a87;font-weight:bold">get</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#204a87;font-weight:bold">set</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><h2 id="通过控制器调用">通过控制器调用。</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">class</span> <span style="color:#000">FileController</span><span style="color:#a40000">：</span><span style="color:#000">Controller</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">private</span> <span style="color:#204a87;font-weight:bold">readonly</span> <span style="color:#000">IHttpContextAccessor</span> <span style="color:#000">_httpContextAccessor</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#000">FileController</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">IHttpContextAccessor</span> <span style="color:#000">httpContextAccessor</span><span style="color:#a40000">）</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">_httpContextAccessor</span><span style="color:#000;font-weight:bold">=</span><span style="color:#000">httpContextAccessor</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// 导出当前对话全部信息为Markdown</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;param name=&#34;messageId&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#c4a000">		[HttpGet]</span>
+</span></span><span style="display:flex;"><span><span style="color:#c4a000">		[DisableAuditing]</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">async</span> <span style="color:#000">Task</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">IActionResult</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">GenerateAllMarkdown</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">await</span> <span style="color:#000">GenerateFile</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;md&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">byte</span><span style="color:#000;font-weight:bold">[]</span> <span style="color:#000">markdownBytes</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">Encoding</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">UTF8</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">GetBytes</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">fileName</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">$&#34;文件名称-{Clock.Now.ToString(&#34;</span><span style="color:#000">yyyyMMddHHmmss</span><span style="color:#4e9a06">&#34;)}.md&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">contentType</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;text/markdown&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">File</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">markdownBytes</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">contentType</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">fileName</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// 导出当前对话全部信息为Word</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;param name=&#34;messageId&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#c4a000">		[HttpGet]</span>
+</span></span><span style="display:flex;"><span><span style="color:#c4a000">		[DisableAuditing]</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">async</span> <span style="color:#000">Task</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ActionResult</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">GenerateAllWord</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">await</span> <span style="color:#000">GenerateFile</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;html&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">HtmlHelper</span> <span style="color:#000">pdfHelper</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">HtmlHelper</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">byteData</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">pdfHelper</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ConvertHtmlTextToWord</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">fileName</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">$&#34;文件名称-{Clock.Now.ToString(&#34;</span><span style="color:#000">yyyyMMddHHmmss</span><span style="color:#4e9a06">&#34;)}.docx&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">contentType</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;application/vnd.openxmlformats-officedocument.wordprocessingml.document&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">File</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">byteData</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">contentType</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">fileName</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#8f5902;font-style:italic">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// 导出当前对话全部信息为PDF</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;param name=&#34;chatId&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;param name=&#34;chatUserId&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;exception cref=&#34;UserFriendlyException&#34;&gt;&lt;/exception&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#c4a000">		[HttpGet]</span>
+</span></span><span style="display:flex;"><span><span style="color:#c4a000">		[DisableAuditing]</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">async</span> <span style="color:#000">Task</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ActionResult</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">GeneratePDF</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			 <span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">await</span> <span style="color:#000">GenerateFile</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;html&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">fontPath</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">Path</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Combine</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;字体地址&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;Nsimsun.ttf&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">HtmlHelper</span> <span style="color:#000">pdfHelper</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">HtmlHelper</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">fontPath</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">byteData</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">pdfHelper</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ConvertHtmlTextToPDF</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">);</span><span style="color:#8f5902;font-style:italic">//生成PDF</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">fileName</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">$&#34;文件名称-{Clock.Now.ToString(&#34;</span><span style="color:#000">yyyyMMddHHmmss</span><span style="color:#4e9a06">&#34;)}.pdf&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">contentType</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;application/pdf&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">File</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">byteData</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">contentType</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">fileName</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">private</span> <span style="color:#204a87;font-weight:bold">async</span> <span style="color:#000">Task</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#204a87;font-weight:bold">string</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">GenerateFile</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">type</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">title</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;我是标题&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">UserName</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;我是用户&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">Url</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;我是链接&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">List</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">Message</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">currentMessage</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">List</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">Message</span><span style="color:#000;font-weight:bold">&gt;()</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">Message</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#000">Type</span> <span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;user&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#000">Context</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;你是谁&#34;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">}</span><span style="color:#a40000">，</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">Message</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#000">Type</span> <span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;bot&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#000">Context</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;hello，我是chatgpt&#34;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#8f5902;font-style:italic">//...</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">};</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">//信息查询操作。。。。</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">default</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">symbolA</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">symbolB</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">switch</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">type</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">case</span> <span style="color:#4e9a06">&#34;html&#34;</span><span style="color:#000;font-weight:bold">:</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#000">symbolA</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;&lt;strong&gt;&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#000">symbolB</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;&lt;/strong&gt;&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#204a87;font-weight:bold">break</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">case</span> <span style="color:#4e9a06">&#34;md&#34;</span><span style="color:#000;font-weight:bold">:</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#000">symbolA</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;**&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#000">symbolB</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;**&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#204a87;font-weight:bold">break</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">//设置标题</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">+=</span> <span style="color:#4e9a06">$&#34;# {title} \n&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">foreach</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">item</span> <span style="color:#204a87;font-weight:bold">in</span> <span style="color:#000">allMessages</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">item</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Type</span> <span style="color:#000;font-weight:bold">==</span> <span style="color:#4e9a06">&#34;bot&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">+=</span> <span style="color:#4e9a06">$&#34;{symbolA} AI回答：{symbolB}  \n&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">else</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">+=</span> <span style="color:#4e9a06">$&#34;{symbolA} 用户提问：{symbolB}  \n&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">+=</span> <span style="color:#4e9a06">$&#34;{item.Content} \n&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">+=</span> <span style="color:#4e9a06">&#34;\n&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">request</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">_httpContextAccessor</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">HttpContext</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Request</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">fullUrl</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">$&#34;{request.Scheme}://{request.Host}&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">+=</span> <span style="color:#4e9a06">$&#34;&gt; 编辑于 {DateTime.Now}\n &#34;</span> <span style="color:#000;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#4e9a06">$&#34;&gt;作者：{UserName} \n &#34;</span> <span style="color:#000;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#4e9a06">$&#34;&gt;链接：{Url}\n &#34;</span> <span style="color:#000;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#4e9a06">$&#34;&gt;来源：我是来源&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">type</span> <span style="color:#000;font-weight:bold">==</span> <span style="color:#4e9a06">&#34;html&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">Markdown</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ToHtml</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;/n&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&lt;br /&gt;&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;&lt;p&gt;&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;&lt;/p&gt;&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&lt;br /&gt;&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;AI回答：&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&lt;br /&gt; AI回答：&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;用户提问：&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&lt;br /&gt; 用户提问：&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;&lt;blockquote&gt;&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;&lt;/blockquote&gt;&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;编辑于：&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&lt;br /&gt;&lt;br /&gt; 编辑于：&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;作者：&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&lt;br /&gt; 作者：&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;链接：&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&lt;br /&gt; 链接：&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;来源：&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&lt;br /&gt; 来源：&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">$&#34;\r\n&lt;!DOCTYPE html&gt;\r\n&lt;html&gt;\r\n&lt;head&gt;\r\n    &lt;meta charset=\&#34;</span><span style="color:#000">utf</span><span style="color:#000;font-weight:bold">-</span><span style="color:#0000cf;font-weight:bold">8</span><span style="color:#a40000">\</span><span style="color:#4e9a06">&#34; /&gt;\r\n    &lt;title&gt;{currentChat.Name}&lt;/title&gt;\r\n&lt;/head&gt;\r\n&lt;body&gt;\r\n&#34;</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">+=</span> <span style="color:#4e9a06">&#34;\r\n&lt;/body&gt;\r\n&lt;/html&gt;&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div>
+    </div>
+  <a href="/post/c%23%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BD%95%E8%BD%ACpdfwordmd%E6%96%87%E4%BB%B6/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">继续阅读</a>
+  </div>
+  <style>
+    .nested-copy-line-height {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;  
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  </style>
+        
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        十一月 8, 2024
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="/post/swagger&#43;%E5%8A%A8%E6%80%81api%E9%9B%86%E6%88%90/" class="link black dim">
+        Swagger&#43;动态API集成
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h2 id="集成swagger">集成Swagger</h2>
+<ol>
+<li>首先，在你的.NET Core项目中安装需要的包。你可以通过NuGet包管理器来安装它，也可以直接复制粘贴安装，以下是包名和版本。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">PackageReference</span> <span style="color:#000">Include</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;Swashbuckle.AspNetCore&#34;</span> <span style="color:#000">Version</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;6.4.0&#34;</span> <span style="color:#000;font-weight:bold">/&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">PackageReference</span> <span style="color:#000">Include</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;Swashbuckle.AspNetCore.Filters&#34;</span> <span style="color:#000">Version</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;8.0.2&#34;</span> <span style="color:#000;font-weight:bold">/&gt;</span>
+</span></span></code></pre></div><ol start="2">
+<li>.Net 6以后取消了StartUp，配置都在Program中，这里采用新写法。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">builder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">WebApplication</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">CreateBuilder</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">args</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// 配置文件读取</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">basePath</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">AppContext</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">BaseDirectory</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">config</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">ConfigurationBuilder</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">SetBasePath</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">basePath</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">AddJsonFile</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;appsettings.json&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">optional</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#204a87;font-weight:bold">true</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">reloadOnChange</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#204a87;font-weight:bold">true</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">Build</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">#region</span> <span style="color:#a40000">添加</span><span style="color:#000">Swagger文档服务</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000">builder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Services</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">AddEndpointsApiExplorer</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">builder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Services</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">AddSwaggerGen</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">options</span> <span style="color:#000;font-weight:bold">=&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">//添加响应头信息。它可以帮助开发者查看 API 响应中包含的 HTTP 头信息，从而更好地理解 API 的行为。</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">options</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">OperationFilter</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">AddResponseHeadersFilter</span><span style="color:#000;font-weight:bold">&gt;();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">//摘要中添加授权信息。它会在每个需要授权的操作旁边显示一个锁图标，提醒开发者该操作需要身份验证。</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">options</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">OperationFilter</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">AppendAuthorizeToSummaryOperationFilter</span><span style="color:#000;font-weight:bold">&gt;();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">//加安全需求信息。它会根据 API 的安全配置（如 OAuth2、JWT 等）自动生成相应的安全需求描述，帮助开发者了解哪些操作需要特定的安全配置。</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">options</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">OperationFilter</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">SecurityRequirementsOperationFilter</span><span style="color:#000;font-weight:bold">&gt;();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">//options.DocumentFilter&lt;RemoveAppSuffixFilter&gt;();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">options</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">SwaggerDoc</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;v1&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">OpenApiInfo</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">Title</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;xxxFrameWork API&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">Version</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;v1&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">Description</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;xxxFrameWork API 接口文档&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">Contact</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">OpenApiContact</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000">Name</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;xxxxx&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000">Email</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;xxxxx@qq.com&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000">Url</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">Uri</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;https://github.com/xxxxx&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">});</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">});</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">#endregion</span> <span style="color:#a40000">添加</span><span style="color:#000">Swagger文档服务</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">//开发环境才开启文档。</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">app</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Environment</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">IsDevelopment</span><span style="color:#000;font-weight:bold">())</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">app</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">UseSwagger</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">app</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">UseSwaggerUI</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">options</span> <span style="color:#000;font-weight:bold">=&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8f5902;font-style:italic">//配置Endpoint路径和文档标题</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">options</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">SwaggerEndpoint</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;/swagger/v1/swagger.json&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;v1 Docs&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8f5902;font-style:italic">//配置路由前缀，RoutePrefix是Swagger UI的根路径。</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8f5902;font-style:italic">//options.RoutePrefix = String.Empty;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8f5902;font-style:italic">//设置默认模型展开深度。默认值为3，可以设置成-1以完全展开所有模型。</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8f5902;font-style:italic">//options.DefaultModelExpandDepth(-1);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8f5902;font-style:italic">// 启用深链接功能后，用户可以直接通过URL访问特定的API操作或模型，而不需要手动导航到相应的位置。</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">options</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">EnableDeepLinking</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">options</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">DocExpansion</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">DocExpansion</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">None</span><span style="color:#000;font-weight:bold">);</span> <span style="color:#8f5902;font-style:italic">//swagger文档展开方式，none为折叠，list为列表</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">});</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><h2 id="动态api">动态API</h2>
+<p>Swagger文档的原理是扫描控制器来生成，动态API则是自定义类控制器，然后让接口继承，自定义控制器识别规则，实现思路：</p>
+    </div>
+  <a href="/post/swagger&#43;%E5%8A%A8%E6%80%81api%E9%9B%86%E6%88%90/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">继续阅读</a>
+  </div>
+  <style>
+    .nested-copy-line-height {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;  
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  </style>
+        
+      
+        <h2 class="f1">
+          <a href="/tags/c%23/" class="link blue hover-black">
+            Tag: C#
+          </a>
+        </h2>
+        
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        十一月 9, 2024
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="/post/c%23%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BD%95%E8%BD%ACpdfwordmd%E6%96%87%E4%BB%B6/" class="link black dim">
+        C#实现对话记录转PDF、Word、MD文件
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="前言">前言</h1>
+<p>工作中有个场景是chatgpt聊天对话记录下载支持PDF、Word、MD格式，于是有了本篇文章。</p>
+<h1 id="实现思路">实现思路</h1>
+<p>对话中可能会用md格式的回答，且因为不能直接转成pdf或者word，所以这里通过方法转成md或者html代码，使用html格式转成pdf或者word。</p>
+<h1 id="代码实现">代码实现</h1>
+<h2 id="需要的nuget包">需要的nuget包</h2>
+<ul>
+<li>html转pdf
+iTextSharp
+itextsharp.xmlworker</li>
+<li>html转word
+FreeSpire.Doc</li>
+<li>md转html
+Markdig</li>
+</ul>
+<h2 id="创建htmlhelper帮助类">创建HtmlHelper帮助类</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">/// HTML帮助类</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">class</span> <span style="color:#000">HtmlHelper</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic">/// 字体路径</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">private</span> <span style="color:#204a87;font-weight:bold">static</span> <span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">FontPath</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#000">HtmlHelper</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">fontPath</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">FontPath</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">fontPath</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#000">HtmlHelper</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic">//将html字符串转为pdf字节数组</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">byte</span><span style="color:#000;font-weight:bold">[]</span> <span style="color:#000">ConvertHtmlTextToPDF</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">htmlText</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">string</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">IsNullOrEmpty</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">htmlText</span><span style="color:#000;font-weight:bold">))</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">return</span> <span style="color:#204a87;font-weight:bold">null</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">try</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">MemoryStream</span> <span style="color:#000">outputStream</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">MemoryStream</span><span style="color:#000;font-weight:bold">();</span> <span style="color:#8f5902;font-style:italic">//要把PDF寫到哪個串流</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">byte</span><span style="color:#000;font-weight:bold">[]</span> <span style="color:#000">data</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">Encoding</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">UTF8</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">GetBytes</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">htmlText</span><span style="color:#000;font-weight:bold">);</span> <span style="color:#8f5902;font-style:italic">//字串轉成byte[]</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">MemoryStream</span> <span style="color:#000">msInput</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">MemoryStream</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">data</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">Document</span> <span style="color:#000">doc</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">Document</span><span style="color:#000;font-weight:bold">();</span> <span style="color:#8f5902;font-style:italic">//要寫PDF的文件，建構子沒填的話預設直式A4</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">PdfWriter</span> <span style="color:#000">writer</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">PdfWriter</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">GetInstance</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">doc</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">outputStream</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#8f5902;font-style:italic">//指定文件預設開檔時的縮放為100%</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">PdfDestination</span> <span style="color:#000">pdfDest</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">PdfDestination</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">PdfDestination</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">XYZ</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">doc</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">PageSize</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Height</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#0000cf;font-weight:bold">1f</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#8f5902;font-style:italic">//開啟Document文件 </span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">doc</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Open</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#8f5902;font-style:italic">//使用XMLWorkerHelper把Html parse到PDF檔裡</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">XMLWorkerHelper</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">GetInstance</span><span style="color:#000;font-weight:bold">().</span><span style="color:#000">ParseXHtml</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">writer</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">doc</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">msInput</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">null</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Encoding</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">UTF8</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">UnicodeFontFactory</span><span style="color:#000;font-weight:bold">());</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#8f5902;font-style:italic">//將pdfDest設定的資料寫到PDF檔</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">PdfAction</span> <span style="color:#000">action</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">PdfAction</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">GotoLocalPage</span><span style="color:#000;font-weight:bold">(</span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">pdfDest</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">writer</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">writer</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">SetOpenAction</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">action</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">doc</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Close</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">msInput</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Close</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">outputStream</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Close</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">outputStream</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ToArray</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">catch</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">Exception</span> <span style="color:#000">ex</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">throw</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">UserFriendlyException</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;转PDF时异常,请联系管理员！&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">ex</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic">//将html字符串转为word字节数组</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">byte</span><span style="color:#000;font-weight:bold">[]</span> <span style="color:#000">ConvertHtmlTextToWord</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">htmlText</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">string</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">IsNullOrEmpty</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">htmlText</span><span style="color:#000;font-weight:bold">))</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">return</span> <span style="color:#204a87;font-weight:bold">null</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">try</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">MemoryStream</span> <span style="color:#000">outputStream</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">MemoryStream</span><span style="color:#000;font-weight:bold">();</span> <span style="color:#8f5902;font-style:italic">//要把Word寫到哪個串流</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">byte</span><span style="color:#000;font-weight:bold">[]</span> <span style="color:#000">data</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">Encoding</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">UTF8</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">GetBytes</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">htmlText</span><span style="color:#000;font-weight:bold">);</span> <span style="color:#8f5902;font-style:italic">//字串轉成byte[]</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">MemoryStream</span>  <span style="color:#000">stream</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">MemoryStream</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">data</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">Spire</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Doc</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Document</span> <span style="color:#000">doc</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">Spire</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Doc</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Document</span><span style="color:#000;font-weight:bold">();</span> <span style="color:#8f5902;font-style:italic">//要寫Word的文件，建構子沒填的話預設直式A4</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">doc</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">LoadFromStream</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">stream</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">FileFormat</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Html</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">XHTMLValidationType</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">None</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">doc</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">SaveToStream</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">outputStream</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">FileFormat</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Docx</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">doc</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Close</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">outputStream</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ToArray</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">catch</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">Exception</span> <span style="color:#000">ex</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">throw</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">UserFriendlyException</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;转Word时异常,请联系管理员！&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">ex</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic">//字体工厂</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">class</span> <span style="color:#000">UnicodeFontFactory</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#000">FontFactoryImp</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">override</span> <span style="color:#000">Font</span> <span style="color:#000">GetFont</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">fontname</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">encoding</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">bool</span> <span style="color:#000">embedded</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">float</span> <span style="color:#000">size</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">int</span> <span style="color:#000">style</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">BaseColor</span> <span style="color:#000">color</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">bool</span> <span style="color:#000">cached</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">BaseFont</span> <span style="color:#000">baseFont</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">BaseFont</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">CreateFont</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">FontPath</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">BaseFont</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">IDENTITY_H</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">BaseFont</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">EMBEDDED</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">return</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">Font</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">baseFont</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">size</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">style</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">color</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><h2 id="创建测试信息类">创建测试信息类</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">class</span> <span style="color:#000">Message</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">Type</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#204a87;font-weight:bold">get</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#204a87;font-weight:bold">set</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">Context</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#204a87;font-weight:bold">get</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#204a87;font-weight:bold">set</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><h2 id="通过控制器调用">通过控制器调用。</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">class</span> <span style="color:#000">FileController</span><span style="color:#a40000">：</span><span style="color:#000">Controller</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">private</span> <span style="color:#204a87;font-weight:bold">readonly</span> <span style="color:#000">IHttpContextAccessor</span> <span style="color:#000">_httpContextAccessor</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#000">FileController</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">IHttpContextAccessor</span> <span style="color:#000">httpContextAccessor</span><span style="color:#a40000">）</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">_httpContextAccessor</span><span style="color:#000;font-weight:bold">=</span><span style="color:#000">httpContextAccessor</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// 导出当前对话全部信息为Markdown</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;param name=&#34;messageId&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#c4a000">		[HttpGet]</span>
+</span></span><span style="display:flex;"><span><span style="color:#c4a000">		[DisableAuditing]</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">async</span> <span style="color:#000">Task</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">IActionResult</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">GenerateAllMarkdown</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">await</span> <span style="color:#000">GenerateFile</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;md&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">byte</span><span style="color:#000;font-weight:bold">[]</span> <span style="color:#000">markdownBytes</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">Encoding</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">UTF8</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">GetBytes</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">fileName</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">$&#34;文件名称-{Clock.Now.ToString(&#34;</span><span style="color:#000">yyyyMMddHHmmss</span><span style="color:#4e9a06">&#34;)}.md&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">contentType</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;text/markdown&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">File</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">markdownBytes</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">contentType</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">fileName</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// 导出当前对话全部信息为Word</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;param name=&#34;messageId&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#c4a000">		[HttpGet]</span>
+</span></span><span style="display:flex;"><span><span style="color:#c4a000">		[DisableAuditing]</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">async</span> <span style="color:#000">Task</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ActionResult</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">GenerateAllWord</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">await</span> <span style="color:#000">GenerateFile</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;html&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">HtmlHelper</span> <span style="color:#000">pdfHelper</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">HtmlHelper</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">byteData</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">pdfHelper</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ConvertHtmlTextToWord</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">fileName</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">$&#34;文件名称-{Clock.Now.ToString(&#34;</span><span style="color:#000">yyyyMMddHHmmss</span><span style="color:#4e9a06">&#34;)}.docx&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">contentType</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;application/vnd.openxmlformats-officedocument.wordprocessingml.document&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">File</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">byteData</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">contentType</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">fileName</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#8f5902;font-style:italic">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// 导出当前对话全部信息为PDF</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;param name=&#34;chatId&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;param name=&#34;chatUserId&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">/// &lt;exception cref=&#34;UserFriendlyException&#34;&gt;&lt;/exception&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#c4a000">		[HttpGet]</span>
+</span></span><span style="display:flex;"><span><span style="color:#c4a000">		[DisableAuditing]</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">async</span> <span style="color:#000">Task</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ActionResult</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">GeneratePDF</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			 <span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">await</span> <span style="color:#000">GenerateFile</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;html&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">fontPath</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">Path</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Combine</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;字体地址&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;Nsimsun.ttf&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">HtmlHelper</span> <span style="color:#000">pdfHelper</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">HtmlHelper</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">fontPath</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">byteData</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">pdfHelper</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ConvertHtmlTextToPDF</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">);</span><span style="color:#8f5902;font-style:italic">//生成PDF</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">fileName</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">$&#34;文件名称-{Clock.Now.ToString(&#34;</span><span style="color:#000">yyyyMMddHHmmss</span><span style="color:#4e9a06">&#34;)}.pdf&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">contentType</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;application/pdf&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">File</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">byteData</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">contentType</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">fileName</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">private</span> <span style="color:#204a87;font-weight:bold">async</span> <span style="color:#000">Task</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#204a87;font-weight:bold">string</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">GenerateFile</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">type</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">title</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;我是标题&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">UserName</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;我是用户&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">Url</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;我是链接&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">List</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">Message</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">currentMessage</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">List</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">Message</span><span style="color:#000;font-weight:bold">&gt;()</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">Message</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#000">Type</span> <span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;user&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#000">Context</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;你是谁&#34;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">}</span><span style="color:#a40000">，</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">Message</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#000">Type</span> <span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;bot&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#000">Context</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;hello，我是chatgpt&#34;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#8f5902;font-style:italic">//...</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">};</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">//信息查询操作。。。。</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">default</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">symbolA</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">symbolB</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">switch</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">type</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">case</span> <span style="color:#4e9a06">&#34;html&#34;</span><span style="color:#000;font-weight:bold">:</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#000">symbolA</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;&lt;strong&gt;&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#000">symbolB</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;&lt;/strong&gt;&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#204a87;font-weight:bold">break</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">case</span> <span style="color:#4e9a06">&#34;md&#34;</span><span style="color:#000;font-weight:bold">:</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#000">symbolA</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;**&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#000">symbolB</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;**&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#204a87;font-weight:bold">break</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#8f5902;font-style:italic">//设置标题</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">+=</span> <span style="color:#4e9a06">$&#34;# {title} \n&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">foreach</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">item</span> <span style="color:#204a87;font-weight:bold">in</span> <span style="color:#000">allMessages</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">item</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Type</span> <span style="color:#000;font-weight:bold">==</span> <span style="color:#4e9a06">&#34;bot&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">+=</span> <span style="color:#4e9a06">$&#34;{symbolA} AI回答：{symbolB}  \n&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#204a87;font-weight:bold">else</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">+=</span> <span style="color:#4e9a06">$&#34;{symbolA} 用户提问：{symbolB}  \n&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">+=</span> <span style="color:#4e9a06">$&#34;{item.Content} \n&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">+=</span> <span style="color:#4e9a06">&#34;\n&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">request</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">_httpContextAccessor</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">HttpContext</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Request</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">string</span> <span style="color:#000">fullUrl</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">$&#34;{request.Scheme}://{request.Host}&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">+=</span> <span style="color:#4e9a06">$&#34;&gt; 编辑于 {DateTime.Now}\n &#34;</span> <span style="color:#000;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#4e9a06">$&#34;&gt;作者：{UserName} \n &#34;</span> <span style="color:#000;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#4e9a06">$&#34;&gt;链接：{Url}\n &#34;</span> <span style="color:#000;font-weight:bold">+</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#4e9a06">$&#34;&gt;来源：我是来源&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">type</span> <span style="color:#000;font-weight:bold">==</span> <span style="color:#4e9a06">&#34;html&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">Markdown</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ToHtml</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;/n&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&lt;br /&gt;&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;&lt;p&gt;&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;&lt;/p&gt;&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&lt;br /&gt;&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;AI回答：&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&lt;br /&gt; AI回答：&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;用户提问：&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&lt;br /&gt; 用户提问：&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;&lt;blockquote&gt;&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;&lt;/blockquote&gt;&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;编辑于：&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&lt;br /&gt;&lt;br /&gt; 编辑于：&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;作者：&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&lt;br /&gt; 作者：&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;链接：&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&lt;br /&gt; 链接：&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Replace</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;来源：&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&lt;br /&gt; 来源：&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">$&#34;\r\n&lt;!DOCTYPE html&gt;\r\n&lt;html&gt;\r\n&lt;head&gt;\r\n    &lt;meta charset=\&#34;</span><span style="color:#000">utf</span><span style="color:#000;font-weight:bold">-</span><span style="color:#0000cf;font-weight:bold">8</span><span style="color:#a40000">\</span><span style="color:#4e9a06">&#34; /&gt;\r\n    &lt;title&gt;{currentChat.Name}&lt;/title&gt;\r\n&lt;/head&gt;\r\n&lt;body&gt;\r\n&#34;</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#000">stringBuilder</span> <span style="color:#000;font-weight:bold">+=</span> <span style="color:#4e9a06">&#34;\r\n&lt;/body&gt;\r\n&lt;/html&gt;&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">stringBuilder</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div>
+    </div>
+  <a href="/post/c%23%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BD%95%E8%BD%ACpdfwordmd%E6%96%87%E4%BB%B6/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">继续阅读</a>
+  </div>
+  <style>
+    .nested-copy-line-height {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;  
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  </style>
+        
+      
+        <h2 class="f1">
+          <a href="/tags/clash/" class="link blue hover-black">
+            Tag: Clash
+          </a>
+        </h2>
+        
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        十一月 9, 2024
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="/post/ubuntu%E5%AE%89%E8%A3%85clash/" class="link black dim">
+        Ubuntu安装Clash
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <ol>
+<li>
+<p>下载配置文件或者导入订阅连接配置。</p>
+<ol>
+<li>下载连接（由于clash作者删库跑路了，所以我这里提供一个安装包）</li>
+</ol>
+<p>链接：https://pan.baidu.com/s/1Rz5Sb-1hhCSy_XjgzpKWvA
+提取码：vaaz
+2. 解压,已解压可跳过</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#000">gzip</span> <span style="color:#000">-d</span> <span style="color:#000">clash</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">gz</span>
+</span></span></code></pre></div><ol start="3">
+<li>
+<p>赋值权限</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#000">sudo</span> <span style="color:#000">chmod</span> <span style="color:#0000cf;font-weight:bold">+777</span> <span style="color:#000">clash</span>
+</span></span></code></pre></div></li>
+<li>
+<p>第一次执行创建必要文件：./clash</p>
+<ol>
+<li>安装过程可能会出现网络问题下载不了，可以直接复制下载链接到外部现在再传进去是一样的。
+<img src="https://faceman-blog.oss-cn-chengdu.aliyuncs.com/oneblog/20240115000642959.png"></li>
+</ol>
+</li>
+<li>
+<p>去代理软件复制节点订阅地址</p>
+<ol>
+<li>这里可以复制所有节点地址也可以自己配置节点然后生成地址
+<img src="https://faceman-blog.oss-cn-chengdu.aliyuncs.com/oneblog/20240115000642895.png"></li>
+</ol>
+</li>
+<li>
+<p>配置文件获取。</p>
+<h3 id="方法一">方法一</h3>
+<p>命令行获取</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#204a87">wget </span><span style="color:#000">-U</span> <span style="color:#4e9a06">&#34;Mozilla/6.0&#34;</span> <span style="color:#000">-O</span> <span style="color:#000;font-weight:bold">~/.</span><span style="color:#000">config</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">clash</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">config</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">yaml</span> <span style="color:#000">你的Clash订阅链接网址</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">## 主订阅链接：https://wmdy.355365.xyz/link/w1FRr398wFCOa0XK?clash=2</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">## 备用订阅链接：https://dy.wmyun.men/link/w1FRr398wFCOa0XK?clash=2</span>
+</span></span></code></pre></div><h3 id="方法二">方法二</h3>
+<ol>
+<li>用windows的clash软件获取配置文件
+<img src="https://faceman-blog.oss-cn-chengdu.aliyuncs.com/oneblog/20240115000642825.png"></li>
+<li>将获取的config文件替换到/root/.config/clash/config.yaml</li>
+</ol>
+</li>
+<li>
+<p>最后的文件结构应该是这样
+<img src="https://faceman-blog.oss-cn-chengdu.aliyuncs.com/oneblog/20240115000642749.png"></p>
+</li>
+<li>
+<p>代理改成手动并配置端口，如果是云服务器，需要打开对应的端口。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 编辑环境变量</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">sudo</span> <span style="color:#000">nano</span> <span style="color:#000;font-weight:bold">/</span><span style="color:#000">etc</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">environment</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 配置手动代理</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">http_proxy</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;http://127.0.0.1:7890&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">https_proxy</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;https://127.0.0.1:7890&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">socks_proxy</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;socks5h://127.0.0.1:7891&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">no_proxy</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;localhost,127.0.0.1,::1&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># CTRL+X 保存</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 应用环境变量 </span>
+</span></span><span style="display:flex;"><span><span style="color:#000">source</span> <span style="color:#000;font-weight:bold">/</span><span style="color:#000">etc</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">environment</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 查看代理服务配置</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">env</span> <span style="color:#000;font-weight:bold">|</span> <span style="color:#000">grep</span> <span style="color:#000">-i</span> <span style="color:#000">proxy</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 重启</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">sudo</span> <span style="color:#000">reboot</span>
+</span></span></code></pre></div></li>
+<li>
+<p>配置服务</p>
+<ol>
+<li>
+<p>vim /etc/systemd/system/clash.service</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">Unit</span><span style="color:#000;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">Description</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">Clash</span> <span style="color:#ce5c00;font-weight:bold">-</span> <span style="color:#000">A</span> <span style="color:#000">rule</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">based</span> <span style="color:#000">tunnel</span> <span style="color:#204a87;font-weight:bold">in</span> <span style="color:#000">Go</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">Documentation</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">https</span><span style="color:#ce5c00;font-weight:bold">:</span><span style="color:#8f5902;font-style:italic">//github.com/Dreamacro/clash/wiki
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">Service</span><span style="color:#000;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">OOMScoreAdjust</span><span style="color:#ce5c00;font-weight:bold">=-</span><span style="color:#0000cf;font-weight:bold">1000</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">ExecStart</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#a40000">/usr/local/bin/clash -f /root/.config/clash/config.yaml</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">Restart</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">on</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">failure</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">RestartSec</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">5</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">Install</span><span style="color:#000;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">WantedBy</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">multi</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">user</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">target</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong><strong>将 clash执行程序拷贝到 /usr/local/bin</strong></strong></p>
+    </div>
+  <a href="/post/ubuntu%E5%AE%89%E8%A3%85clash/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">继续阅读</a>
+  </div>
+  <style>
+    .nested-copy-line-height {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;  
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  </style>
+        
+      
+        <h2 class="f1">
+          <a href="/tags/hugo/" class="link blue hover-black">
+            Tag: Hugo
+          </a>
+        </h2>
+        
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        十一月 8, 2024
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="/post/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" class="link black dim">
+        使用Hugo搭建个人博客
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="前言">前言</h1>
+<p>先来说说写这篇博客的缘由</p>
+<p>一个程序员最好的门面是啥？除了github拥有star数高的开源项目之外当然是个人博客，无论是技术积累还是找工作，有一个属于自己的个人博客无疑是加分项，现在github上有各种开源的博客系统，优点是功能很多，但都有个问题就是大，我之前用Java的oneblog项目部署了一个博客，但由于我是买的阿里云2核2g服务器，部署上去之后由于太大系统崩了，我重启了3次才在docker重启之前关掉，就很尴尬。后面想了个办法是部署到自己的电脑的虚拟机上，然后通过frp+nginx映射出去，但问题又来了，我是笔记本没有办法保证像服务器一样一直运行着，于是，我摆烂了。后面刷B站的时候看到了数字游牧人的一个视频，了解到了hugo这个东西，于是我琢磨了一天弄了个博客出来，踩了一些坑，所以有了今天这篇文章，补充完整给新手小白们避坑。</p>
+<h1 id="必要条件">必要条件</h1>
+<p>Hugo：<a href="https://www.gohugo.org/">Hugo中文文档</a></p>
+<p>Git</p>
+<p>这两个网上教程很多，这里就不详述了。</p>
+<h1 id="tips">Tips</h1>
+<h2 id="1不翻墙访问">1.不翻墙访问</h2>
+<p>前提：需要有一个自己的域名，如果想以https访问还需要配置证书。</p>
+<p>总所周知，github是需要翻墙才能访问，如果我们想不翻墙访问博客可以到github项目的Page页设置自域名（Custom domain）和nginx代理。</p>
+<h3 id="1配置nginx代理">1.配置nginx代理</h3>
+<pre tabindex="0"><code>    error_log /var/log/nginx/error.log;
+
+    server {
+        listen 80;
+        listen 443 ssl;
+        server_name blog.faceman.cn; # 你的域名
+        ssl_protocols TLSv1.2 TLSv1.1 TLSv1; 
+  
+        ssl_certificate      /domains/fullchain.pem; # 证书位置
+        ssl_certificate_key  /domains/key.key; # 证书位置
+        ssl_prefer_server_ciphers on; 
+        ssl_session_timeout  5m;
+        if ($server_port = 80) {
+        rewrite ^(.*)$ https://$host$1 permanent;
+        }
+        location / {
+            proxy_pass https://faceman0814.github.io; # 映射地址
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            root /home/web/;
+            index index.php;
+        }
+    }
+</code></pre><p>重启nginx即可</p>
+    </div>
+  <a href="/post/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">继续阅读</a>
+  </div>
+  <style>
+    .nested-copy-line-height {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;  
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  </style>
+        
+      
+        <h2 class="f1">
+          <a href="/tags/swagger/" class="link blue hover-black">
+            Tag: Swagger
+          </a>
+        </h2>
+        
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        十一月 8, 2024
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="/post/swagger&#43;%E5%8A%A8%E6%80%81api%E9%9B%86%E6%88%90/" class="link black dim">
+        Swagger&#43;动态API集成
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h2 id="集成swagger">集成Swagger</h2>
+<ol>
+<li>首先，在你的.NET Core项目中安装需要的包。你可以通过NuGet包管理器来安装它，也可以直接复制粘贴安装，以下是包名和版本。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">PackageReference</span> <span style="color:#000">Include</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;Swashbuckle.AspNetCore&#34;</span> <span style="color:#000">Version</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;6.4.0&#34;</span> <span style="color:#000;font-weight:bold">/&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">PackageReference</span> <span style="color:#000">Include</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;Swashbuckle.AspNetCore.Filters&#34;</span> <span style="color:#000">Version</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;8.0.2&#34;</span> <span style="color:#000;font-weight:bold">/&gt;</span>
+</span></span></code></pre></div><ol start="2">
+<li>.Net 6以后取消了StartUp，配置都在Program中，这里采用新写法。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">builder</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">WebApplication</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">CreateBuilder</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">args</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// 配置文件读取</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">basePath</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">AppContext</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">BaseDirectory</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">config</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">ConfigurationBuilder</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">SetBasePath</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">basePath</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">AddJsonFile</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;appsettings.json&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">optional</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#204a87;font-weight:bold">true</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">reloadOnChange</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#204a87;font-weight:bold">true</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">.</span><span style="color:#000">Build</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">#region</span> <span style="color:#a40000">添加</span><span style="color:#000">Swagger文档服务</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000">builder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Services</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">AddEndpointsApiExplorer</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">builder</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Services</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">AddSwaggerGen</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">options</span> <span style="color:#000;font-weight:bold">=&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">//添加响应头信息。它可以帮助开发者查看 API 响应中包含的 HTTP 头信息，从而更好地理解 API 的行为。</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">options</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">OperationFilter</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">AddResponseHeadersFilter</span><span style="color:#000;font-weight:bold">&gt;();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">//摘要中添加授权信息。它会在每个需要授权的操作旁边显示一个锁图标，提醒开发者该操作需要身份验证。</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">options</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">OperationFilter</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">AppendAuthorizeToSummaryOperationFilter</span><span style="color:#000;font-weight:bold">&gt;();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">//加安全需求信息。它会根据 API 的安全配置（如 OAuth2、JWT 等）自动生成相应的安全需求描述，帮助开发者了解哪些操作需要特定的安全配置。</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">options</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">OperationFilter</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">SecurityRequirementsOperationFilter</span><span style="color:#000;font-weight:bold">&gt;();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">//options.DocumentFilter&lt;RemoveAppSuffixFilter&gt;();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">options</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">SwaggerDoc</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;v1&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">OpenApiInfo</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">Title</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;xxxFrameWork API&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">Version</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;v1&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">Description</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;xxxFrameWork API 接口文档&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">Contact</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">OpenApiContact</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000">Name</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;xxxxx&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000">Email</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;xxxxx@qq.com&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000">Url</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">Uri</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;https://github.com/xxxxx&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">});</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">});</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">#endregion</span> <span style="color:#a40000">添加</span><span style="color:#000">Swagger文档服务</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">//开发环境才开启文档。</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">app</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Environment</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">IsDevelopment</span><span style="color:#000;font-weight:bold">())</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">app</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">UseSwagger</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">app</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">UseSwaggerUI</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">options</span> <span style="color:#000;font-weight:bold">=&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8f5902;font-style:italic">//配置Endpoint路径和文档标题</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">options</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">SwaggerEndpoint</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;/swagger/v1/swagger.json&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;v1 Docs&#34;</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8f5902;font-style:italic">//配置路由前缀，RoutePrefix是Swagger UI的根路径。</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8f5902;font-style:italic">//options.RoutePrefix = String.Empty;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8f5902;font-style:italic">//设置默认模型展开深度。默认值为3，可以设置成-1以完全展开所有模型。</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8f5902;font-style:italic">//options.DefaultModelExpandDepth(-1);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8f5902;font-style:italic">// 启用深链接功能后，用户可以直接通过URL访问特定的API操作或模型，而不需要手动导航到相应的位置。</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">options</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">EnableDeepLinking</span><span style="color:#000;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">options</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">DocExpansion</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">DocExpansion</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">None</span><span style="color:#000;font-weight:bold">);</span> <span style="color:#8f5902;font-style:italic">//swagger文档展开方式，none为折叠，list为列表</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">});</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><h2 id="动态api">动态API</h2>
+<p>Swagger文档的原理是扫描控制器来生成，动态API则是自定义类控制器，然后让接口继承，自定义控制器识别规则，实现思路：</p>
+    </div>
+  <a href="/post/swagger&#43;%E5%8A%A8%E6%80%81api%E9%9B%86%E6%88%90/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">继续阅读</a>
+  </div>
+  <style>
+    .nested-copy-line-height {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;  
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  </style>
+        
+      
     </section>
   </div>
 
@@ -142,7 +1299,7 @@
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
   <div class="flex justify-between">
   <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.faceman.cn/" >
-    &copy;  FaceMan's Blog 2024-11-9 15:42 
+    &copy;  FaceMan's Blog 2024-11-9 18:05 
   
   </a>
     <div><div class="ananke-socials"><a href="https://github.com/faceman0814" target="_blank" rel="noopener"

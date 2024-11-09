@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hugo on FaceMan&#39;s Blog</title>
+    <link>https://blog.faceman.cn/tags/hugo/</link>
+    <description>Recent content in Hugo on FaceMan&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 08 Nov 2024 17:36:52 +0800</lastBuildDate>
+    <atom:link href="https://blog.faceman.cn/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用Hugo搭建个人博客</title>
+      <link>https://blog.faceman.cn/post/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</link>
+      <pubDate>Fri, 08 Nov 2024 17:36:52 +0800</pubDate>
+      <guid>https://blog.faceman.cn/post/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</guid>
+      <description>&lt;h1 id=&#34;前言&#34;&gt;前言&lt;/h1&gt;&#xA;&lt;p&gt;先来说说写这篇博客的缘由&lt;/p&gt;&#xA;&lt;p&gt;一个程序员最好的门面是啥？除了github拥有star数高的开源项目之外当然是个人博客，无论是技术积累还是找工作，有一个属于自己的个人博客无疑是加分项，现在github上有各种开源的博客系统，优点是功能很多，但都有个问题就是大，我之前用Java的oneblog项目部署了一个博客，但由于我是买的阿里云2核2g服务器，部署上去之后由于太大系统崩了，我重启了3次才在docker重启之前关掉，就很尴尬。后面想了个办法是部署到自己的电脑的虚拟机上，然后通过frp+nginx映射出去，但问题又来了，我是笔记本没有办法保证像服务器一样一直运行着，于是，我摆烂了。后面刷B站的时候看到了数字游牧人的一个视频，了解到了hugo这个东西，于是我琢磨了一天弄了个博客出来，踩了一些坑，所以有了今天这篇文章，补充完整给新手小白们避坑。&lt;/p&gt;&#xA;&lt;h1 id=&#34;必要条件&#34;&gt;必要条件&lt;/h1&gt;&#xA;&lt;p&gt;Hugo：&lt;a href=&#34;https://www.gohugo.org/&#34;&gt;Hugo中文文档&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;Git&lt;/p&gt;&#xA;&lt;p&gt;这两个网上教程很多，这里就不详述了。&lt;/p&gt;&#xA;&lt;h1 id=&#34;tips&#34;&gt;Tips&lt;/h1&gt;&#xA;&lt;h2 id=&#34;1不翻墙访问&#34;&gt;1.不翻墙访问&lt;/h2&gt;&#xA;&lt;p&gt;前提：需要有一个自己的域名，如果想以https访问还需要配置证书。&lt;/p&gt;&#xA;&lt;p&gt;总所周知，github是需要翻墙才能访问，如果我们想不翻墙访问博客可以到github项目的Page页设置自域名（Custom domain）和nginx代理。&lt;/p&gt;&#xA;&lt;h3 id=&#34;1配置nginx代理&#34;&gt;1.配置nginx代理&lt;/h3&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;    error_log /var/log/nginx/error.log;&#xA;&#xA;    server {&#xA;        listen 80;&#xA;        listen 443 ssl;&#xA;        server_name blog.faceman.cn; # 你的域名&#xA;        ssl_protocols TLSv1.2 TLSv1.1 TLSv1; &#xA;  &#xA;        ssl_certificate      /domains/fullchain.pem; # 证书位置&#xA;        ssl_certificate_key  /domains/key.key; # 证书位置&#xA;        ssl_prefer_server_ciphers on; &#xA;        ssl_session_timeout  5m;&#xA;        if ($server_port = 80) {&#xA;        rewrite ^(.*)$ https://$host$1 permanent;&#xA;        }&#xA;        location / {&#xA;            proxy_pass https://faceman0814.github.io; # 映射地址&#xA;            proxy_set_header Host $host;&#xA;            proxy_set_header X-Real-IP $remote_addr;&#xA;            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;&#xA;            root /home/web/;&#xA;            index index.php;&#xA;        }&#xA;    }&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;重启nginx即可&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
+

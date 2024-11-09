@@ -6,7 +6,57 @@
     <description>Recent content in Tags on FaceMan&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
+    <lastBuildDate>Sat, 09 Nov 2024 15:54:48 +0800</lastBuildDate>
     <atom:link href="https://blog.faceman.cn/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker</title>
+      <link>https://blog.faceman.cn/tags/docker/</link>
+      <pubDate>Sat, 09 Nov 2024 15:54:48 +0800</pubDate>
+      <guid>https://blog.faceman.cn/tags/docker/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ubuntu</title>
+      <link>https://blog.faceman.cn/tags/ubuntu/</link>
+      <pubDate>Sat, 09 Nov 2024 15:54:48 +0800</pubDate>
+      <guid>https://blog.faceman.cn/tags/ubuntu/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>.Net</title>
+      <link>https://blog.faceman.cn/tags/.net/</link>
+      <pubDate>Sat, 09 Nov 2024 15:51:52 +0800</pubDate>
+      <guid>https://blog.faceman.cn/tags/.net/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>C#</title>
+      <link>https://blog.faceman.cn/tags/c%23/</link>
+      <pubDate>Sat, 09 Nov 2024 15:51:52 +0800</pubDate>
+      <guid>https://blog.faceman.cn/tags/c%23/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Clash</title>
+      <link>https://blog.faceman.cn/tags/clash/</link>
+      <pubDate>Sat, 09 Nov 2024 15:47:31 +0800</pubDate>
+      <guid>https://blog.faceman.cn/tags/clash/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Hugo</title>
+      <link>https://blog.faceman.cn/tags/hugo/</link>
+      <pubDate>Fri, 08 Nov 2024 17:36:52 +0800</pubDate>
+      <guid>https://blog.faceman.cn/tags/hugo/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Swagger</title>
+      <link>https://blog.faceman.cn/tags/swagger/</link>
+      <pubDate>Fri, 08 Nov 2024 17:18:05 +0800</pubDate>
+      <guid>https://blog.faceman.cn/tags/swagger/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>
 

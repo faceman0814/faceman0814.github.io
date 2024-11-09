@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Ubuntu一键安装卸载docker和dockercompose | FaceMan&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="前言
+在新建的服务器上，我们一般会用几条命令来下载安装docker和docker-compose，这里为了避免每次都去搜索安装命令，所以写成脚本，本文仅支持Ubuntu\CentOS。
+一、docker是什么？
+Docker是一个开源的容器化平台，用于构建、部署和管理应用程序。它采用了轻量级的容器技术，可以在不同的操作系统上运行，并提供了一种将应用程序及其依赖项打包到可移植的容器中的方式。
+以下是Docker的一些重要特点和概念：
+
+容器化：Docker利用Linux内核的容器功能来隔离应用程序及其依赖项。每个容器都是一个独立的运行环境，具有自己的文件系统、进程空间和资源限制。容器可以快速启动、停止和迁移，而且相互之间彼此隔离，避免了应用程序之间的冲突和依赖问题。
+镜像：Docker使用镜像来构建容器。镜像是一个只读的模板，包含了应用程序运行所需的所有文件系统、库和依赖项。通过使用Dockerfile定义构建步骤，可以创建自定义的镜像。镜像可以从Docker Hub等镜像仓库中获取，也可以通过构建自己的镜像进行定制。
+容器注册表：Docker Hub是Docker官方的公共镜像注册表，提供了大量的基础镜像供用户使用。除此之外，还有其他的公共和私有镜像注册表，用户可以在其中存储和分享自己的镜像。
+Docker引擎：Docker引擎是运行和管理容器的核心组件。它包括一个守护进程（Docker daemon）和一个命令行客户端（Docker CLI）。守护进程负责构建、运行和管理容器，而命令行客户端提供了交互式的接口来与守护进程进行通信。
+编排和管理工具：Docker提供了一系列的编排和管理工具，用于简化多个容器的部署和管理。例如，Docker Compose允许通过一个YAML文件描述多个容器的关系和配置，并通过一条命令启动、停止和扩展整个应用程序的容器集群。
+跨平台支持：Docker可以在不同的操作系统上运行，包括Linux、Windows和MacOS等。对于Linux平台，Docker直接使用操作系统的容器功能；而对于Windows和MacOS，Docker使用一个轻量级的虚拟机（称为Docker Desktop）来提供容器化环境。
+生态系统：Docker拥有庞大的开发者社区和丰富的生态系统。社区提供了大量的文档、教程和示例代码，以及交流和支持的平台。此外，还有许多第三方工具和服务，如监控工具、CI/CD集成等，与Docker集成，进一步扩展了其功能和用途。
+">
+    <meta name="generator" content="Hugo 0.138.0">
+    
+    
+    
+      <meta name="robots" content="index, follow">
+    
+    
+      <meta name="author" content = "faceman">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.62fb708857ebae80c5e3f8ebc5db80e351ff1cf6ba2d9dbb62aa1a00537c4e6e.css" >
+
+
+
+    
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="https://blog.faceman.cn/post/ubuntu%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BDdocker%E5%92%8Cdockercompose/">
+    
+
+    <meta property="og:url" content="https://blog.faceman.cn/post/ubuntu%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BDdocker%E5%92%8Cdockercompose/">
+  <meta property="og:site_name" content="FaceMan&#39;s Blog">
+  <meta property="og:title" content="Ubuntu一键安装卸载docker和dockercompose">
+  <meta property="og:description" content="前言 在新建的服务器上，我们一般会用几条命令来下载安装docker和docker-compose，这里为了避免每次都去搜索安装命令，所以写成脚本，本文仅支持Ubuntu\CentOS。
+一、docker是什么？ Docker是一个开源的容器化平台，用于构建、部署和管理应用程序。它采用了轻量级的容器技术，可以在不同的操作系统上运行，并提供了一种将应用程序及其依赖项打包到可移植的容器中的方式。
+以下是Docker的一些重要特点和概念：
+容器化：Docker利用Linux内核的容器功能来隔离应用程序及其依赖项。每个容器都是一个独立的运行环境，具有自己的文件系统、进程空间和资源限制。容器可以快速启动、停止和迁移，而且相互之间彼此隔离，避免了应用程序之间的冲突和依赖问题。 镜像：Docker使用镜像来构建容器。镜像是一个只读的模板，包含了应用程序运行所需的所有文件系统、库和依赖项。通过使用Dockerfile定义构建步骤，可以创建自定义的镜像。镜像可以从Docker Hub等镜像仓库中获取，也可以通过构建自己的镜像进行定制。 容器注册表：Docker Hub是Docker官方的公共镜像注册表，提供了大量的基础镜像供用户使用。除此之外，还有其他的公共和私有镜像注册表，用户可以在其中存储和分享自己的镜像。 Docker引擎：Docker引擎是运行和管理容器的核心组件。它包括一个守护进程（Docker daemon）和一个命令行客户端（Docker CLI）。守护进程负责构建、运行和管理容器，而命令行客户端提供了交互式的接口来与守护进程进行通信。 编排和管理工具：Docker提供了一系列的编排和管理工具，用于简化多个容器的部署和管理。例如，Docker Compose允许通过一个YAML文件描述多个容器的关系和配置，并通过一条命令启动、停止和扩展整个应用程序的容器集群。 跨平台支持：Docker可以在不同的操作系统上运行，包括Linux、Windows和MacOS等。对于Linux平台，Docker直接使用操作系统的容器功能；而对于Windows和MacOS，Docker使用一个轻量级的虚拟机（称为Docker Desktop）来提供容器化环境。 生态系统：Docker拥有庞大的开发者社区和丰富的生态系统。社区提供了大量的文档、教程和示例代码，以及交流和支持的平台。此外，还有许多第三方工具和服务，如监控工具、CI/CD集成等，与Docker集成，进一步扩展了其功能和用途。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-11-09T15:54:48+08:00">
+    <meta property="article:modified_time" content="2024-11-09T15:54:48+08:00">
+    <meta property="article:tag" content="Ubuntu">
+    <meta property="article:tag" content="Docker">
+
+  <meta itemprop="name" content="Ubuntu一键安装卸载docker和dockercompose">
+  <meta itemprop="description" content="前言 在新建的服务器上，我们一般会用几条命令来下载安装docker和docker-compose，这里为了避免每次都去搜索安装命令，所以写成脚本，本文仅支持Ubuntu\CentOS。
+一、docker是什么？ Docker是一个开源的容器化平台，用于构建、部署和管理应用程序。它采用了轻量级的容器技术，可以在不同的操作系统上运行，并提供了一种将应用程序及其依赖项打包到可移植的容器中的方式。
+以下是Docker的一些重要特点和概念：
+容器化：Docker利用Linux内核的容器功能来隔离应用程序及其依赖项。每个容器都是一个独立的运行环境，具有自己的文件系统、进程空间和资源限制。容器可以快速启动、停止和迁移，而且相互之间彼此隔离，避免了应用程序之间的冲突和依赖问题。 镜像：Docker使用镜像来构建容器。镜像是一个只读的模板，包含了应用程序运行所需的所有文件系统、库和依赖项。通过使用Dockerfile定义构建步骤，可以创建自定义的镜像。镜像可以从Docker Hub等镜像仓库中获取，也可以通过构建自己的镜像进行定制。 容器注册表：Docker Hub是Docker官方的公共镜像注册表，提供了大量的基础镜像供用户使用。除此之外，还有其他的公共和私有镜像注册表，用户可以在其中存储和分享自己的镜像。 Docker引擎：Docker引擎是运行和管理容器的核心组件。它包括一个守护进程（Docker daemon）和一个命令行客户端（Docker CLI）。守护进程负责构建、运行和管理容器，而命令行客户端提供了交互式的接口来与守护进程进行通信。 编排和管理工具：Docker提供了一系列的编排和管理工具，用于简化多个容器的部署和管理。例如，Docker Compose允许通过一个YAML文件描述多个容器的关系和配置，并通过一条命令启动、停止和扩展整个应用程序的容器集群。 跨平台支持：Docker可以在不同的操作系统上运行，包括Linux、Windows和MacOS等。对于Linux平台，Docker直接使用操作系统的容器功能；而对于Windows和MacOS，Docker使用一个轻量级的虚拟机（称为Docker Desktop）来提供容器化环境。 生态系统：Docker拥有庞大的开发者社区和丰富的生态系统。社区提供了大量的文档、教程和示例代码，以及交流和支持的平台。此外，还有许多第三方工具和服务，如监控工具、CI/CD集成等，与Docker集成，进一步扩展了其功能和用途。">
+  <meta itemprop="datePublished" content="2024-11-09T15:54:48+08:00">
+  <meta itemprop="dateModified" content="2024-11-09T15:54:48+08:00">
+  <meta itemprop="wordCount" content="677">
+  <meta itemprop="keywords" content="Ubuntu,Docker">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Ubuntu一键安装卸载docker和dockercompose">
+  <meta name="twitter:description" content="前言 在新建的服务器上，我们一般会用几条命令来下载安装docker和docker-compose，这里为了避免每次都去搜索安装命令，所以写成脚本，本文仅支持Ubuntu\CentOS。
+一、docker是什么？ Docker是一个开源的容器化平台，用于构建、部署和管理应用程序。它采用了轻量级的容器技术，可以在不同的操作系统上运行，并提供了一种将应用程序及其依赖项打包到可移植的容器中的方式。
+以下是Docker的一些重要特点和概念：
+容器化：Docker利用Linux内核的容器功能来隔离应用程序及其依赖项。每个容器都是一个独立的运行环境，具有自己的文件系统、进程空间和资源限制。容器可以快速启动、停止和迁移，而且相互之间彼此隔离，避免了应用程序之间的冲突和依赖问题。 镜像：Docker使用镜像来构建容器。镜像是一个只读的模板，包含了应用程序运行所需的所有文件系统、库和依赖项。通过使用Dockerfile定义构建步骤，可以创建自定义的镜像。镜像可以从Docker Hub等镜像仓库中获取，也可以通过构建自己的镜像进行定制。 容器注册表：Docker Hub是Docker官方的公共镜像注册表，提供了大量的基础镜像供用户使用。除此之外，还有其他的公共和私有镜像注册表，用户可以在其中存储和分享自己的镜像。 Docker引擎：Docker引擎是运行和管理容器的核心组件。它包括一个守护进程（Docker daemon）和一个命令行客户端（Docker CLI）。守护进程负责构建、运行和管理容器，而命令行客户端提供了交互式的接口来与守护进程进行通信。 编排和管理工具：Docker提供了一系列的编排和管理工具，用于简化多个容器的部署和管理。例如，Docker Compose允许通过一个YAML文件描述多个容器的关系和配置，并通过一条命令启动、停止和扩展整个应用程序的容器集群。 跨平台支持：Docker可以在不同的操作系统上运行，包括Linux、Windows和MacOS等。对于Linux平台，Docker直接使用操作系统的容器功能；而对于Windows和MacOS，Docker使用一个轻量级的虚拟机（称为Docker Desktop）来提供容器化环境。 生态系统：Docker拥有庞大的开发者社区和丰富的生态系统。社区提供了大量的文档、教程和示例代码，以及交流和支持的平台。此外，还有许多第三方工具和服务，如监控工具、CI/CD集成等，与Docker集成，进一步扩展了其功能和用途。">
+
+      
+    
+	 
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-YZLV0NMXNB"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+
+   gtag('config', 'G-YZLV0NMXNB');
+ </script>
+ 
+ <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  </head><body class="ma0 avenir bg-near-white production">
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('https://blog.faceman.cn/images/docker.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        FaceMan&#39;s Blog
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/contact/" title="与我联系 页">
+              与我联系
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/post/" title="博客 页">
+              博客
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"><a href="https://github.com/faceman0814" target="_blank" rel="noopener"
+        class="ananke-social-link link-transition github link dib z-999 pt3 pt0-l mr1"
+        title="follow on GitHub - Opens in a new window"
+        aria-label="follow on GitHub - Opens in a new window">
+      <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+            
+          </span></a></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Ubuntu一键安装卸载docker和dockercompose</div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        博客
+      </aside><div id="sharing" class="mt3 ananke-socials"><a href="mailto:?&amp;body=https%3A%2F%2Fblog.faceman.cn%2Fpost%2Fubuntu%25E4%25B8%2580%25E9%2594%25AE%25E5%25AE%2589%25E8%25A3%2585%25E5%258D%25B8%25E8%25BD%25BDdocker%25E5%2592%258Cdockercompose%2F&amp;subject=Ubuntu%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BDdocker%E5%92%8Cdockercompose"
+        class="ananke-social-link email no-underline"
+        title="Share on Email" aria-label="Share on Email"
+        target="_blank" rel="nofollow noopener noreferrer">
+        <span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M64 112c-8.8 0-16 7.2-16 16l0 22.1L220.5 291.7c20.7 17 50.4 17 71.1 0L464 150.1l0-22.1c0-8.8-7.2-16-16-16L64 112zM48 212.2L48 384c0 8.8 7.2 16 16 16l384 0c8.8 0 16-7.2 16-16l0-171.8L322 328.8c-38.4 31.5-93.7 31.5-132 0L48 212.2zM0 128C0 92.7 28.7 64 64 64l384 0c35.3 0 64 28.7 64 64l0 256c0 35.3-28.7 64-64 64L64 448c-35.3 0-64-28.7-64-64L0 128z"/></svg>
+                
+              </span></a></div>
+<h1 class="f1 athelas mt3 mb1">Ubuntu一键安装卸载docker和dockercompose</h1>
+      
+      <p class="tracked">
+         <strong>faceman</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2024-11-09T15:54:48+08:00">十一月 9, 2024</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="前言">前言</h1>
+<p>在新建的服务器上，我们一般会用几条命令来下载安装docker和docker-compose，这里为了避免每次都去搜索安装命令，所以写成脚本，本文仅支持Ubuntu\CentOS。</p>
+<h1 id="一docker是什么">一、docker是什么？</h1>
+<p>Docker是一个开源的容器化平台，用于构建、部署和管理应用程序。它采用了轻量级的容器技术，可以在不同的操作系统上运行，并提供了一种将应用程序及其依赖项打包到可移植的容器中的方式。</p>
+<p>以下是Docker的一些重要特点和概念：</p>
+<ul>
+<li>容器化：Docker利用Linux内核的容器功能来隔离应用程序及其依赖项。每个容器都是一个独立的运行环境，具有自己的文件系统、进程空间和资源限制。容器可以快速启动、停止和迁移，而且相互之间彼此隔离，避免了应用程序之间的冲突和依赖问题。</li>
+<li>镜像：Docker使用镜像来构建容器。镜像是一个只读的模板，包含了应用程序运行所需的所有文件系统、库和依赖项。通过使用Dockerfile定义构建步骤，可以创建自定义的镜像。镜像可以从Docker Hub等镜像仓库中获取，也可以通过构建自己的镜像进行定制。</li>
+<li>容器注册表：Docker Hub是Docker官方的公共镜像注册表，提供了大量的基础镜像供用户使用。除此之外，还有其他的公共和私有镜像注册表，用户可以在其中存储和分享自己的镜像。</li>
+<li>Docker引擎：Docker引擎是运行和管理容器的核心组件。它包括一个守护进程（Docker daemon）和一个命令行客户端（Docker CLI）。守护进程负责构建、运行和管理容器，而命令行客户端提供了交互式的接口来与守护进程进行通信。</li>
+<li>编排和管理工具：Docker提供了一系列的编排和管理工具，用于简化多个容器的部署和管理。例如，Docker Compose允许通过一个YAML文件描述多个容器的关系和配置，并通过一条命令启动、停止和扩展整个应用程序的容器集群。</li>
+<li>跨平台支持：Docker可以在不同的操作系统上运行，包括Linux、Windows和MacOS等。对于Linux平台，Docker直接使用操作系统的容器功能；而对于Windows和MacOS，Docker使用一个轻量级的虚拟机（称为Docker Desktop）来提供容器化环境。</li>
+<li>生态系统：Docker拥有庞大的开发者社区和丰富的生态系统。社区提供了大量的文档、教程和示例代码，以及交流和支持的平台。此外，还有许多第三方工具和服务，如监控工具、CI/CD集成等，与Docker集成，进一步扩展了其功能和用途。</li>
+</ul>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>总结起来，Docker是一个强大的容器化平台，通过将应用程序及其依赖项打包到独立的容器中，提供了更加灵活、可移植和可扩展的应用部署和管理方式。它已经成为现代软件开发和运维的重要工具之一。</p>
+<h1 id="二docker-compose是什么">二、docker compose是什么？</h1>
+<p>Docker Compose是一个用于定义和管理多个Docker容器的工具。它允许您使用简单的YAML文件描述应用程序中的服务、网络、存储卷等配置，并通过一个命令行界面来启动、停止和管理这些容器。</p>
+<p>以下是Docker Compose的一些重要特点：</p>
+<ul>
+<li>声明式语法：Docker Compose使用声明式的YAML文件来描述应用程序的架构和配置。您可以在文件中定义每个服务的镜像、端口映射、环境变量、依赖关系等。这种声明式语法使得定义和管理复杂的容器集群变得简单且可维护。</li>
+<li>多容器应用管理：Docker Compose专注于管理多个相关的容器，以构建完整的应用程序堆栈。通过一次性的命令，您可以启动、停止、重启和销毁整个容器集群，而不需要手动处理每个容器。</li>
+<li>容器间连接和通信：使用Docker Compose，您可以轻松地为容器之间创建连接和网络。您可以定义容器之间的连接方式，使它们能够相互通信和访问。这在构建微服务架构或多层应用程序时非常有用。</li>
+<li>可伸缩性和负载均衡：Docker Compose允许您设置容器的伸缩策略，以根据应用程序的需要自动扩展或收缩容器。它还支持与负载均衡器集成，可以将流量分发到多个实例上，提高应用程序的性能和可靠性。</li>
+<li>环境隔离和测试：使用Docker Compose，您可以轻松地在开发和测试环境中复制生产环境的配置。您可以创建一个本地的容器化开发环境，确保应用程序在不同环境下的一致性，并减少由于环境差异引起的问题。</li>
+<li>可插拔的架构：Docker Compose是可插拔的，可以与其他工具和服务集成，以满足特定需求。例如，您可以与监控和日志记录工具集成，以监视和管理容器的性能和状态。</li>
+</ul>
+<p>Compose V1语法： Compose V1语法是较早版本的Compose语法，其文件名通常为docker-compose.yml。以下是一些Compose V1语法的特点：</p>
+<ul>
+<li>services：使用services关键字定义要运行的服务。每个服务都有一个名称和一组配置选项。</li>
+<li>image：指定要使用的镜像名称。</li>
+<li>ports：定义要映射到主机上的容器端口。</li>
+<li>volumes：指定要挂载到容器中的卷。</li>
+<li>links：定义与其他服务之间的连接。</li>
+<li>environment：设置容器中的环境变量。</li>
+<li>depends_on：定义服务之间的依赖关系。</li>
+</ul>
+<p>以下是一个Compose V1语法的示例：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version: <span style="color:#4e9a06">&#39;2&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>services:
+</span></span><span style="display:flex;"><span>  web:
+</span></span><span style="display:flex;"><span>    image: nginx:latest
+</span></span><span style="display:flex;"><span>    ports:
+</span></span><span style="display:flex;"><span>      - 8080:80
+</span></span><span style="display:flex;"><span>    volumes:
+</span></span><span style="display:flex;"><span>      - ./html:/usr/share/nginx/html
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  db:
+</span></span><span style="display:flex;"><span>    image: mysql:latest
+</span></span><span style="display:flex;"><span>    environment:
+</span></span><span style="display:flex;"><span>      - <span style="color:#000">MYSQL_ROOT_PASSWORD</span><span style="color:#ce5c00;font-weight:bold">=</span>secret
+</span></span></code></pre></div><p>Compose V2语法： Compose V2语法是较新版本的Compose语法，其文件名通常为docker-compose.yaml或docker-compose.yml。以下是一些Compose V2语法的特点：</p>
+<p>services：与Compose V1相同，使用services关键字定义要运行的服务。
+image、ports、volumes、environment等选项与Compose V1相同。
+引入了新的配置选项，如networks、configs和secrets，用于更灵活地定义网络、配置文件和机密信息。
+以下是一个Compose V2语法的示例：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version: <span style="color:#4e9a06">&#39;3&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>services:
+</span></span><span style="display:flex;"><span>  web:
+</span></span><span style="display:flex;"><span>    image: nginx:latest
+</span></span><span style="display:flex;"><span>    ports:
+</span></span><span style="display:flex;"><span>      - 8080:80
+</span></span><span style="display:flex;"><span>    volumes:
+</span></span><span style="display:flex;"><span>      - ./html:/usr/share/nginx/html
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  db:
+</span></span><span style="display:flex;"><span>    image: mysql:latest
+</span></span><span style="display:flex;"><span>    environment:
+</span></span><span style="display:flex;"><span>      - <span style="color:#000">MYSQL_ROOT_PASSWORD</span><span style="color:#ce5c00;font-weight:bold">=</span>secret
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>networks:
+</span></span><span style="display:flex;"><span>  app-net:
+</span></span><span style="display:flex;"><span>    driver: bridge
+</span></span></code></pre></div><p>除了以上介绍的不同之外，Compose V2语法还带来了一些其他改进和功能增强，例如支持多个文件的扩展性，可选项的验证和默认值等。</p>
+<p>需要注意的是，在使用Docker Compose时，要根据您所使用的Compose版本选择正确的语法，并确保在编写Compose文件时遵循该版本的语法规范。</p>
+<h1 id="三安装步骤">三、安装步骤</h1>
+<h2 id="1ubuntu安装脚本">1.Ubuntu安装脚本</h2>
+<p>代码如下（示例）：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 卸载当前版本
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000">echo</span> <span style="color:#4e9a06">&#34;卸载当前版本.....&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">sudo</span> <span style="color:#000">apt</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">get</span> <span style="color:#000">remove</span> <span style="color:#000">docker</span> <span style="color:#000">docker</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">engine</span> <span style="color:#000">docker</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">io</span> <span style="color:#000">containerd</span> <span style="color:#000">runc</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">y</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 设置apt源
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000">echo</span> <span style="color:#4e9a06">&#34;设置apt源.....&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">sudo</span> <span style="color:#000">apt</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">get</span> <span style="color:#000">update</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 安装基础依赖
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000">echo</span> <span style="color:#4e9a06">&#34;安装基础依赖.....&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">sudo</span> <span style="color:#000">apt</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">get</span> <span style="color:#000">install</span> <span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">y</span> \
+</span></span><span style="display:flex;"><span>    <span style="color:#000">ca</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">certificates</span> \
+</span></span><span style="display:flex;"><span>    <span style="color:#000">curl</span> \
+</span></span><span style="display:flex;"><span>    <span style="color:#000">gnupg</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 启用docker官方的源
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000">echo</span> <span style="color:#4e9a06">&#34;启用docker官方的源.....&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">echo</span> \
+</span></span><span style="display:flex;"><span>  <span style="color:#4e9a06">&#34;deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">  $(. /etc/os-release &amp;&amp; echo $VERSION_CODENAME) stable&#34;</span> <span style="color:#ce5c00;font-weight:bold">|</span> \
+</span></span><span style="display:flex;"><span>  <span style="color:#000">sudo</span> <span style="color:#000">tee</span> <span style="color:#ce5c00;font-weight:bold">/</span><span style="color:#000">etc</span><span style="color:#ce5c00;font-weight:bold">/</span><span style="color:#000">apt</span><span style="color:#ce5c00;font-weight:bold">/</span><span style="color:#000">sources</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">list</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">d</span><span style="color:#ce5c00;font-weight:bold">/</span><span style="color:#000">docker</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">list</span> <span style="color:#ce5c00;font-weight:bold">&gt;</span> <span style="color:#ce5c00;font-weight:bold">/</span><span style="color:#000">dev</span><span style="color:#ce5c00;font-weight:bold">/</span><span style="color:#000">null</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 添加docker官方的GPG Key
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000">echo</span> <span style="color:#4e9a06">&#34;添加docker官方的GPG Key.....&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">sudo</span> <span style="color:#000">mkdir</span> <span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">m</span> <span style="color:#0000cf;font-weight:bold">0755</span> <span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">p</span> <span style="color:#ce5c00;font-weight:bold">/</span><span style="color:#000">etc</span><span style="color:#ce5c00;font-weight:bold">/</span><span style="color:#000">apt</span><span style="color:#ce5c00;font-weight:bold">/</span><span style="color:#000">keyrings</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">curl</span> <span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">fsSL</span> <span style="color:#f57900">https</span><span style="color:#000;font-weight:bold">:</span><span style="color:#8f5902;font-style:italic">//download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 更新软件源
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">## 更新密钥权限，可选 sudo chmod a+r /etc/apt/keyrings/docker.gpg
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000">echo</span> <span style="color:#4e9a06">&#34;更新软件源.....&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">sudo</span> <span style="color:#000">apt</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">get</span> <span style="color:#000">update</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000">echo</span> <span style="color:#4e9a06">&#34;安装最新版本或特定版本(Y（最新）/N（特定）)?&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">read</span> <span style="color:#000">answer</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">[</span> <span style="color:#4e9a06">&#34;$answer&#34;</span> <span style="color:#ce5c00;font-weight:bold">==</span> <span style="color:#4e9a06">&#34;Y&#34;</span> <span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">o</span> <span style="color:#4e9a06">&#34;$answer&#34;</span> <span style="color:#ce5c00;font-weight:bold">==</span> <span style="color:#4e9a06">&#34;y&#34;</span> <span style="color:#000;font-weight:bold">];</span> <span style="color:#000">then</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">echo</span> <span style="color:#4e9a06">&#34;安装最新版本&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic"># 安装最新版本
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#000">sudo</span> <span style="color:#000">apt</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">get</span> <span style="color:#000">install</span> <span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">y</span> <span style="color:#000">docker</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">ce</span> <span style="color:#000">docker</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">ce</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">cli</span> <span style="color:#000">containerd</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">io</span> <span style="color:#000">docker</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">buildx</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">plugin</span> <span style="color:#000">docker</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">compose</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">plugin</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">elif</span> <span style="color:#000;font-weight:bold">[</span> <span style="color:#4e9a06">&#34;$answer&#34;</span> <span style="color:#ce5c00;font-weight:bold">==</span> <span style="color:#4e9a06">&#34;N&#34;</span> <span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">o</span> <span style="color:#4e9a06">&#34;$answer&#34;</span> <span style="color:#ce5c00;font-weight:bold">==</span> <span style="color:#4e9a06">&#34;n&#34;</span> <span style="color:#000;font-weight:bold">];</span> <span style="color:#000">then</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">echo</span> <span style="color:#4e9a06">&#34;查询版本&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">## 查询版本
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#000">apt</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">cache</span> <span style="color:#000">madison</span> <span style="color:#000">docker</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">ce</span> <span style="color:#ce5c00;font-weight:bold">|</span> <span style="color:#000">awk</span> <span style="color:#a40000">&#39;</span><span style="color:#000;font-weight:bold">{</span> <span style="color:#000">print</span> <span style="color:#a40000">$</span><span style="color:#0000cf;font-weight:bold">3</span> <span style="color:#000;font-weight:bold">}</span><span style="color:#a40000">&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">echo</span> <span style="color:#4e9a06">&#34;请指定版本：</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a40000">例如</span><span style="color:#0000cf;font-weight:bold">5</span><span style="color:#ce5c00;font-weight:bold">:</span><span style="color:#0000cf;font-weight:bold">20.10.23</span><span style="color:#ce5c00;font-weight:bold">~</span><span style="color:#0000cf;font-weight:bold">3</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#ce5c00;font-weight:bold">~</span><span style="color:#000">ubuntu</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">bionic</span><span style="color:#a40000">、</span><span style="color:#0000cf;font-weight:bold">5</span><span style="color:#ce5c00;font-weight:bold">:</span><span style="color:#0000cf;font-weight:bold">20.10.23</span><span style="color:#ce5c00;font-weight:bold">~</span><span style="color:#0000cf;font-weight:bold">3</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#ce5c00;font-weight:bold">~</span><span style="color:#000">ubuntu</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">focal</span><span style="color:#a40000">、</span><span style="color:#0000cf;font-weight:bold">5</span><span style="color:#ce5c00;font-weight:bold">:</span><span style="color:#0000cf;font-weight:bold">20.10.23</span><span style="color:#ce5c00;font-weight:bold">~</span><span style="color:#0000cf;font-weight:bold">3</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#ce5c00;font-weight:bold">~</span><span style="color:#000">ubuntu</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">jammy</span><span style="color:#4e9a06">&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">read</span> <span style="color:#000">VERSION_STRING</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic"># 安装特定版本
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic"># ## 安装特定版本 ubuntu 18.04
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#8f5902;font-style:italic"># VERSION_STRING=5:20.10.23~3-0~ubuntu-bionic
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic"># ## 安装特定版本 ubuntu 20.04
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#8f5902;font-style:italic"># VERSION_STRING=5:20.10.23~3-0~ubuntu-focal
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic"># ## 安装特定版本 ubuntu 22.04
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#8f5902;font-style:italic"># VERSION_STRING=5:20.10.23~3-0~ubuntu-jammy
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">## 安装
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#000">sudo</span> <span style="color:#000">apt</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">get</span> <span style="color:#000">install</span> <span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">y</span> <span style="color:#000">docker</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">ce</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#a40000">$</span><span style="color:#000">VERSION_STRING</span> <span style="color:#000">docker</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">ce</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">cli</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#a40000">$</span><span style="color:#000">VERSION_STRING</span> <span style="color:#000">containerd</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">io</span> <span style="color:#000">docker</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">compose</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">plugin</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">else</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">echo</span> <span style="color:#4e9a06">&#34;无效的输入&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">fi</span>
+</span></span></code></pre></div><h2 id="2生成脚本">2.生成脚本</h2>
+<p>将上述命令保存为一个脚本文件（例如script.sh），并添加执行权限。您可以在终端中使用以下命令来执行该脚本：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod +x script.sh
+</span></span><span style="display:flex;"><span>./script.sh
+</span></span></code></pre></div><h2 id="3启动和验证">3.启动和验证</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 查看docker</span>
+</span></span><span style="display:flex;"><span>docker -v
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 老版本docker compose命令为</span>
+</span></span><span style="display:flex;"><span>docker-compose -v
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 新版本docker compose命令为</span>
+</span></span><span style="display:flex;"><span>docker compose version
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 查看docker服务是否启动</span>
+</span></span><span style="display:flex;"><span>$ systemctl status docker
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 若未启动，则启动docker服务</span>
+</span></span><span style="display:flex;"><span>$ sudo systemctl start docker
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 验证hello world</span>
+</span></span><span style="display:flex;"><span>$ sudo docker run hello-world
+</span></span></code></pre></div><h1 id="四卸载步骤">四、卸载步骤</h1>
+<h2 id="1ubuntu卸载脚本">1.Ubuntu卸载脚本</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 卸载旧版本的Docker</span>
+</span></span><span style="display:flex;"><span>yum remove docker <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>                  docker-client <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>                  docker-client-latest <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>                  docker-common <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>                  docker-latest <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>                  docker-latest-logrotate <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>                  docker-logrotate <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>                  docker-selinux <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>                  docker-engine-selinux <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>                  docker-engine <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>                  docker-ce
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rm -rf /etc/docker
+</span></span><span style="display:flex;"><span>rm -rf /run/docker
+</span></span><span style="display:flex;"><span>rm -rf /var/lib/dockershim
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">#删除docker的镜像文件</span>
+</span></span><span style="display:flex;"><span>rm -rf /var/lib/docker
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ps -ef<span style="color:#000;font-weight:bold">|</span>grep docker<span style="color:#000;font-weight:bold">|</span>grep -v grep<span style="color:#000;font-weight:bold">|</span>xargs <span style="color:#204a87">kill</span> -s <span style="color:#0000cf;font-weight:bold">9</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">#卸载docker相关包</span>
+</span></span><span style="display:flex;"><span>yum remove docker-*
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>yum remove docker-ce-cli-*
+</span></span><span style="display:flex;"><span>yum remove docker-scan-plugin*
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 删除旧版docker-compose</span>
+</span></span><span style="display:flex;"><span>rm -rf /usr/local/bin/docker-compose
+</span></span><span style="display:flex;"><span>rm -rf /usr/bin/docker-compose
+</span></span></code></pre></div><h2 id="2保存文件后设置执行权限">2.保存文件后设置执行权限</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod +777  docker-uninstall.sh
+</span></span></code></pre></div><h2 id="3运行文件">3.运行文件</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sh  docker-uninstall.sh
+</span></span></code></pre></div><h2 id="4验证是否删除成功">4.验证是否删除成功</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker -v
+</span></span><span style="display:flex;"><span>docker-compose -v
+</span></span></code></pre></div><h1 id="centos">CentOS</h1>
+<h2 id="安装脚本">安装脚本</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic">#!/bin/bash</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic"># 卸载当前版本</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;卸载当前版本.....&#34;</span>
+</span></span><span style="display:flex;"><span>	sudo yum remove docker-ce docker-ce-cli containerd.io
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic"># 设置yum源</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;设置yum源.....&#34;</span>
+</span></span><span style="display:flex;"><span>	sudo yum install -y yum-utils
+</span></span><span style="display:flex;"><span>	sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic"># 安装基础依赖</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;安装基础依赖.....&#34;</span>
+</span></span><span style="display:flex;"><span>	sudo yum install -y <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	    yum-plugin-copr <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	    device-mapper-persistent-data <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	    lvm2 <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	    git <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	    bash-completion <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	    bash-completion-extras <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	    iptables <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	    policycoreutils-python <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	    selinux-policy-base <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	    selinux-policy-targeted <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	    audit <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	    libseccomp-devel <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	    python3-pip <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	    python3-setuptools <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	    python3-wheel
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic"># 更新软件源</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;更新软件源.....&#34;</span>
+</span></span><span style="display:flex;"><span>	sudo yum update -y
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;安装最新版本或特定版本(Y（最新）/N（特定）)?&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87">read</span> answer
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">if</span> <span style="color:#ce5c00;font-weight:bold">[</span> <span style="color:#4e9a06">&#34;</span><span style="color:#000">$answer</span><span style="color:#4e9a06">&#34;</span> <span style="color:#ce5c00;font-weight:bold">==</span> <span style="color:#4e9a06">&#34;Y&#34;</span> -o <span style="color:#4e9a06">&#34;</span><span style="color:#000">$answer</span><span style="color:#4e9a06">&#34;</span> <span style="color:#ce5c00;font-weight:bold">==</span> <span style="color:#4e9a06">&#34;y&#34;</span> <span style="color:#ce5c00;font-weight:bold">]</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#204a87;font-weight:bold">then</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;安装最新版本&#34;</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#8f5902;font-style:italic"># 安装最新版本</span>
+</span></span><span style="display:flex;"><span>	    sudo yum install -y docker-ce docker-ce-cli containerd.io
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">elif</span> <span style="color:#ce5c00;font-weight:bold">[</span> <span style="color:#4e9a06">&#34;</span><span style="color:#000">$answer</span><span style="color:#4e9a06">&#34;</span> <span style="color:#ce5c00;font-weight:bold">==</span> <span style="color:#4e9a06">&#34;N&#34;</span> -o <span style="color:#4e9a06">&#34;</span><span style="color:#000">$answer</span><span style="color:#4e9a06">&#34;</span> <span style="color:#ce5c00;font-weight:bold">==</span> <span style="color:#4e9a06">&#34;n&#34;</span> <span style="color:#ce5c00;font-weight:bold">]</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#204a87;font-weight:bold">then</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;查询版本&#34;</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#8f5902;font-style:italic">## 查询版本</span>
+</span></span><span style="display:flex;"><span>	    yum list docker-ce --showduplicates <span style="color:#000;font-weight:bold">|</span> grep -i <span style="color:#4e9a06">&#34;docker-ce&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;请指定版本：
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">	    例如3:20.10.11-3.el7、3:20.10.11-3.el8&#34;</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#204a87">read</span> VERSION_STRING
+</span></span><span style="display:flex;"><span>	    <span style="color:#8f5902;font-style:italic"># 安装特定版本</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#8f5902;font-style:italic">## 安装特定版本 centos 7</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#8f5902;font-style:italic"># VERSION_STRING=3:20.10.11-3.el7</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#8f5902;font-style:italic">## 安装特定版本 centos 8</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#8f5902;font-style:italic"># VERSION_STRING=3:20.10.11-3.el8</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#8f5902;font-style:italic">## 安装</span>
+</span></span><span style="display:flex;"><span>	    sudo yum install -y docker-ce-<span style="color:#000">$VERSION_STRING</span> docker-ce-cli-<span style="color:#000">$VERSION_STRING</span> containerd.io
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">else</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;无效的输入&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">fi</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic"># 启动Docker服务</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;启动Docker服务.....&#34;</span>
+</span></span><span style="display:flex;"><span>	sudo systemctl start docker
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic"># 设置Docker开机自启</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;设置Docker开机自启.....&#34;</span>
+</span></span><span style="display:flex;"><span>	sudo systemctl <span style="color:#204a87">enable</span> docker
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic"># 配置Docker加速器</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;配置Docker加速器.....&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#39;{
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">	  &#34;registry-mirrors&#34;: [&#34;https://your_mirror_url&#34;]
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">	}&#39;</span> <span style="color:#000;font-weight:bold">|</span> sudo tee /etc/docker/daemon.json
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic"># 重启Docker服务</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;重启Docker服务.....&#34;</span>
+</span></span><span style="display:flex;"><span>	sudo systemctl daemon-reload
+</span></span><span style="display:flex;"><span>	sudo systemctl restart docker
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;Docker安装完成&#34;</span>
+</span></span></code></pre></div><h2 id="卸载脚本">卸载脚本</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">#!/bin/bash</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 停止和删除所有Docker容器</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;停止和删除所有Docker容器.....&#34;</span>
+</span></span><span style="display:flex;"><span>sudo docker stop <span style="color:#204a87;font-weight:bold">$(</span>sudo docker ps -aq<span style="color:#204a87;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>sudo docker rm <span style="color:#204a87;font-weight:bold">$(</span>sudo docker ps -aq<span style="color:#204a87;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 卸载Docker服务</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;卸载Docker服务.....&#34;</span>
+</span></span><span style="display:flex;"><span>sudo yum remove -y docker-ce docker-ce-cli containerd.io
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 删除Docker相关文件和目录</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;删除Docker相关文件和目录.....&#34;</span>
+</span></span><span style="display:flex;"><span>sudo rm -rf /var/lib/docker
+</span></span><span style="display:flex;"><span>sudo rm -rf /etc/docker
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 删除Docker用户组</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;删除Docker用户组.....&#34;</span>
+</span></span><span style="display:flex;"><span>sudo groupdel docker
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 删除Docker存储库</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;删除Docker存储库.....&#34;</span>
+</span></span><span style="display:flex;"><span>sudo rm -f /etc/yum.repos.d/docker-ce.repo
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;Docker已成功卸载&#34;</span>
+</span></span></code></pre></div><h1 id="总结">总结</h1>
+<p>我们可以通过用户输入指令来安装不同版本的docker和docker compose，也可以一键卸载，使用脚本省心又快捷。</p><ul class="pa0">
+  
+   <li class="list di">
+     <a href="/tags/ubuntu/" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Ubuntu</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/docker/" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Docker</a>
+   </li>
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+        <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "FaceMan" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">相关內容</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/post/ubuntu%E5%AE%89%E8%A3%85clash/">Ubuntu安装Clash</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.faceman.cn/" >
+    &copy;  FaceMan's Blog 2024-11-9 18:05 
+  
+  </a>
+    <div><div class="ananke-socials"><a href="https://github.com/faceman0814" target="_blank" rel="noopener"
+        class="ananke-social-link link-transition github link dib z-999 pt3 pt0-l mr1"
+        title="follow on GitHub - Opens in a new window"
+        aria-label="follow on GitHub - Opens in a new window">
+      <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+            
+          </span></a></div>
+</div>
+    <div class="footer-container">
+      本站总访问量<span id="busuanzi_value_site_uv"></span>次
+      &nbsp;
+      <span id="sitetime">载入运行时间...</span>
+    </div>
+  </div>
+  </div>
+  
+</footer>
+<style>
+  .footer-container {
+    color: white; 
+    display: flex;
+    justify-content: center;  
+    align-items: center;      
+  }
+</style>
+
+<script>
+  function siteTime() {
+      var seconds = 1000;
+      var minutes = seconds * 60;
+      var hours = minutes * 60;
+      var days = hours * 24;
+      var years = days * 365;
+      var today = new Date();
+      var startYear = 2024;
+      var startMonth = 11;
+      var startDate = 8;
+      var startHour = 14;
+      var startMinute = 15;
+      var startSecond = 11;
+      var todayYear = today.getFullYear();
+      var todayMonth = today.getMonth() + 1;
+      var todayDate = today.getDate();
+      var todayHour = today.getHours();
+      var todayMinute = today.getMinutes();
+      var todaySecond = today.getSeconds();
+      var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+      var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+      var diff = t2 - t1;
+      var diffYears = Math.floor(diff / years);
+      var diffDays = Math.floor((diff / days) - diffYears * 365);
+      var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+      var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+          minutes);
+      var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+          diffMinutes * minutes) / seconds);
+      if (startYear == todayYear) {
+          
+          document.getElementById("sitetime").innerHTML = "博客已运行 " + diffDays + " 天 " + diffHours +
+              " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+      } else {
+          
+          document.getElementById("sitetime").innerHTML = "博客已运行 " + diffYears + " 年 " + diffDays +
+              " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+      }
+  }
+  setInterval(siteTime, 1000);
+
+</script>
+  </body>
+</html>
+

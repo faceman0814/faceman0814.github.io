@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docker on FaceMan&#39;s Blog</title>
+    <link>https://blog.faceman.cn/tags/docker/</link>
+    <description>Recent content in Docker on FaceMan&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sat, 09 Nov 2024 15:54:48 +0800</lastBuildDate>
+    <atom:link href="https://blog.faceman.cn/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ubuntu一键安装卸载docker和dockercompose</title>
+      <link>https://blog.faceman.cn/post/ubuntu%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BDdocker%E5%92%8Cdockercompose/</link>
+      <pubDate>Sat, 09 Nov 2024 15:54:48 +0800</pubDate>
+      <guid>https://blog.faceman.cn/post/ubuntu%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BDdocker%E5%92%8Cdockercompose/</guid>
+      <description>&lt;h1 id=&#34;前言&#34;&gt;前言&lt;/h1&gt;&#xA;&lt;p&gt;在新建的服务器上，我们一般会用几条命令来下载安装docker和docker-compose，这里为了避免每次都去搜索安装命令，所以写成脚本，本文仅支持Ubuntu\CentOS。&lt;/p&gt;&#xA;&lt;h1 id=&#34;一docker是什么&#34;&gt;一、docker是什么？&lt;/h1&gt;&#xA;&lt;p&gt;Docker是一个开源的容器化平台，用于构建、部署和管理应用程序。它采用了轻量级的容器技术，可以在不同的操作系统上运行，并提供了一种将应用程序及其依赖项打包到可移植的容器中的方式。&lt;/p&gt;&#xA;&lt;p&gt;以下是Docker的一些重要特点和概念：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;容器化：Docker利用Linux内核的容器功能来隔离应用程序及其依赖项。每个容器都是一个独立的运行环境，具有自己的文件系统、进程空间和资源限制。容器可以快速启动、停止和迁移，而且相互之间彼此隔离，避免了应用程序之间的冲突和依赖问题。&lt;/li&gt;&#xA;&lt;li&gt;镜像：Docker使用镜像来构建容器。镜像是一个只读的模板，包含了应用程序运行所需的所有文件系统、库和依赖项。通过使用Dockerfile定义构建步骤，可以创建自定义的镜像。镜像可以从Docker Hub等镜像仓库中获取，也可以通过构建自己的镜像进行定制。&lt;/li&gt;&#xA;&lt;li&gt;容器注册表：Docker Hub是Docker官方的公共镜像注册表，提供了大量的基础镜像供用户使用。除此之外，还有其他的公共和私有镜像注册表，用户可以在其中存储和分享自己的镜像。&lt;/li&gt;&#xA;&lt;li&gt;Docker引擎：Docker引擎是运行和管理容器的核心组件。它包括一个守护进程（Docker daemon）和一个命令行客户端（Docker CLI）。守护进程负责构建、运行和管理容器，而命令行客户端提供了交互式的接口来与守护进程进行通信。&lt;/li&gt;&#xA;&lt;li&gt;编排和管理工具：Docker提供了一系列的编排和管理工具，用于简化多个容器的部署和管理。例如，Docker Compose允许通过一个YAML文件描述多个容器的关系和配置，并通过一条命令启动、停止和扩展整个应用程序的容器集群。&lt;/li&gt;&#xA;&lt;li&gt;跨平台支持：Docker可以在不同的操作系统上运行，包括Linux、Windows和MacOS等。对于Linux平台，Docker直接使用操作系统的容器功能；而对于Windows和MacOS，Docker使用一个轻量级的虚拟机（称为Docker Desktop）来提供容器化环境。&lt;/li&gt;&#xA;&lt;li&gt;生态系统：Docker拥有庞大的开发者社区和丰富的生态系统。社区提供了大量的文档、教程和示例代码，以及交流和支持的平台。此外，还有许多第三方工具和服务，如监控工具、CI/CD集成等，与Docker集成，进一步扩展了其功能和用途。&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+  </channel>
+</rss>
+

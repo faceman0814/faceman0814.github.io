@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
-    <title>Hello, WelCome FaceMan&#39;Blog | FaceMan&#39;s Blog</title>
+    <title>FaceMan&#39;s Blog</title>
     <meta name="viewport" content="width=device-width,minimum-scale=1">
     <meta name="description" content="从0开始，直到1。">
     <meta name="generator" content="Hugo 0.138.0">
@@ -31,28 +31,28 @@
 
     
     
-      <link href="/index.xml" rel="alternate" type="application/rss+xml" title="FaceMan&#39;s Blog" />
-      <link href="/index.xml" rel="feed" type="application/rss+xml" title="FaceMan&#39;s Blog" />
+      <link href="/tags/c%23/index.xml" rel="alternate" type="application/rss+xml" title="FaceMan&#39;s Blog" />
+      <link href="/tags/c%23/index.xml" rel="feed" type="application/rss+xml" title="FaceMan&#39;s Blog" />
       
     
 
     
-      <link rel="canonical" href="https://blog.faceman.cn/">
+      <link rel="canonical" href="https://blog.faceman.cn/tags/c%23/">
     
 
-    <meta property="og:url" content="https://blog.faceman.cn/">
+    <meta property="og:url" content="https://blog.faceman.cn/tags/c%23/">
   <meta property="og:site_name" content="FaceMan&#39;s Blog">
-  <meta property="og:title" content="Hello, WelCome FaceMan&#39;Blog">
+  <meta property="og:title" content="C#">
   <meta property="og:description" content="从0开始，直到1。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="website">
 
-  <meta itemprop="name" content="Hello, WelCome FaceMan&#39;Blog">
+  <meta itemprop="name" content="C#">
   <meta itemprop="description" content="从0开始，直到1。">
-  <meta itemprop="datePublished" content="2024-11-09T17:38:46+08:00">
-  <meta itemprop="dateModified" content="2024-11-09T17:38:46+08:00">
+  <meta itemprop="datePublished" content="2024-11-09T15:51:52+08:00">
+  <meta itemprop="dateModified" content="2024-11-09T15:51:52+08:00">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Hello, WelCome FaceMan&#39;Blog">
+  <meta name="twitter:title" content="C#">
   <meta name="twitter:description" content="从0开始，直到1。">
 
       
@@ -118,12 +118,8 @@
 
       <div class="tc-l pv4 pv6-l ph3 ph4-ns">
         <h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
-          Hello, WelCome FaceMan&#39;Blog
+          C#
         </h1>
-        
-          <h2 class="fw1 f5 f3-l white-80 measure-wide-l center mt3">
-            从0开始，直到1。
-          </h2>
         
       </div>
     </div>
@@ -132,106 +128,28 @@
 
     <main class="pb7" role="main">
       
-  <article class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray">
-      
-    </article>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-      <div class="pa3 pa4-ns w-100 w-70-ns center">
-        
-        
-            <h1 class="flex-none">
-              最近 博客
-            </h1>
-          
-
-        
-
-        <section class="w-100 mw8">
-          
-          
-            <div class="relative w-100 mb4">
-              
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-          
-        <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
-          <a href="/post/ubuntu%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BDdocker%E5%92%8Cdockercompose/" class="db grow">
-            <img src="https://blog.faceman.cn/images/docker.png" class="img" alt="image from Ubuntu一键安装卸载docker和dockercompose">
-          </a>
-        </div>
-      
-      <div class="blah w-100 w-60-ns pl3-ns">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/post/ubuntu%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BDdocker%E5%92%8Cdockercompose/" class="color-inherit dim link">
-            Ubuntu一键安装卸载docker和dockercompose
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          <h1 id="前言">前言</h1>
-<p>在新建的服务器上，我们一般会用几条命令来下载安装docker和docker-compose，这里为了避免每次都去搜索安装命令，所以写成脚本，本文仅支持Ubuntu\CentOS。</p>
-<h1 id="一docker是什么">一、docker是什么？</h1>
-<p>Docker是一个开源的容器化平台，用于构建、部署和管理应用程序。它采用了轻量级的容器技术，可以在不同的操作系统上运行，并提供了一种将应用程序及其依赖项打包到可移植的容器中的方式。</p>
-<p>以下是Docker的一些重要特点和概念：</p>
-<ul>
-<li>容器化：Docker利用Linux内核的容器功能来隔离应用程序及其依赖项。每个容器都是一个独立的运行环境，具有自己的文件系统、进程空间和资源限制。容器可以快速启动、停止和迁移，而且相互之间彼此隔离，避免了应用程序之间的冲突和依赖问题。</li>
-<li>镜像：Docker使用镜像来构建容器。镜像是一个只读的模板，包含了应用程序运行所需的所有文件系统、库和依赖项。通过使用Dockerfile定义构建步骤，可以创建自定义的镜像。镜像可以从Docker Hub等镜像仓库中获取，也可以通过构建自己的镜像进行定制。</li>
-<li>容器注册表：Docker Hub是Docker官方的公共镜像注册表，提供了大量的基础镜像供用户使用。除此之外，还有其他的公共和私有镜像注册表，用户可以在其中存储和分享自己的镜像。</li>
-<li>Docker引擎：Docker引擎是运行和管理容器的核心组件。它包括一个守护进程（Docker daemon）和一个命令行客户端（Docker CLI）。守护进程负责构建、运行和管理容器，而命令行客户端提供了交互式的接口来与守护进程进行通信。</li>
-<li>编排和管理工具：Docker提供了一系列的编排和管理工具，用于简化多个容器的部署和管理。例如，Docker Compose允许通过一个YAML文件描述多个容器的关系和配置，并通过一条命令启动、停止和扩展整个应用程序的容器集群。</li>
-<li>跨平台支持：Docker可以在不同的操作系统上运行，包括Linux、Windows和MacOS等。对于Linux平台，Docker直接使用操作系统的容器功能；而对于Windows和MacOS，Docker使用一个轻量级的虚拟机（称为Docker Desktop）来提供容器化环境。</li>
-<li>生态系统：Docker拥有庞大的开发者社区和丰富的生态系统。社区提供了大量的文档、教程和示例代码，以及交流和支持的平台。此外，还有许多第三方工具和服务，如监控工具、CI/CD集成等，与Docker集成，进一步扩展了其功能和用途。</li>
-</ul>
-        </div>
-          <a href="/post/ubuntu%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BDdocker%E5%92%8Cdockercompose/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">继续阅读</a>
-        
-      </div>
+  <article class="cf pa3 pa4-m pa4-l">
+    <div class="measure-wide-l center f4 lh-copy nested-copy-line-height nested-links mid-gray">
+      <p>标签为“C#”的页面如下</p>
     </div>
-  </div>
-</article>
-<style>
-  .nested-copy-line-height {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 5;  
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-</style>
-            </div>
-          
-            <div class="relative w-100 mb4">
-              
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
+  </article>
+  <div class="mw8 center">
+    <section class="flex-ns flex-wrap justify-around mt5">
       
-          
-        <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
-          <a href="/post/c%23%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BD%95%E8%BD%ACpdfwordmd%E6%96%87%E4%BB%B6/" class="db grow">
-            <img src="https://blog.faceman.cn/images/office.png" class="img" alt="image from C#实现对话记录转PDF、Word、MD文件">
-          </a>
-        </div>
-      
-      <div class="blah w-100 w-60-ns pl3-ns">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/post/c%23%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BD%95%E8%BD%ACpdfwordmd%E6%96%87%E4%BB%B6/" class="color-inherit dim link">
-            C#实现对话记录转PDF、Word、MD文件
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          <h1 id="前言">前言</h1>
+        <div class="relative w-100  mb4 bg-white">
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        十一月 9, 2024
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="/post/c%23%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BD%95%E8%BD%ACpdfwordmd%E6%96%87%E4%BB%B6/" class="link black dim">
+        C#实现对话记录转PDF、Word、MD文件
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      <h1 id="前言">前言</h1>
 <p>工作中有个场景是chatgpt聊天对话记录下载支持PDF、Word、MD格式，于是有了本篇文章。</p>
 <h1 id="实现思路">实现思路</h1>
 <p>对话中可能会用md格式的回答，且因为不能直接转成pdf或者word，所以这里通过方法转成md或者html代码，使用html格式转成pdf或者word。</p>
@@ -492,180 +410,22 @@ Markdig</li>
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
 </span></span></code></pre></div>
-        </div>
-          <a href="/post/c%23%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BD%95%E8%BD%ACpdfwordmd%E6%96%87%E4%BB%B6/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">继续阅读</a>
-        
-      </div>
     </div>
+  <a href="/post/c%23%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BD%95%E8%BD%ACpdfwordmd%E6%96%87%E4%BB%B6/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">继续阅读</a>
   </div>
-</article>
-<style>
-  .nested-copy-line-height {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 5;  
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-</style>
-            </div>
-          
-            <div class="relative w-100 mb4">
-              
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-          
-        <div class="pr3-ns mb4 mb0-ns w-100 w-40-ns">
-          <a href="/post/ubuntu%E5%AE%89%E8%A3%85clash/" class="db grow">
-            <img src="https://blog.faceman.cn/images/Clash.jpg" class="img" alt="image from Ubuntu安装Clash">
-          </a>
+  <style>
+    .nested-copy-line-height {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;  
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  </style>
         </div>
       
-      <div class="blah w-100 w-60-ns pl3-ns">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/post/ubuntu%E5%AE%89%E8%A3%85clash/" class="color-inherit dim link">
-            Ubuntu安装Clash
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          <ol>
-<li>
-<p>下载配置文件或者导入订阅连接配置。</p>
-<ol>
-<li>下载连接（由于clash作者删库跑路了，所以我这里提供一个安装包）</li>
-</ol>
-<p>链接：https://pan.baidu.com/s/1Rz5Sb-1hhCSy_XjgzpKWvA
-提取码：vaaz
-2. 解压,已解压可跳过</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#000">gzip</span> <span style="color:#000">-d</span> <span style="color:#000">clash</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">gz</span>
-</span></span></code></pre></div><ol start="3">
-<li>
-<p>赋值权限</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#000">sudo</span> <span style="color:#000">chmod</span> <span style="color:#0000cf;font-weight:bold">+777</span> <span style="color:#000">clash</span>
-</span></span></code></pre></div></li>
-<li>
-<p>第一次执行创建必要文件：./clash</p>
-<ol>
-<li>安装过程可能会出现网络问题下载不了，可以直接复制下载链接到外部现在再传进去是一样的。
-<img src="https://faceman-blog.oss-cn-chengdu.aliyuncs.com/oneblog/20240115000642959.png"></li>
-</ol>
-</li>
-<li>
-<p>去代理软件复制节点订阅地址</p>
-<ol>
-<li>这里可以复制所有节点地址也可以自己配置节点然后生成地址
-<img src="https://faceman-blog.oss-cn-chengdu.aliyuncs.com/oneblog/20240115000642895.png"></li>
-</ol>
-</li>
-<li>
-<p>配置文件获取。</p>
-<h3 id="方法一">方法一</h3>
-<p>命令行获取</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#204a87">wget </span><span style="color:#000">-U</span> <span style="color:#4e9a06">&#34;Mozilla/6.0&#34;</span> <span style="color:#000">-O</span> <span style="color:#000;font-weight:bold">~/.</span><span style="color:#000">config</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">clash</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">config</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">yaml</span> <span style="color:#000">你的Clash订阅链接网址</span>
-</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">## 主订阅链接：https://wmdy.355365.xyz/link/w1FRr398wFCOa0XK?clash=2</span>
-</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">## 备用订阅链接：https://dy.wmyun.men/link/w1FRr398wFCOa0XK?clash=2</span>
-</span></span></code></pre></div><h3 id="方法二">方法二</h3>
-<ol>
-<li>用windows的clash软件获取配置文件
-<img src="https://faceman-blog.oss-cn-chengdu.aliyuncs.com/oneblog/20240115000642825.png"></li>
-<li>将获取的config文件替换到/root/.config/clash/config.yaml</li>
-</ol>
-</li>
-<li>
-<p>最后的文件结构应该是这样
-<img src="https://faceman-blog.oss-cn-chengdu.aliyuncs.com/oneblog/20240115000642749.png"></p>
-</li>
-<li>
-<p>代理改成手动并配置端口，如果是云服务器，需要打开对应的端口。</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 编辑环境变量</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">sudo</span> <span style="color:#000">nano</span> <span style="color:#000;font-weight:bold">/</span><span style="color:#000">etc</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">environment</span>
-</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 配置手动代理</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">http_proxy</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;http://127.0.0.1:7890&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">https_proxy</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;https://127.0.0.1:7890&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">socks_proxy</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;socks5h://127.0.0.1:7891&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">no_proxy</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;localhost,127.0.0.1,::1&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># CTRL+X 保存</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 应用环境变量 </span>
-</span></span><span style="display:flex;"><span><span style="color:#000">source</span> <span style="color:#000;font-weight:bold">/</span><span style="color:#000">etc</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">environment</span>
-</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 查看代理服务配置</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">env</span> <span style="color:#000;font-weight:bold">|</span> <span style="color:#000">grep</span> <span style="color:#000">-i</span> <span style="color:#000">proxy</span>
-</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 重启</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">sudo</span> <span style="color:#000">reboot</span>
-</span></span></code></pre></div></li>
-<li>
-<p>配置服务</p>
-<ol>
-<li>
-<p>vim /etc/systemd/system/clash.service</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">Unit</span><span style="color:#000;font-weight:bold">]</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">Description</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">Clash</span> <span style="color:#ce5c00;font-weight:bold">-</span> <span style="color:#000">A</span> <span style="color:#000">rule</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">based</span> <span style="color:#000">tunnel</span> <span style="color:#204a87;font-weight:bold">in</span> <span style="color:#000">Go</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">Documentation</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">https</span><span style="color:#ce5c00;font-weight:bold">:</span><span style="color:#8f5902;font-style:italic">//github.com/Dreamacro/clash/wiki
-</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">Service</span><span style="color:#000;font-weight:bold">]</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">OOMScoreAdjust</span><span style="color:#ce5c00;font-weight:bold">=-</span><span style="color:#0000cf;font-weight:bold">1000</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">ExecStart</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#a40000">/usr/local/bin/clash -f /root/.config/clash/config.yaml</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">Restart</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">on</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">failure</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">RestartSec</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">5</span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">Install</span><span style="color:#000;font-weight:bold">]</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">WantedBy</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">multi</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">user</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">target</span>
-</span></span></code></pre></div></li>
-<li>
-<p><strong><strong>将 clash执行程序拷贝到 /usr/local/bin</strong></strong></p>
-        </div>
-          <a href="/post/ubuntu%E5%AE%89%E8%A3%85clash/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">继续阅读</a>
-        
-      </div>
-    </div>
+    </section>
   </div>
-</article>
-<style>
-  .nested-copy-line-height {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 5;  
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-</style>
-            </div>
-          
-        </section>
-
-        
-        <section class="w-100">
-          <h1 class="f3">更多</h1>
-          
-          
-            <h2 class="f5 fw4 mb4 dib mr3">
-              <a href="/post/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" class="link black dim">
-                使用Hugo搭建个人博客
-              </a>
-            </h2>
-          
-            <h2 class="f5 fw4 mb4 dib mr3">
-              <a href="/post/swagger&#43;%E5%8A%A8%E6%80%81api%E9%9B%86%E6%88%90/" class="link black dim">
-                Swagger&#43;动态API集成
-              </a>
-            </h2>
-          
-            <h2 class="f5 fw4 mb4 dib mr3">
-              <a href="/contact/" class="link black dim">
-                与我联系
-              </a>
-            </h2>
-          
-
-          
-          
-            <a href="/post/" class="link db f6 pa2 br3 bg-mid-gray white dim w4 tc">所有 博客</a>
-          
-          </section>
-        
-        </div>
-    
-  
 
     </main>
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">

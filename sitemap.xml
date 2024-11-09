@@ -3,11 +3,56 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://blog.faceman.cn/</loc>
-    <lastmod>2024-11-08T17:36:52+08:00</lastmod>
+    <lastmod>2024-11-09T17:38:46+08:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://blog.faceman.cn/post/</loc>
+    <loc>https://blog.faceman.cn/tags/docker/</loc>
+    <lastmod>2024-11-09T15:54:48+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://blog.faceman.cn/tags/</loc>
+    <lastmod>2024-11-09T15:54:48+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://blog.faceman.cn/tags/ubuntu/</loc>
+    <lastmod>2024-11-09T15:54:48+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://blog.faceman.cn/post/ubuntu%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BDdocker%E5%92%8Cdockercompose/</loc>
+    <lastmod>2024-11-09T15:54:48+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://blog.faceman.cn/tags/.net/</loc>
+    <lastmod>2024-11-09T15:51:52+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://blog.faceman.cn/tags/c%23/</loc>
+    <lastmod>2024-11-09T15:51:52+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://blog.faceman.cn/post/c%23%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BD%95%E8%BD%ACpdfwordmd%E6%96%87%E4%BB%B6/</loc>
+    <lastmod>2024-11-09T15:51:52+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://blog.faceman.cn/tags/clash/</loc>
+    <lastmod>2024-11-09T15:47:31+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://blog.faceman.cn/post/ubuntu%E5%AE%89%E8%A3%85clash/</loc>
+    <lastmod>2024-11-09T15:47:31+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://blog.faceman.cn/tags/hugo/</loc>
     <lastmod>2024-11-08T17:36:52+08:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -17,16 +62,22 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://blog.faceman.cn/tags/swagger/</loc>
+    <lastmod>2024-11-08T17:18:05+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://blog.faceman.cn/post/swagger&#43;%E5%8A%A8%E6%80%81api%E9%9B%86%E6%88%90/</loc>
     <lastmod>2024-11-08T17:18:05+08:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://blog.faceman.cn/categories/</loc>
+    <loc>https://blog.faceman.cn/post/</loc>
+    <lastmod>2024-03-02T12:00:00-05:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://blog.faceman.cn/tags/</loc>
+    <loc>https://blog.faceman.cn/categories/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
