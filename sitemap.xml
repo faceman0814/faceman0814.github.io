@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://blog.faceman.cn/</loc>
-    <lastmod>2024-11-09T17:38:46+08:00</lastmod>
+    <loc>https://blog.faceman.cn/tags/docker/</loc>
+    <lastmod>2024-11-09T15:54:48+08:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://blog.faceman.cn/tags/docker/</loc>
+    <loc>https://blog.faceman.cn/</loc>
     <lastmod>2024-11-09T15:54:48+08:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>

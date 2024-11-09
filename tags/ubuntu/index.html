@@ -163,18 +163,48 @@
 <li>跨平台支持：Docker可以在不同的操作系统上运行，包括Linux、Windows和MacOS等。对于Linux平台，Docker直接使用操作系统的容器功能；而对于Windows和MacOS，Docker使用一个轻量级的虚拟机（称为Docker Desktop）来提供容器化环境。</li>
 <li>生态系统：Docker拥有庞大的开发者社区和丰富的生态系统。社区提供了大量的文档、教程和示例代码，以及交流和支持的平台。此外，还有许多第三方工具和服务，如监控工具、CI/CD集成等，与Docker集成，进一步扩展了其功能和用途。</li>
 </ul>
+<p>总结起来，Docker是一个强大的容器化平台，通过将应用程序及其依赖项打包到独立的容器中，提供了更加灵活、可移植和可扩展的应用部署和管理方式。它已经成为现代软件开发和运维的重要工具之一。</p>
+<h1 id="二docker-compose是什么">二、docker compose是什么？</h1>
+<p>Docker Compose是一个用于定义和管理多个Docker容器的工具。它允许您使用简单的YAML文件描述应用程序中的服务、网络、存储卷等配置，并通过一个命令行界面来启动、停止和管理这些容器。</p>
+<p>以下是Docker Compose的一些重要特点：</p>
+<ul>
+<li>声明式语法：Docker Compose使用声明式的YAML文件来描述应用程序的架构和配置。您可以在文件中定义每个服务的镜像、端口映射、环境变量、依赖关系等。这种声明式语法使得定义和管理复杂的容器集群变得简单且可维护。</li>
+<li>多容器应用管理：Docker Compose专注于管理多个相关的容器，以构建完整的应用程序堆栈。通过一次性的命令，您可以启动、停止、重启和销毁整个容器集群，而不需要手动处理每个容器。</li>
+<li>容器间连接和通信：使用Docker Compose，您可以轻松地为容器之间创建连接和网络。您可以定义容器之间的连接方式，使它们能够相互通信和访问。这在构建微服务架构或多层应用程序时非常有用。</li>
+<li>可伸缩性和负载均衡：Docker Compose允许您设置容器的伸缩策略，以根据应用程序的需要自动扩展或收缩容器。它还支持与负载均衡器集成，可以将流量分发到多个实例上，提高应用程序的性能和可靠性。</li>
+<li>环境隔离和测试：使用Docker Compose，您可以轻松地在开发和测试环境中复制生产环境的配置。您可以创建一个本地的容器化开发环境，确保应用程序在不同环境下的一致性，并减少由于环境差异引起的问题。</li>
+<li>可插拔的架构：Docker Compose是可插拔的，可以与其他工具和服务集成，以满足特定需求。例如，您可以与监控和日志记录工具集成，以监视和管理容器的性能和状态。</li>
+</ul>
+<p>Compose V1语法： Compose V1语法是较早版本的Compose语法，其文件名通常为docker-compose.yml。以下是一些Compose V1语法的特点：</p>
+<ul>
+<li>services：使用services关键字定义要运行的服务。每个服务都有一个名称和一组配置选项。</li>
+<li>image：指定要使用的镜像名称。</li>
+<li>ports：定义要映射到主机上的容器端口。</li>
+<li>volumes：指定要挂载到容器中的卷。</li>
+<li>links：定义与其他服务之间的连接。</li>
+<li>environment：设置容器中的环境变量。</li>
+<li>depends_on：定义服务之间的依赖关系。</li>
+</ul>
+<p>以下是一个Compose V1语法的示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version: <span style="color:#e6db74">&#39;2&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>services:
+</span></span><span style="display:flex;"><span>  web:
+</span></span><span style="display:flex;"><span>    image: nginx:latest
+</span></span><span style="display:flex;"><span>    ports:
+</span></span><span style="display:flex;"><span>      - 8080:80
+</span></span><span style="display:flex;"><span>    volumes:
+</span></span><span style="display:flex;"><span>      - ./html:/usr/share/nginx/html
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  db:
+</span></span><span style="display:flex;"><span>    image: mysql:latest
+</span></span><span style="display:flex;"><span>    environment:
+</span></span><span style="display:flex;"><span>      - MYSQL_ROOT_PASSWORD<span style="color:#f92672">=</span>secret
+</span></span></code></pre></div><p>Compose V2语法： Compose V2语法是较新版本的Compose语法，其文件名通常为docker-compose.yaml或docker-compose.yml。以下是一些Compose V2语法的特点：</p>
     </div>
   <a href="/post/ubuntu%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BDdocker%E5%92%8Cdockercompose/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">继续阅读</a>
   </div>
-  <style>
-    .nested-copy-line-height {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 5;  
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  </style>
+
         </div>
       
         <div class="relative w-100  mb4 bg-white">
@@ -199,11 +229,11 @@
 <p>链接：https://pan.baidu.com/s/1Rz5Sb-1hhCSy_XjgzpKWvA
 提取码：vaaz
 2. 解压,已解压可跳过</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#000">gzip</span> <span style="color:#000">-d</span> <span style="color:#000">clash</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">gz</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>gzip -d clash.gz
 </span></span></code></pre></div><ol start="3">
 <li>
 <p>赋值权限</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#000">sudo</span> <span style="color:#000">chmod</span> <span style="color:#0000cf;font-weight:bold">+777</span> <span style="color:#000">clash</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>sudo chmod <span style="color:#ae81ff">+777</span> clash
 </span></span></code></pre></div></li>
 <li>
 <p>第一次执行创建必要文件：./clash</p>
@@ -223,9 +253,9 @@
 <p>配置文件获取。</p>
 <h3 id="方法一">方法一</h3>
 <p>命令行获取</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#204a87">wget </span><span style="color:#000">-U</span> <span style="color:#4e9a06">&#34;Mozilla/6.0&#34;</span> <span style="color:#000">-O</span> <span style="color:#000;font-weight:bold">~/.</span><span style="color:#000">config</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">clash</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">config</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">yaml</span> <span style="color:#000">你的Clash订阅链接网址</span>
-</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">## 主订阅链接：https://wmdy.355365.xyz/link/w1FRr398wFCOa0XK?clash=2</span>
-</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">## 备用订阅链接：https://dy.wmyun.men/link/w1FRr398wFCOa0XK?clash=2</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>wget -U <span style="color:#e6db74">&#34;Mozilla/6.0&#34;</span> -O ~/.config/clash/config.yaml 你的Clash订阅链接网址
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## 主订阅链接：https://wmdy.355365.xyz/link/w1FRr398wFCOa0XK?clash=2</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## 备用订阅链接：https://dy.wmyun.men/link/w1FRr398wFCOa0XK?clash=2</span>
 </span></span></code></pre></div><h3 id="方法二">方法二</h3>
 <ol>
 <li>用windows的clash软件获取配置文件
@@ -239,52 +269,31 @@
 </li>
 <li>
 <p>代理改成手动并配置端口，如果是云服务器，需要打开对应的端口。</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 编辑环境变量</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">sudo</span> <span style="color:#000">nano</span> <span style="color:#000;font-weight:bold">/</span><span style="color:#000">etc</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">environment</span>
-</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 配置手动代理</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">http_proxy</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;http://127.0.0.1:7890&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">https_proxy</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;https://127.0.0.1:7890&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">socks_proxy</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;socks5h://127.0.0.1:7891&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">no_proxy</span><span style="color:#000;font-weight:bold">=</span><span style="color:#4e9a06">&#34;localhost,127.0.0.1,::1&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># CTRL+X 保存</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 编辑环境变量</span>
+</span></span><span style="display:flex;"><span>sudo nano /etc/environment
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 配置手动代理</span>
+</span></span><span style="display:flex;"><span>http_proxy=<span style="color:#e6db74">&#34;http://127.0.0.1:7890&#34;</span>
+</span></span><span style="display:flex;"><span>https_proxy=<span style="color:#e6db74">&#34;https://127.0.0.1:7890&#34;</span>
+</span></span><span style="display:flex;"><span>socks_proxy=<span style="color:#e6db74">&#34;socks5h://127.0.0.1:7891&#34;</span>
+</span></span><span style="display:flex;"><span>no_proxy=<span style="color:#e6db74">&#34;localhost,127.0.0.1,::1&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># CTRL+X 保存</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 应用环境变量 </span>
-</span></span><span style="display:flex;"><span><span style="color:#000">source</span> <span style="color:#000;font-weight:bold">/</span><span style="color:#000">etc</span><span style="color:#000;font-weight:bold">/</span><span style="color:#000">environment</span>
-</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 查看代理服务配置</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">env</span> <span style="color:#000;font-weight:bold">|</span> <span style="color:#000">grep</span> <span style="color:#000">-i</span> <span style="color:#000">proxy</span>
-</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 重启</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">sudo</span> <span style="color:#000">reboot</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 应用环境变量 </span>
+</span></span><span style="display:flex;"><span>source /etc/environment
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看代理服务配置</span>
+</span></span><span style="display:flex;"><span>env | grep -i proxy
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 重启</span>
+</span></span><span style="display:flex;"><span>sudo reboot
 </span></span></code></pre></div></li>
 <li>
 <p>配置服务</p>
 <ol>
 <li>
 <p>vim /etc/systemd/system/clash.service</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jsx" data-lang="jsx"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">Unit</span><span style="color:#000;font-weight:bold">]</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">Description</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">Clash</span> <span style="color:#ce5c00;font-weight:bold">-</span> <span style="color:#000">A</span> <span style="color:#000">rule</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">based</span> <span style="color:#000">tunnel</span> <span style="color:#204a87;font-weight:bold">in</span> <span style="color:#000">Go</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">Documentation</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">https</span><span style="color:#ce5c00;font-weight:bold">:</span><span style="color:#8f5902;font-style:italic">//github.com/Dreamacro/clash/wiki
-</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">Service</span><span style="color:#000;font-weight:bold">]</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">OOMScoreAdjust</span><span style="color:#ce5c00;font-weight:bold">=-</span><span style="color:#0000cf;font-weight:bold">1000</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">ExecStart</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#a40000">/usr/local/bin/clash -f /root/.config/clash/config.yaml</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">Restart</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">on</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">failure</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">RestartSec</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">5</span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">Install</span><span style="color:#000;font-weight:bold">]</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">WantedBy</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">multi</span><span style="color:#ce5c00;font-weight:bold">-</span><span style="color:#000">user</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">target</span>
-</span></span></code></pre></div></li>
-<li>
-<p><strong><strong>将 clash执行程序拷贝到 /usr/local/bin</strong></strong></p>
     </div>
   <a href="/post/ubuntu%E5%AE%89%E8%A3%85clash/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">继续阅读</a>
   </div>
-  <style>
-    .nested-copy-line-height {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 5;  
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  </style>
+
         </div>
       
     </section>
@@ -294,7 +303,7 @@
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
   <div class="flex justify-between">
   <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.faceman.cn/" >
-    &copy;  FaceMan's Blog 2024-11-9 18:05 
+    &copy;  FaceMan's Blog 2024-11-9 18:38 
   
   </a>
     <div><div class="ananke-socials"><a href="https://github.com/faceman0814" target="_blank" rel="noopener"
