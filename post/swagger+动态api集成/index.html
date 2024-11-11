@@ -180,7 +180,7 @@
 </span></span><span style="display:flex;"><span>                .SetBasePath(basePath)
 </span></span><span style="display:flex;"><span>                .AddJsonFile(<span style="color:#e6db74">&#34;appsettings.json&#34;</span>, optional: <span style="color:#66d9ef">true</span>, reloadOnChange: <span style="color:#66d9ef">true</span>)
 </span></span><span style="display:flex;"><span>                .Build();
-</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>  
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#region</span> <span style="color:#960050;background-color:#1e0010">添加</span>Swagger文档服务
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>builder.Services.AddEndpointsApiExplorer();
@@ -638,7 +638,28 @@
       </div>
     </div>
 
-    <aside class="w-30-l mt6-l">
+    <aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">导航</p>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#集成swagger">集成Swagger</a></li>
+    <li><a href="#动态api">动态API</a>
+      <ul>
+        <li><a href="#创建iapplicationservice用来标识自定义控制器的接口或特性">创建IApplicationService用来标识自定义控制器的接口或特性</a></li>
+        <li><a href="#创建httpmethodconfigure配置类">创建HttpMethodConfigure配置类</a></li>
+        <li><a href="#创建applicationserviceconvention继承iapplicationmodelconvention">创建ApplicationServiceConvention继承IApplicationModelConvention</a></li>
+        <li><a href="#创建removeappfilter过滤类">创建RemoveAppFilter过滤类</a></li>
+        <li><a href="#创建dynamicwebapiextensions">创建DynamicWebApiExtensions</a></li>
+        <li><a href="#program中配置">Program中配置</a></li>
+        <li><a href="#在appsettings配置http请求类型匹配规则">在Appsettings配置http请求类型匹配规则</a></li>
+        <li><a href="#创建测试类">创建测试类</a></li>
+      </ul>
+    </li>
+    <li><a href="#将动态api配置swagger文档注释">将动态API配置Swagger文档注释</a></li>
+    <li><a href="#致谢">致谢</a></li>
+  </ul>
+</nav>
+  </div>
 
 
 
@@ -651,7 +672,7 @@
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
   <div class="flex justify-between">
   <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.faceman.cn/" >
-    &copy;  FaceMan's Blog 2024-11-9 18:38 
+    &copy;  FaceMan's Blog 2024-11-11 17:56 
   
   </a>
     <div><div class="ananke-socials"><a href="https://github.com/faceman0814" target="_blank" rel="noopener"

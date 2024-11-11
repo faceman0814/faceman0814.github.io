@@ -236,9 +236,9 @@ version: &#39;2&#39; services: web: image: nginx:latest ports: - 8080:80 volumes
       
       
     </header>
-    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="前言">前言</h1>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h2 id="前言">前言</h2>
 <p>在新建的服务器上，我们一般会用几条命令来下载安装docker和docker-compose，这里为了避免每次都去搜索安装命令，所以写成脚本，本文仅支持Ubuntu\CentOS。</p>
-<h1 id="一docker是什么">一、docker是什么？</h1>
+<h2 id="一docker是什么">一、docker是什么？</h2>
 <p>Docker是一个开源的容器化平台，用于构建、部署和管理应用程序。它采用了轻量级的容器技术，可以在不同的操作系统上运行，并提供了一种将应用程序及其依赖项打包到可移植的容器中的方式。</p>
 <p>以下是Docker的一些重要特点和概念：</p>
 <ul>
@@ -251,7 +251,7 @@ version: &#39;2&#39; services: web: image: nginx:latest ports: - 8080:80 volumes
 <li>生态系统：Docker拥有庞大的开发者社区和丰富的生态系统。社区提供了大量的文档、教程和示例代码，以及交流和支持的平台。此外，还有许多第三方工具和服务，如监控工具、CI/CD集成等，与Docker集成，进一步扩展了其功能和用途。</li>
 </ul>
 <p>总结起来，Docker是一个强大的容器化平台，通过将应用程序及其依赖项打包到独立的容器中，提供了更加灵活、可移植和可扩展的应用部署和管理方式。它已经成为现代软件开发和运维的重要工具之一。</p>
-<h1 id="二docker-compose是什么">二、docker compose是什么？</h1>
+<h2 id="二docker-compose是什么">二、docker compose是什么？</h2>
 <p>Docker Compose是一个用于定义和管理多个Docker容器的工具。它允许您使用简单的YAML文件描述应用程序中的服务、网络、存储卷等配置，并通过一个命令行界面来启动、停止和管理这些容器。</p>
 <p>以下是Docker Compose的一些重要特点：</p>
 <ul>
@@ -312,8 +312,8 @@ image、ports、volumes、environment等选项与Compose V1相同。
 </span></span><span style="display:flex;"><span>    driver: bridge
 </span></span></code></pre></div><p>除了以上介绍的不同之外，Compose V2语法还带来了一些其他改进和功能增强，例如支持多个文件的扩展性，可选项的验证和默认值等。</p>
 <p>需要注意的是，在使用Docker Compose时，要根据您所使用的Compose版本选择正确的语法，并确保在编写Compose文件时遵循该版本的语法规范。</p>
-<h1 id="三安装步骤">三、安装步骤</h1>
-<h2 id="1ubuntu安装脚本">1.Ubuntu安装脚本</h2>
+<h2 id="三安装步骤">三、安装步骤</h2>
+<h3 id="1ubuntu安装脚本">1.Ubuntu安装脚本</h3>
 <p>代码如下（示例）：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"># 卸载当前版本
@@ -378,11 +378,11 @@ image、ports、volumes、environment等选项与Compose V1相同。
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
 </span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;无效的输入&#34;</span>
 </span></span><span style="display:flex;"><span>fi
-</span></span></code></pre></div><h2 id="2生成脚本">2.生成脚本</h2>
+</span></span></code></pre></div><h3 id="2生成脚本">2.生成脚本</h3>
 <p>将上述命令保存为一个脚本文件（例如script.sh），并添加执行权限。您可以在终端中使用以下命令来执行该脚本：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod +x script.sh
 </span></span><span style="display:flex;"><span>./script.sh
-</span></span></code></pre></div><h2 id="3启动和验证">3.启动和验证</h2>
+</span></span></code></pre></div><h3 id="3启动和验证">3.启动和验证</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 查看docker</span>
 </span></span><span style="display:flex;"><span>docker -v
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 老版本docker compose命令为</span>
@@ -396,8 +396,8 @@ image、ports、volumes、environment等选项与Compose V1相同。
 </span></span><span style="display:flex;"><span>$ sudo systemctl start docker
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 验证hello world</span>
 </span></span><span style="display:flex;"><span>$ sudo docker run hello-world
-</span></span></code></pre></div><h1 id="四卸载步骤">四、卸载步骤</h1>
-<h2 id="1ubuntu卸载脚本">1.Ubuntu卸载脚本</h2>
+</span></span></code></pre></div><h2 id="四卸载步骤">四、卸载步骤</h2>
+<h3 id="1ubuntu卸载脚本">1.Ubuntu卸载脚本</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 卸载旧版本的Docker</span>
 </span></span><span style="display:flex;"><span>yum remove docker <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>                  docker-client <span style="color:#ae81ff">\
@@ -428,17 +428,17 @@ image、ports、volumes、environment等选项与Compose V1相同。
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 删除旧版docker-compose</span>
 </span></span><span style="display:flex;"><span>rm -rf /usr/local/bin/docker-compose
 </span></span><span style="display:flex;"><span>rm -rf /usr/bin/docker-compose
-</span></span></code></pre></div><h2 id="2保存文件后设置执行权限">2.保存文件后设置执行权限</h2>
+</span></span></code></pre></div><h3 id="2保存文件后设置执行权限">2.保存文件后设置执行权限</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod +777  docker-uninstall.sh
-</span></span></code></pre></div><h2 id="3运行文件">3.运行文件</h2>
+</span></span></code></pre></div><h3 id="3运行文件">3.运行文件</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sh  docker-uninstall.sh
-</span></span></code></pre></div><h2 id="4验证是否删除成功">4.验证是否删除成功</h2>
+</span></span></code></pre></div><h3 id="4验证是否删除成功">4.验证是否删除成功</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker -v
 </span></span><span style="display:flex;"><span>docker-compose -v
-</span></span></code></pre></div><h1 id="centos">CentOS</h1>
-<h2 id="安装脚本">安装脚本</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>	<span style="color:#75715e">#!/bin/bash</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e"># 卸载当前版本</span>
+</span></span></code></pre></div><h2 id="centos">CentOS</h2>
+<h3 id="安装脚本">安装脚本</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e"># 卸载当前版本</span>
 </span></span><span style="display:flex;"><span>	echo <span style="color:#e6db74">&#34;卸载当前版本.....&#34;</span>
 </span></span><span style="display:flex;"><span>	sudo yum remove docker-ce docker-ce-cli containerd.io
 </span></span><span style="display:flex;"><span>
@@ -517,10 +517,9 @@ image、ports、volumes、environment等选项与Compose V1相同。
 </span></span><span style="display:flex;"><span>	sudo systemctl restart docker
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	echo <span style="color:#e6db74">&#34;Docker安装完成&#34;</span>
-</span></span></code></pre></div><h2 id="卸载脚本">卸载脚本</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 停止和删除所有Docker容器</span>
+</span></span></code></pre></div><h3 id="卸载脚本">卸载脚本</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e"># 停止和删除所有Docker容器</span>
 </span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;停止和删除所有Docker容器.....&#34;</span>
 </span></span><span style="display:flex;"><span>sudo docker stop <span style="color:#66d9ef">$(</span>sudo docker ps -aq<span style="color:#66d9ef">)</span>
 </span></span><span style="display:flex;"><span>sudo docker rm <span style="color:#66d9ef">$(</span>sudo docker ps -aq<span style="color:#66d9ef">)</span>
@@ -543,7 +542,7 @@ image、ports、volumes、environment等选项与Compose V1相同。
 </span></span><span style="display:flex;"><span>sudo rm -f /etc/yum.repos.d/docker-ce.repo
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Docker已成功卸载&#34;</span>
-</span></span></code></pre></div><h1 id="总结">总结</h1>
+</span></span></code></pre></div><h2 id="总结">总结</h2>
 <p>我们可以通过用户输入指令来安装不同版本的docker和docker compose，也可以一键卸载，使用脚本省心又快捷。</p>
 <ul class="pa0">
   
@@ -583,7 +582,38 @@ image、ports、volumes、environment等选项与Compose V1相同。
       </div>
     </div>
 
-    <aside class="w-30-l mt6-l">
+    <aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">导航</p>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#一docker是什么">一、docker是什么？</a></li>
+    <li><a href="#二docker-compose是什么">二、docker compose是什么？</a></li>
+    <li><a href="#三安装步骤">三、安装步骤</a>
+      <ul>
+        <li><a href="#1ubuntu安装脚本">1.Ubuntu安装脚本</a></li>
+        <li><a href="#2生成脚本">2.生成脚本</a></li>
+        <li><a href="#3启动和验证">3.启动和验证</a></li>
+      </ul>
+    </li>
+    <li><a href="#四卸载步骤">四、卸载步骤</a>
+      <ul>
+        <li><a href="#1ubuntu卸载脚本">1.Ubuntu卸载脚本</a></li>
+        <li><a href="#2保存文件后设置执行权限">2.保存文件后设置执行权限</a></li>
+        <li><a href="#3运行文件">3.运行文件</a></li>
+        <li><a href="#4验证是否删除成功">4.验证是否删除成功</a></li>
+      </ul>
+    </li>
+    <li><a href="#centos">CentOS</a>
+      <ul>
+        <li><a href="#安装脚本">安装脚本</a></li>
+        <li><a href="#卸载脚本">卸载脚本</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+  </div>
 
 
 
@@ -607,7 +637,7 @@ image、ports、volumes、environment等选项与Compose V1相同。
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
   <div class="flex justify-between">
   <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.faceman.cn/" >
-    &copy;  FaceMan's Blog 2024-11-9 18:38 
+    &copy;  FaceMan's Blog 2024-11-11 17:56 
   
   </a>
     <div><div class="ananke-socials"><a href="https://github.com/faceman0814" target="_blank" rel="noopener"
