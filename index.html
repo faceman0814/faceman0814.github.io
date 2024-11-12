@@ -90,6 +90,12 @@
         <ul class="pl0 mr3">
           
           <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/search/" title="Site Search 页">
+              Site Search
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
             <a class="hover-white no-underline white-90" href="/contact/" title="与我联系 页">
               与我联系
             </a>
@@ -680,9 +686,8 @@ Markdig</li>
 <p>先来说说写这篇博客的缘由</p>
 <p>一个程序员最好的门面是啥？除了github拥有star数高的开源项目之外当然是个人博客，无论是技术积累还是找工作，有一个属于自己的个人博客无疑是加分项，现在github上有各种开源的博客系统，优点是功能很多，但都有个问题就是大，我之前用Java的oneblog项目部署了一个博客，但由于我是买的阿里云2核2g服务器，部署上去之后由于太大系统崩了，我重启了3次才在docker重启之前关掉，就很尴尬。后面想了个办法是部署到自己的电脑的虚拟机上，然后通过frp+nginx映射出去，但问题又来了，我是笔记本没有办法保证像服务器一样一直运行着，于是，我摆烂了。后面刷B站的时候看到了数字游牧人的一个视频，了解到了hugo这个东西，于是我琢磨了一天弄了个博客出来，踩了一些坑，所以有了今天这篇文章，补充完整给新手小白们避坑。</p>
 <h1 id="必要条件">必要条件</h1>
-<p>Hugo：<a href="https://www.gohugo.org/">Hugo中文文档</a></p>
-<p>Git</p>
-<p>这两个网上教程很多，这里就不详述了。</p>
+<p>安装和部署网上教程很多，我这里就不多赘述了。</p>
+<p><a href="https://juejin.cn/post/7265268463256616972?from=search-suggest">在github.io安装部署个人博客hugo</a></p>
 <h1 id="tips">Tips</h1>
 <h2 id="1不翻墙访问">1.不翻墙访问</h2>
 <p>前提：需要有一个自己的域名，如果想以https访问还需要配置证书。</p>
@@ -933,6 +938,12 @@ Set-Location ..
           
           
             <h2 class="f5 fw4 mb4 dib mr3">
+              <a href="/search/" class="link black dim">
+                Site Search
+              </a>
+            </h2>
+          
+            <h2 class="f5 fw4 mb4 dib mr3">
               <a href="/contact/" class="link black dim">
                 与我联系
               </a>
@@ -953,7 +964,7 @@ Set-Location ..
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
   <div class="flex justify-between">
   <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.faceman.cn/" >
-    &copy;  FaceMan's Blog 2024-11-11 17:56 
+    &copy;  FaceMan's Blog 2024-11-12 14:04 
   
   </a>
     <div><div class="ananke-socials"><a href="https://github.com/faceman0814" target="_blank" rel="noopener"

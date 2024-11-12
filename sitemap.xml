@@ -52,7 +52,17 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://blog.faceman.cn/categories/</loc>
+    <lastmod>2024-11-08T17:36:52+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://blog.faceman.cn/tags/hugo/</loc>
+    <lastmod>2024-11-08T17:36:52+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://blog.faceman.cn/categories/%E6%95%99%E7%A8%8B/</loc>
     <lastmod>2024-11-08T17:36:52+08:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -77,7 +87,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://blog.faceman.cn/categories/</loc>
+    <loc>https://blog.faceman.cn/search/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
