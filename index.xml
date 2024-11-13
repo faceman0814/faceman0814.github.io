@@ -44,13 +44,6 @@
       <description>&lt;h2 id=&#34;集成swagger&#34;&gt;集成Swagger&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;首先，在你的.NET Core项目中安装需要的包。你可以通过NuGet包管理器来安装它，也可以直接复制粘贴安装，以下是包名和版本。&lt;/li&gt;&#xA;&lt;/ol&gt;</description>
     </item>
     <item>
-      <title>搜索</title>
-      <link>https://blog.faceman.cn/search/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://blog.faceman.cn/search/</guid>
-      <description>&lt;!-- raw HTML omitted --&gt;&#xA;&lt;!-- raw HTML omitted --&gt;&#xA;&lt;!-- raw HTML omitted --&gt;</description>
-    </item>
-    <item>
       <title>与我联系</title>
       <link>https://blog.faceman.cn/contact/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

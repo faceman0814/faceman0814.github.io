@@ -87,10 +87,6 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://blog.faceman.cn/search/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
     <loc>https://blog.faceman.cn/contact/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
