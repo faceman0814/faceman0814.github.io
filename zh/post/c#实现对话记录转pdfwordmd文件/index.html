@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>C#实现对话记录转PDF、Word、MD文件 | 雨临Lewis的博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="前言
+工作中有个场景是chatgpt聊天对话记录下载支持PDF、Word、MD格式，于是有了本篇文章。
+实现思路
+对话中可能会用md格式的回答，且因为不能直接转成pdf或者word，所以这里通过方法转成md或者html代码，使用html格式转成pdf或者word。
+代码实现
+需要的nuget包
+
+html转pdf
+iTextSharp
+itextsharp.xmlworker
+html转word
+FreeSpire.Doc
+md转html
+Markdig
+
+创建HtmlHelper帮助类
+/// &lt;summary&gt;
+/// HTML帮助类
+/// &lt;/summary&gt;
+public class HtmlHelper
+{
+
+	/// &lt;summary&gt;
+	/// 字体路径
+	/// &lt;/summary&gt;
+	private static string FontPath;
+
+	public HtmlHelper(string fontPath)
+	{
+		FontPath = fontPath;
+	}
+
+	public HtmlHelper()
+	{
+	}
+
+
+	//将html字符串转为pdf字节数组
+	public byte[] ConvertHtmlTextToPDF(string htmlText)
+	{
+		if (string.IsNullOrEmpty(htmlText))
+		{
+			return null;
+		}
+		try
+		{
+			MemoryStream outputStream = new MemoryStream(); //要把PDF寫到哪個串流
+			byte[] data = Encoding.UTF8.GetBytes(htmlText); //字串轉成byte[]
+			MemoryStream msInput = new MemoryStream(data);
+			Document doc = new Document(); //要寫PDF的文件，建構子沒填的話預設直式A4
+			PdfWriter writer = PdfWriter.GetInstance(doc, outputStream);
+
+			//指定文件預設開檔時的縮放為100%
+			PdfDestination pdfDest = new PdfDestination(PdfDestination.XYZ, 0, doc.PageSize.Height, 1f);
+			//開啟Document文件 
+			doc.Open();
+
+			//使用XMLWorkerHelper把Html parse到PDF檔裡
+			XMLWorkerHelper.GetInstance().ParseXHtml(writer, doc, msInput, null, Encoding.UTF8, new UnicodeFontFactory());
+
+			//將pdfDest設定的資料寫到PDF檔
+			PdfAction action = PdfAction.GotoLocalPage(1, pdfDest, writer);
+			writer.SetOpenAction(action);
+
+			doc.Close();
+			msInput.Close();
+			outputStream.Close();
+
+			return outputStream.ToArray();
+		}
+		catch (Exception ex)
+		{
+			throw new UserFriendlyException(&#34;转PDF时异常,请联系管理员！&#34;, ex);
+		}
+	}
+	//将html字符串转为word字节数组
+	public byte[] ConvertHtmlTextToWord(string htmlText)
+	{
+		if (string.IsNullOrEmpty(htmlText))
+		{
+			return null;
+		}
+		try
+		{
+			MemoryStream outputStream = new MemoryStream(); //要把Word寫到哪個串流
+			byte[] data = Encoding.UTF8.GetBytes(htmlText); //字串轉成byte[]
+			MemoryStream  stream = new MemoryStream(data);
+			Spire.Doc.Document doc = new Spire.Doc.Document(); //要寫Word的文件，建構子沒填的話預設直式A4
+			doc.LoadFromStream(stream, FileFormat.Html, XHTMLValidationType.None);
+			doc.SaveToStream(outputStream, FileFormat.Docx);
+			doc.Close();
+			return outputStream.ToArray();
+		}
+		catch (Exception ex)
+		{
+			throw new UserFriendlyException(&#34;转Word时异常,请联系管理员！&#34;, ex);
+		}
+	}
+	//字体工厂
+	public class UnicodeFontFactory : FontFactoryImp
+	{
+		public override Font GetFont(string fontname, string encoding, bool embedded, float size, int style, BaseColor color,
+			bool cached)
+		{
+			BaseFont baseFont = BaseFont.CreateFont(FontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+			return new Font(baseFont, size, style, color);
+		}
+	}
+}
+创建测试信息类
+public class Message
+{
+	public string Type { get; set; }
+	public string Context { get; set; }
+}
+通过控制器调用。
+public class FileController：Controller
+{
+	private readonly IHttpContextAccessor _httpContextAccessor;
+	public FileController(IHttpContextAccessor httpContextAccessor）
+	{
+		_httpContextAccessor=httpContextAccessor;
+	}
+
+		/// &lt;summary&gt;
+		/// 导出当前对话全部信息为Markdown
+		/// &lt;/summary&gt;
+		/// &lt;param name=&#34;messageId&#34;&gt;&lt;/param&gt;
+		/// &lt;returns&gt;&lt;/returns&gt;
+		[HttpGet]
+		[DisableAuditing]
+		public async Task&lt;IActionResult&gt; GenerateAllMarkdown()
+		{
+			var stringBuilder = await GenerateFile(&#34;md&#34;);
+			byte[] markdownBytes = Encoding.UTF8.GetBytes(stringBuilder);
+			var fileName = $&#34;文件名称-{Clock.Now.ToString(&#34;yyyyMMddHHmmss&#34;)}.md&#34;;
+			var contentType = &#34;text/markdown&#34;;
+			return File(markdownBytes, contentType, fileName);
+		}
+		/// &lt;summary&gt;
+		/// 导出当前对话全部信息为Word
+		/// &lt;/summary&gt;
+		/// &lt;param name=&#34;messageId&#34;&gt;&lt;/param&gt;
+		/// &lt;returns&gt;&lt;/returns&gt;
+		[HttpGet]
+		[DisableAuditing]
+		public async Task&lt;ActionResult&gt; GenerateAllWord()
+		{
+			var stringBuilder = await GenerateFile(&#34;html&#34;);
+			HtmlHelper pdfHelper = new HtmlHelper();
+			var byteData = pdfHelper.ConvertHtmlTextToWord(stringBuilder);
+			var fileName = $&#34;文件名称-{Clock.Now.ToString(&#34;yyyyMMddHHmmss&#34;)}.docx&#34;;
+			var contentType = &#34;application/vnd.openxmlformats-officedocument.wordprocessingml.document&#34;;
+			return File(byteData, contentType, fileName);
+		}
+
+			/// &lt;summary&gt;
+		/// 导出当前对话全部信息为PDF
+		/// &lt;/summary&gt;
+		/// &lt;param name=&#34;chatId&#34;&gt;&lt;/param&gt;
+		/// &lt;param name=&#34;chatUserId&#34;&gt;&lt;/param&gt;
+		/// &lt;returns&gt;&lt;/returns&gt;
+		/// &lt;exception cref=&#34;UserFriendlyException&#34;&gt;&lt;/exception&gt;
+		[HttpGet]
+		[DisableAuditing]
+		public async Task&lt;ActionResult&gt; GeneratePDF()
+		{
+			 var stringBuilder = await GenerateFile(&#34;html&#34;);
+
+			string fontPath = Path.Combine(&#34;字体地址&#34;, &#34;Nsimsun.ttf&#34;);
+			HtmlHelper pdfHelper = new HtmlHelper(fontPath);
+			var byteData = pdfHelper.ConvertHtmlTextToPDF(stringBuilder);//生成PDF
+			var fileName = $&#34;文件名称-{Clock.Now.ToString(&#34;yyyyMMddHHmmss&#34;)}.pdf&#34;;
+			var contentType = &#34;application/pdf&#34;;
+			return File(byteData, contentType, fileName);
+		}
+	private async Task&lt;string&gt; GenerateFile(string type)
+	{
+		var title = &#34;我是标题&#34;;
+		var UserName = &#34;我是用户&#34;;
+		var Url = &#34;我是链接&#34;;
+		List&lt;Message&gt; currentMessage = new List&lt;Message&gt;()
+		{
+			new Message()
+			{
+				Type =&#34;user&#34;,
+				Context=&#34;你是谁&#34;
+			}，
+			new Message()
+			{
+				Type =&#34;bot&#34;,
+				Context=&#34;hello，我是chatgpt&#34;
+			}
+			//...
+		};
+
+		//信息查询操作。。。。
+
+		string stringBuilder = default;
+		string symbolA = &#34;&#34;;
+		string symbolB = &#34;&#34;;
+		switch (type)
+		{
+			case &#34;html&#34;:
+				symbolA = &#34;&lt;strong&gt;&#34;;
+				symbolB = &#34;&lt;/strong&gt;&#34;;
+				break;
+			case &#34;md&#34;:
+				symbolA = &#34;**&#34;;
+				symbolB = &#34;**&#34;;
+				break;
+		}
+		//设置标题
+		stringBuilder &#43;= $&#34;# {title} \n&#34;;
+
+
+		foreach (var item in allMessages)
+		{
+			if (item.Type == &#34;bot&#34;)
+			{
+				stringBuilder &#43;= $&#34;{symbolA} AI回答：{symbolB}  \n&#34;;
+
+			}
+			else
+			{
+				stringBuilder &#43;= $&#34;{symbolA} 用户提问：{symbolB}  \n&#34;;
+
+			}
+			stringBuilder &#43;= $&#34;{item.Content} \n&#34;;
+			stringBuilder &#43;= &#34;\n&#34;;
+		}
+
+		var request = _httpContextAccessor.HttpContext.Request;
+		string fullUrl = $&#34;{request.Scheme}://{request.Host}&#34;;
+		stringBuilder &#43;= $&#34;&gt; 编辑于 {DateTime.Now}\n &#34; &#43;
+			$&#34;&gt;作者：{UserName} \n &#34; &#43;
+			$&#34;&gt;链接：{Url}\n &#34; &#43;
+			$&#34;&gt;来源：我是来源&#34;;
+
+		if (type == &#34;html&#34;)
+		{
+			stringBuilder = Markdown.ToHtml(stringBuilder);
+			stringBuilder = stringBuilder.Replace(&#34;/n&#34;, &#34;&lt;br /&gt;&#34;);
+			stringBuilder = stringBuilder.Replace(&#34;&lt;p&gt;&#34;, &#34;&#34;);
+			stringBuilder = stringBuilder.Replace(&#34;&lt;/p&gt;&#34;, &#34;&lt;br /&gt;&#34;);
+			stringBuilder = stringBuilder.Replace(&#34;AI回答：&#34;, &#34;&lt;br /&gt; AI回答：&#34;);
+			stringBuilder = stringBuilder.Replace(&#34;用户提问：&#34;, &#34;&lt;br /&gt; 用户提问：&#34;);
+			stringBuilder = stringBuilder.Replace(&#34;&lt;blockquote&gt;&#34;, &#34;&#34;);
+			stringBuilder = stringBuilder.Replace(&#34;&lt;/blockquote&gt;&#34;, &#34;&#34;);
+			stringBuilder = stringBuilder.Replace(&#34;编辑于：&#34;, &#34;&lt;br /&gt;&lt;br /&gt; 编辑于：&#34;);
+			stringBuilder = stringBuilder.Replace(&#34;作者：&#34;, &#34;&lt;br /&gt; 作者：&#34;);
+			stringBuilder = stringBuilder.Replace(&#34;链接：&#34;, &#34;&lt;br /&gt; 链接：&#34;);
+			stringBuilder = stringBuilder.Replace(&#34;来源：&#34;, &#34;&lt;br /&gt; 来源：&#34;);
+			stringBuilder = $&#34;\r\n&lt;!DOCTYPE html&gt;\r\n&lt;html&gt;\r\n&lt;head&gt;\r\n    &lt;meta charset=\&#34;utf-8\&#34; /&gt;\r\n    &lt;title&gt;{currentChat.Name}&lt;/title&gt;\r\n&lt;/head&gt;\r\n&lt;body&gt;\r\n&#34; &#43; stringBuilder;
+			stringBuilder &#43;= &#34;\r\n&lt;/body&gt;\r\n&lt;/html&gt;&#34;;
+
+		}
+		return stringBuilder;
+	}
+}
+">
+    <meta name="generator" content="Hugo 0.138.0">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    
+      <meta name="author" content = "faceman">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/zh/post/c%23%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BD%95%E8%BD%ACpdfwordmd%E6%96%87%E4%BB%B6/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/zh/post/c%23%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BD%95%E8%BD%ACpdfwordmd%E6%96%87%E4%BB%B6/">
+  <meta property="og:site_name" content="雨临Lewis的博客">
+  <meta property="og:title" content="C#实现对话记录转PDF、Word、MD文件">
+  <meta property="og:description" content="前言 工作中有个场景是chatgpt聊天对话记录下载支持PDF、Word、MD格式，于是有了本篇文章。
+实现思路 对话中可能会用md格式的回答，且因为不能直接转成pdf或者word，所以这里通过方法转成md或者html代码，使用html格式转成pdf或者word。
+代码实现 需要的nuget包 html转pdf iTextSharp itextsharp.xmlworker html转word FreeSpire.Doc md转html Markdig 创建HtmlHelper帮助类 /// &lt;summary&gt; /// HTML帮助类 /// &lt;/summary&gt; public class HtmlHelper { /// &lt;summary&gt; /// 字体路径 /// &lt;/summary&gt; private static string FontPath; public HtmlHelper(string fontPath) { FontPath = fontPath; } public HtmlHelper() { } //将html字符串转为pdf字节数组 public byte[] ConvertHtmlTextToPDF(string htmlText) { if (string.IsNullOrEmpty(htmlText)) { return null; } try { MemoryStream outputStream = new MemoryStream(); //要把PDF寫到哪個串流 byte[] data = Encoding.UTF8.GetBytes(htmlText); //字串轉成byte[] MemoryStream msInput = new MemoryStream(data); Document doc = new Document(); //要寫PDF的文件，建構子沒填的話預設直式A4 PdfWriter writer = PdfWriter.GetInstance(doc, outputStream); //指定文件預設開檔時的縮放為100% PdfDestination pdfDest = new PdfDestination(PdfDestination.XYZ, 0, doc.PageSize.Height, 1f); //開啟Document文件 doc.Open(); //使用XMLWorkerHelper把Html parse到PDF檔裡 XMLWorkerHelper.GetInstance().ParseXHtml(writer, doc, msInput, null, Encoding.UTF8, new UnicodeFontFactory()); //將pdfDest設定的資料寫到PDF檔 PdfAction action = PdfAction.GotoLocalPage(1, pdfDest, writer); writer.SetOpenAction(action); doc.Close(); msInput.Close(); outputStream.Close(); return outputStream.ToArray(); } catch (Exception ex) { throw new UserFriendlyException(&#34;转PDF时异常,请联系管理员！&#34;, ex); } } //将html字符串转为word字节数组 public byte[] ConvertHtmlTextToWord(string htmlText) { if (string.IsNullOrEmpty(htmlText)) { return null; } try { MemoryStream outputStream = new MemoryStream(); //要把Word寫到哪個串流 byte[] data = Encoding.UTF8.GetBytes(htmlText); //字串轉成byte[] MemoryStream stream = new MemoryStream(data); Spire.Doc.Document doc = new Spire.Doc.Document(); //要寫Word的文件，建構子沒填的話預設直式A4 doc.LoadFromStream(stream, FileFormat.Html, XHTMLValidationType.None); doc.SaveToStream(outputStream, FileFormat.Docx); doc.Close(); return outputStream.ToArray(); } catch (Exception ex) { throw new UserFriendlyException(&#34;转Word时异常,请联系管理员！&#34;, ex); } } //字体工厂 public class UnicodeFontFactory : FontFactoryImp { public override Font GetFont(string fontname, string encoding, bool embedded, float size, int style, BaseColor color, bool cached) { BaseFont baseFont = BaseFont.CreateFont(FontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED); return new Font(baseFont, size, style, color); } } } 创建测试信息类 public class Message { public string Type { get; set; } public string Context { get; set; } } 通过控制器调用。 public class FileController：Controller { private readonly IHttpContextAccessor _httpContextAccessor; public FileController(IHttpContextAccessor httpContextAccessor） { _httpContextAccessor=httpContextAccessor; } /// &lt;summary&gt; /// 导出当前对话全部信息为Markdown /// &lt;/summary&gt; /// &lt;param name=&#34;messageId&#34;&gt;&lt;/param&gt; /// &lt;returns&gt;&lt;/returns&gt; [HttpGet] [DisableAuditing] public async Task&lt;IActionResult&gt; GenerateAllMarkdown() { var stringBuilder = await GenerateFile(&#34;md&#34;); byte[] markdownBytes = Encoding.UTF8.GetBytes(stringBuilder); var fileName = $&#34;文件名称-{Clock.Now.ToString(&#34;yyyyMMddHHmmss&#34;)}.md&#34;; var contentType = &#34;text/markdown&#34;; return File(markdownBytes, contentType, fileName); } /// &lt;summary&gt; /// 导出当前对话全部信息为Word /// &lt;/summary&gt; /// &lt;param name=&#34;messageId&#34;&gt;&lt;/param&gt; /// &lt;returns&gt;&lt;/returns&gt; [HttpGet] [DisableAuditing] public async Task&lt;ActionResult&gt; GenerateAllWord() { var stringBuilder = await GenerateFile(&#34;html&#34;); HtmlHelper pdfHelper = new HtmlHelper(); var byteData = pdfHelper.ConvertHtmlTextToWord(stringBuilder); var fileName = $&#34;文件名称-{Clock.Now.ToString(&#34;yyyyMMddHHmmss&#34;)}.docx&#34;; var contentType = &#34;application/vnd.openxmlformats-officedocument.wordprocessingml.document&#34;; return File(byteData, contentType, fileName); } /// &lt;summary&gt; /// 导出当前对话全部信息为PDF /// &lt;/summary&gt; /// &lt;param name=&#34;chatId&#34;&gt;&lt;/param&gt; /// &lt;param name=&#34;chatUserId&#34;&gt;&lt;/param&gt; /// &lt;returns&gt;&lt;/returns&gt; /// &lt;exception cref=&#34;UserFriendlyException&#34;&gt;&lt;/exception&gt; [HttpGet] [DisableAuditing] public async Task&lt;ActionResult&gt; GeneratePDF() { var stringBuilder = await GenerateFile(&#34;html&#34;); string fontPath = Path.Combine(&#34;字体地址&#34;, &#34;Nsimsun.ttf&#34;); HtmlHelper pdfHelper = new HtmlHelper(fontPath); var byteData = pdfHelper.ConvertHtmlTextToPDF(stringBuilder);//生成PDF var fileName = $&#34;文件名称-{Clock.Now.ToString(&#34;yyyyMMddHHmmss&#34;)}.pdf&#34;; var contentType = &#34;application/pdf&#34;; return File(byteData, contentType, fileName); } private async Task&lt;string&gt; GenerateFile(string type) { var title = &#34;我是标题&#34;; var UserName = &#34;我是用户&#34;; var Url = &#34;我是链接&#34;; List&lt;Message&gt; currentMessage = new List&lt;Message&gt;() { new Message() { Type =&#34;user&#34;, Context=&#34;你是谁&#34; }， new Message() { Type =&#34;bot&#34;, Context=&#34;hello，我是chatgpt&#34; } //... }; //信息查询操作。。。。 string stringBuilder = default; string symbolA = &#34;&#34;; string symbolB = &#34;&#34;; switch (type) { case &#34;html&#34;: symbolA = &#34;&lt;strong&gt;&#34;; symbolB = &#34;&lt;/strong&gt;&#34;; break; case &#34;md&#34;: symbolA = &#34;**&#34;; symbolB = &#34;**&#34;; break; } //设置标题 stringBuilder &#43;= $&#34;# {title} \n&#34;; foreach (var item in allMessages) { if (item.Type == &#34;bot&#34;) { stringBuilder &#43;= $&#34;{symbolA} AI回答：{symbolB} \n&#34;; } else { stringBuilder &#43;= $&#34;{symbolA} 用户提问：{symbolB} \n&#34;; } stringBuilder &#43;= $&#34;{item.Content} \n&#34;; stringBuilder &#43;= &#34;\n&#34;; } var request = _httpContextAccessor.HttpContext.Request; string fullUrl = $&#34;{request.Scheme}://{request.Host}&#34;; stringBuilder &#43;= $&#34;&gt; 编辑于 {DateTime.Now}\n &#34; &#43; $&#34;&gt;作者：{UserName} \n &#34; &#43; $&#34;&gt;链接：{Url}\n &#34; &#43; $&#34;&gt;来源：我是来源&#34;; if (type == &#34;html&#34;) { stringBuilder = Markdown.ToHtml(stringBuilder); stringBuilder = stringBuilder.Replace(&#34;/n&#34;, &#34;&lt;br /&gt;&#34;); stringBuilder = stringBuilder.Replace(&#34;&lt;p&gt;&#34;, &#34;&#34;); stringBuilder = stringBuilder.Replace(&#34;&lt;/p&gt;&#34;, &#34;&lt;br /&gt;&#34;); stringBuilder = stringBuilder.Replace(&#34;AI回答：&#34;, &#34;&lt;br /&gt; AI回答：&#34;); stringBuilder = stringBuilder.Replace(&#34;用户提问：&#34;, &#34;&lt;br /&gt; 用户提问：&#34;); stringBuilder = stringBuilder.Replace(&#34;&lt;blockquote&gt;&#34;, &#34;&#34;); stringBuilder = stringBuilder.Replace(&#34;&lt;/blockquote&gt;&#34;, &#34;&#34;); stringBuilder = stringBuilder.Replace(&#34;编辑于：&#34;, &#34;&lt;br /&gt;&lt;br /&gt; 编辑于：&#34;); stringBuilder = stringBuilder.Replace(&#34;作者：&#34;, &#34;&lt;br /&gt; 作者：&#34;); stringBuilder = stringBuilder.Replace(&#34;链接：&#34;, &#34;&lt;br /&gt; 链接：&#34;); stringBuilder = stringBuilder.Replace(&#34;来源：&#34;, &#34;&lt;br /&gt; 来源：&#34;); stringBuilder = $&#34;\r\n&lt;!DOCTYPE html&gt;\r\n&lt;html&gt;\r\n&lt;head&gt;\r\n &lt;meta charset=\&#34;utf-8\&#34; /&gt;\r\n &lt;title&gt;{currentChat.Name}&lt;/title&gt;\r\n&lt;/head&gt;\r\n&lt;body&gt;\r\n&#34; &#43; stringBuilder; stringBuilder &#43;= &#34;\r\n&lt;/body&gt;\r\n&lt;/html&gt;&#34;; } return stringBuilder; } }">
+  <meta property="og:locale" content="zh">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="zh">
+    <meta property="article:published_time" content="2024-11-09T15:51:52+08:00">
+    <meta property="article:modified_time" content="2024-11-09T15:51:52+08:00">
+    <meta property="article:tag" content="C#">
+    <meta property="article:tag" content=".Net">
+
+  <meta itemprop="name" content="C#实现对话记录转PDF、Word、MD文件">
+  <meta itemprop="description" content="前言 工作中有个场景是chatgpt聊天对话记录下载支持PDF、Word、MD格式，于是有了本篇文章。
+实现思路 对话中可能会用md格式的回答，且因为不能直接转成pdf或者word，所以这里通过方法转成md或者html代码，使用html格式转成pdf或者word。
+代码实现 需要的nuget包 html转pdf iTextSharp itextsharp.xmlworker html转word FreeSpire.Doc md转html Markdig 创建HtmlHelper帮助类 /// &lt;summary&gt; /// HTML帮助类 /// &lt;/summary&gt; public class HtmlHelper { /// &lt;summary&gt; /// 字体路径 /// &lt;/summary&gt; private static string FontPath; public HtmlHelper(string fontPath) { FontPath = fontPath; } public HtmlHelper() { } //将html字符串转为pdf字节数组 public byte[] ConvertHtmlTextToPDF(string htmlText) { if (string.IsNullOrEmpty(htmlText)) { return null; } try { MemoryStream outputStream = new MemoryStream(); //要把PDF寫到哪個串流 byte[] data = Encoding.UTF8.GetBytes(htmlText); //字串轉成byte[] MemoryStream msInput = new MemoryStream(data); Document doc = new Document(); //要寫PDF的文件，建構子沒填的話預設直式A4 PdfWriter writer = PdfWriter.GetInstance(doc, outputStream); //指定文件預設開檔時的縮放為100% PdfDestination pdfDest = new PdfDestination(PdfDestination.XYZ, 0, doc.PageSize.Height, 1f); //開啟Document文件 doc.Open(); //使用XMLWorkerHelper把Html parse到PDF檔裡 XMLWorkerHelper.GetInstance().ParseXHtml(writer, doc, msInput, null, Encoding.UTF8, new UnicodeFontFactory()); //將pdfDest設定的資料寫到PDF檔 PdfAction action = PdfAction.GotoLocalPage(1, pdfDest, writer); writer.SetOpenAction(action); doc.Close(); msInput.Close(); outputStream.Close(); return outputStream.ToArray(); } catch (Exception ex) { throw new UserFriendlyException(&#34;转PDF时异常,请联系管理员！&#34;, ex); } } //将html字符串转为word字节数组 public byte[] ConvertHtmlTextToWord(string htmlText) { if (string.IsNullOrEmpty(htmlText)) { return null; } try { MemoryStream outputStream = new MemoryStream(); //要把Word寫到哪個串流 byte[] data = Encoding.UTF8.GetBytes(htmlText); //字串轉成byte[] MemoryStream stream = new MemoryStream(data); Spire.Doc.Document doc = new Spire.Doc.Document(); //要寫Word的文件，建構子沒填的話預設直式A4 doc.LoadFromStream(stream, FileFormat.Html, XHTMLValidationType.None); doc.SaveToStream(outputStream, FileFormat.Docx); doc.Close(); return outputStream.ToArray(); } catch (Exception ex) { throw new UserFriendlyException(&#34;转Word时异常,请联系管理员！&#34;, ex); } } //字体工厂 public class UnicodeFontFactory : FontFactoryImp { public override Font GetFont(string fontname, string encoding, bool embedded, float size, int style, BaseColor color, bool cached) { BaseFont baseFont = BaseFont.CreateFont(FontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED); return new Font(baseFont, size, style, color); } } } 创建测试信息类 public class Message { public string Type { get; set; } public string Context { get; set; } } 通过控制器调用。 public class FileController：Controller { private readonly IHttpContextAccessor _httpContextAccessor; public FileController(IHttpContextAccessor httpContextAccessor） { _httpContextAccessor=httpContextAccessor; } /// &lt;summary&gt; /// 导出当前对话全部信息为Markdown /// &lt;/summary&gt; /// &lt;param name=&#34;messageId&#34;&gt;&lt;/param&gt; /// &lt;returns&gt;&lt;/returns&gt; [HttpGet] [DisableAuditing] public async Task&lt;IActionResult&gt; GenerateAllMarkdown() { var stringBuilder = await GenerateFile(&#34;md&#34;); byte[] markdownBytes = Encoding.UTF8.GetBytes(stringBuilder); var fileName = $&#34;文件名称-{Clock.Now.ToString(&#34;yyyyMMddHHmmss&#34;)}.md&#34;; var contentType = &#34;text/markdown&#34;; return File(markdownBytes, contentType, fileName); } /// &lt;summary&gt; /// 导出当前对话全部信息为Word /// &lt;/summary&gt; /// &lt;param name=&#34;messageId&#34;&gt;&lt;/param&gt; /// &lt;returns&gt;&lt;/returns&gt; [HttpGet] [DisableAuditing] public async Task&lt;ActionResult&gt; GenerateAllWord() { var stringBuilder = await GenerateFile(&#34;html&#34;); HtmlHelper pdfHelper = new HtmlHelper(); var byteData = pdfHelper.ConvertHtmlTextToWord(stringBuilder); var fileName = $&#34;文件名称-{Clock.Now.ToString(&#34;yyyyMMddHHmmss&#34;)}.docx&#34;; var contentType = &#34;application/vnd.openxmlformats-officedocument.wordprocessingml.document&#34;; return File(byteData, contentType, fileName); } /// &lt;summary&gt; /// 导出当前对话全部信息为PDF /// &lt;/summary&gt; /// &lt;param name=&#34;chatId&#34;&gt;&lt;/param&gt; /// &lt;param name=&#34;chatUserId&#34;&gt;&lt;/param&gt; /// &lt;returns&gt;&lt;/returns&gt; /// &lt;exception cref=&#34;UserFriendlyException&#34;&gt;&lt;/exception&gt; [HttpGet] [DisableAuditing] public async Task&lt;ActionResult&gt; GeneratePDF() { var stringBuilder = await GenerateFile(&#34;html&#34;); string fontPath = Path.Combine(&#34;字体地址&#34;, &#34;Nsimsun.ttf&#34;); HtmlHelper pdfHelper = new HtmlHelper(fontPath); var byteData = pdfHelper.ConvertHtmlTextToPDF(stringBuilder);//生成PDF var fileName = $&#34;文件名称-{Clock.Now.ToString(&#34;yyyyMMddHHmmss&#34;)}.pdf&#34;; var contentType = &#34;application/pdf&#34;; return File(byteData, contentType, fileName); } private async Task&lt;string&gt; GenerateFile(string type) { var title = &#34;我是标题&#34;; var UserName = &#34;我是用户&#34;; var Url = &#34;我是链接&#34;; List&lt;Message&gt; currentMessage = new List&lt;Message&gt;() { new Message() { Type =&#34;user&#34;, Context=&#34;你是谁&#34; }， new Message() { Type =&#34;bot&#34;, Context=&#34;hello，我是chatgpt&#34; } //... }; //信息查询操作。。。。 string stringBuilder = default; string symbolA = &#34;&#34;; string symbolB = &#34;&#34;; switch (type) { case &#34;html&#34;: symbolA = &#34;&lt;strong&gt;&#34;; symbolB = &#34;&lt;/strong&gt;&#34;; break; case &#34;md&#34;: symbolA = &#34;**&#34;; symbolB = &#34;**&#34;; break; } //设置标题 stringBuilder &#43;= $&#34;# {title} \n&#34;; foreach (var item in allMessages) { if (item.Type == &#34;bot&#34;) { stringBuilder &#43;= $&#34;{symbolA} AI回答：{symbolB} \n&#34;; } else { stringBuilder &#43;= $&#34;{symbolA} 用户提问：{symbolB} \n&#34;; } stringBuilder &#43;= $&#34;{item.Content} \n&#34;; stringBuilder &#43;= &#34;\n&#34;; } var request = _httpContextAccessor.HttpContext.Request; string fullUrl = $&#34;{request.Scheme}://{request.Host}&#34;; stringBuilder &#43;= $&#34;&gt; 编辑于 {DateTime.Now}\n &#34; &#43; $&#34;&gt;作者：{UserName} \n &#34; &#43; $&#34;&gt;链接：{Url}\n &#34; &#43; $&#34;&gt;来源：我是来源&#34;; if (type == &#34;html&#34;) { stringBuilder = Markdown.ToHtml(stringBuilder); stringBuilder = stringBuilder.Replace(&#34;/n&#34;, &#34;&lt;br /&gt;&#34;); stringBuilder = stringBuilder.Replace(&#34;&lt;p&gt;&#34;, &#34;&#34;); stringBuilder = stringBuilder.Replace(&#34;&lt;/p&gt;&#34;, &#34;&lt;br /&gt;&#34;); stringBuilder = stringBuilder.Replace(&#34;AI回答：&#34;, &#34;&lt;br /&gt; AI回答：&#34;); stringBuilder = stringBuilder.Replace(&#34;用户提问：&#34;, &#34;&lt;br /&gt; 用户提问：&#34;); stringBuilder = stringBuilder.Replace(&#34;&lt;blockquote&gt;&#34;, &#34;&#34;); stringBuilder = stringBuilder.Replace(&#34;&lt;/blockquote&gt;&#34;, &#34;&#34;); stringBuilder = stringBuilder.Replace(&#34;编辑于：&#34;, &#34;&lt;br /&gt;&lt;br /&gt; 编辑于：&#34;); stringBuilder = stringBuilder.Replace(&#34;作者：&#34;, &#34;&lt;br /&gt; 作者：&#34;); stringBuilder = stringBuilder.Replace(&#34;链接：&#34;, &#34;&lt;br /&gt; 链接：&#34;); stringBuilder = stringBuilder.Replace(&#34;来源：&#34;, &#34;&lt;br /&gt; 来源：&#34;); stringBuilder = $&#34;\r\n&lt;!DOCTYPE html&gt;\r\n&lt;html&gt;\r\n&lt;head&gt;\r\n &lt;meta charset=\&#34;utf-8\&#34; /&gt;\r\n &lt;title&gt;{currentChat.Name}&lt;/title&gt;\r\n&lt;/head&gt;\r\n&lt;body&gt;\r\n&#34; &#43; stringBuilder; stringBuilder &#43;= &#34;\r\n&lt;/body&gt;\r\n&lt;/html&gt;&#34;; } return stringBuilder; } }">
+  <meta itemprop="datePublished" content="2024-11-09T15:51:52+08:00">
+  <meta itemprop="dateModified" content="2024-11-09T15:51:52+08:00">
+  <meta itemprop="wordCount" content="624">
+  <meta itemprop="keywords" content="C#,.Net">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="C#实现对话记录转PDF、Word、MD文件">
+  <meta name="twitter:description" content="前言 工作中有个场景是chatgpt聊天对话记录下载支持PDF、Word、MD格式，于是有了本篇文章。
+实现思路 对话中可能会用md格式的回答，且因为不能直接转成pdf或者word，所以这里通过方法转成md或者html代码，使用html格式转成pdf或者word。
+代码实现 需要的nuget包 html转pdf iTextSharp itextsharp.xmlworker html转word FreeSpire.Doc md转html Markdig 创建HtmlHelper帮助类 /// &lt;summary&gt; /// HTML帮助类 /// &lt;/summary&gt; public class HtmlHelper { /// &lt;summary&gt; /// 字体路径 /// &lt;/summary&gt; private static string FontPath; public HtmlHelper(string fontPath) { FontPath = fontPath; } public HtmlHelper() { } //将html字符串转为pdf字节数组 public byte[] ConvertHtmlTextToPDF(string htmlText) { if (string.IsNullOrEmpty(htmlText)) { return null; } try { MemoryStream outputStream = new MemoryStream(); //要把PDF寫到哪個串流 byte[] data = Encoding.UTF8.GetBytes(htmlText); //字串轉成byte[] MemoryStream msInput = new MemoryStream(data); Document doc = new Document(); //要寫PDF的文件，建構子沒填的話預設直式A4 PdfWriter writer = PdfWriter.GetInstance(doc, outputStream); //指定文件預設開檔時的縮放為100% PdfDestination pdfDest = new PdfDestination(PdfDestination.XYZ, 0, doc.PageSize.Height, 1f); //開啟Document文件 doc.Open(); //使用XMLWorkerHelper把Html parse到PDF檔裡 XMLWorkerHelper.GetInstance().ParseXHtml(writer, doc, msInput, null, Encoding.UTF8, new UnicodeFontFactory()); //將pdfDest設定的資料寫到PDF檔 PdfAction action = PdfAction.GotoLocalPage(1, pdfDest, writer); writer.SetOpenAction(action); doc.Close(); msInput.Close(); outputStream.Close(); return outputStream.ToArray(); } catch (Exception ex) { throw new UserFriendlyException(&#34;转PDF时异常,请联系管理员！&#34;, ex); } } //将html字符串转为word字节数组 public byte[] ConvertHtmlTextToWord(string htmlText) { if (string.IsNullOrEmpty(htmlText)) { return null; } try { MemoryStream outputStream = new MemoryStream(); //要把Word寫到哪個串流 byte[] data = Encoding.UTF8.GetBytes(htmlText); //字串轉成byte[] MemoryStream stream = new MemoryStream(data); Spire.Doc.Document doc = new Spire.Doc.Document(); //要寫Word的文件，建構子沒填的話預設直式A4 doc.LoadFromStream(stream, FileFormat.Html, XHTMLValidationType.None); doc.SaveToStream(outputStream, FileFormat.Docx); doc.Close(); return outputStream.ToArray(); } catch (Exception ex) { throw new UserFriendlyException(&#34;转Word时异常,请联系管理员！&#34;, ex); } } //字体工厂 public class UnicodeFontFactory : FontFactoryImp { public override Font GetFont(string fontname, string encoding, bool embedded, float size, int style, BaseColor color, bool cached) { BaseFont baseFont = BaseFont.CreateFont(FontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED); return new Font(baseFont, size, style, color); } } } 创建测试信息类 public class Message { public string Type { get; set; } public string Context { get; set; } } 通过控制器调用。 public class FileController：Controller { private readonly IHttpContextAccessor _httpContextAccessor; public FileController(IHttpContextAccessor httpContextAccessor） { _httpContextAccessor=httpContextAccessor; } /// &lt;summary&gt; /// 导出当前对话全部信息为Markdown /// &lt;/summary&gt; /// &lt;param name=&#34;messageId&#34;&gt;&lt;/param&gt; /// &lt;returns&gt;&lt;/returns&gt; [HttpGet] [DisableAuditing] public async Task&lt;IActionResult&gt; GenerateAllMarkdown() { var stringBuilder = await GenerateFile(&#34;md&#34;); byte[] markdownBytes = Encoding.UTF8.GetBytes(stringBuilder); var fileName = $&#34;文件名称-{Clock.Now.ToString(&#34;yyyyMMddHHmmss&#34;)}.md&#34;; var contentType = &#34;text/markdown&#34;; return File(markdownBytes, contentType, fileName); } /// &lt;summary&gt; /// 导出当前对话全部信息为Word /// &lt;/summary&gt; /// &lt;param name=&#34;messageId&#34;&gt;&lt;/param&gt; /// &lt;returns&gt;&lt;/returns&gt; [HttpGet] [DisableAuditing] public async Task&lt;ActionResult&gt; GenerateAllWord() { var stringBuilder = await GenerateFile(&#34;html&#34;); HtmlHelper pdfHelper = new HtmlHelper(); var byteData = pdfHelper.ConvertHtmlTextToWord(stringBuilder); var fileName = $&#34;文件名称-{Clock.Now.ToString(&#34;yyyyMMddHHmmss&#34;)}.docx&#34;; var contentType = &#34;application/vnd.openxmlformats-officedocument.wordprocessingml.document&#34;; return File(byteData, contentType, fileName); } /// &lt;summary&gt; /// 导出当前对话全部信息为PDF /// &lt;/summary&gt; /// &lt;param name=&#34;chatId&#34;&gt;&lt;/param&gt; /// &lt;param name=&#34;chatUserId&#34;&gt;&lt;/param&gt; /// &lt;returns&gt;&lt;/returns&gt; /// &lt;exception cref=&#34;UserFriendlyException&#34;&gt;&lt;/exception&gt; [HttpGet] [DisableAuditing] public async Task&lt;ActionResult&gt; GeneratePDF() { var stringBuilder = await GenerateFile(&#34;html&#34;); string fontPath = Path.Combine(&#34;字体地址&#34;, &#34;Nsimsun.ttf&#34;); HtmlHelper pdfHelper = new HtmlHelper(fontPath); var byteData = pdfHelper.ConvertHtmlTextToPDF(stringBuilder);//生成PDF var fileName = $&#34;文件名称-{Clock.Now.ToString(&#34;yyyyMMddHHmmss&#34;)}.pdf&#34;; var contentType = &#34;application/pdf&#34;; return File(byteData, contentType, fileName); } private async Task&lt;string&gt; GenerateFile(string type) { var title = &#34;我是标题&#34;; var UserName = &#34;我是用户&#34;; var Url = &#34;我是链接&#34;; List&lt;Message&gt; currentMessage = new List&lt;Message&gt;() { new Message() { Type =&#34;user&#34;, Context=&#34;你是谁&#34; }， new Message() { Type =&#34;bot&#34;, Context=&#34;hello，我是chatgpt&#34; } //... }; //信息查询操作。。。。 string stringBuilder = default; string symbolA = &#34;&#34;; string symbolB = &#34;&#34;; switch (type) { case &#34;html&#34;: symbolA = &#34;&lt;strong&gt;&#34;; symbolB = &#34;&lt;/strong&gt;&#34;; break; case &#34;md&#34;: symbolA = &#34;**&#34;; symbolB = &#34;**&#34;; break; } //设置标题 stringBuilder &#43;= $&#34;# {title} \n&#34;; foreach (var item in allMessages) { if (item.Type == &#34;bot&#34;) { stringBuilder &#43;= $&#34;{symbolA} AI回答：{symbolB} \n&#34;; } else { stringBuilder &#43;= $&#34;{symbolA} 用户提问：{symbolB} \n&#34;; } stringBuilder &#43;= $&#34;{item.Content} \n&#34;; stringBuilder &#43;= &#34;\n&#34;; } var request = _httpContextAccessor.HttpContext.Request; string fullUrl = $&#34;{request.Scheme}://{request.Host}&#34;; stringBuilder &#43;= $&#34;&gt; 编辑于 {DateTime.Now}\n &#34; &#43; $&#34;&gt;作者：{UserName} \n &#34; &#43; $&#34;&gt;链接：{Url}\n &#34; &#43; $&#34;&gt;来源：我是来源&#34;; if (type == &#34;html&#34;) { stringBuilder = Markdown.ToHtml(stringBuilder); stringBuilder = stringBuilder.Replace(&#34;/n&#34;, &#34;&lt;br /&gt;&#34;); stringBuilder = stringBuilder.Replace(&#34;&lt;p&gt;&#34;, &#34;&#34;); stringBuilder = stringBuilder.Replace(&#34;&lt;/p&gt;&#34;, &#34;&lt;br /&gt;&#34;); stringBuilder = stringBuilder.Replace(&#34;AI回答：&#34;, &#34;&lt;br /&gt; AI回答：&#34;); stringBuilder = stringBuilder.Replace(&#34;用户提问：&#34;, &#34;&lt;br /&gt; 用户提问：&#34;); stringBuilder = stringBuilder.Replace(&#34;&lt;blockquote&gt;&#34;, &#34;&#34;); stringBuilder = stringBuilder.Replace(&#34;&lt;/blockquote&gt;&#34;, &#34;&#34;); stringBuilder = stringBuilder.Replace(&#34;编辑于：&#34;, &#34;&lt;br /&gt;&lt;br /&gt; 编辑于：&#34;); stringBuilder = stringBuilder.Replace(&#34;作者：&#34;, &#34;&lt;br /&gt; 作者：&#34;); stringBuilder = stringBuilder.Replace(&#34;链接：&#34;, &#34;&lt;br /&gt; 链接：&#34;); stringBuilder = stringBuilder.Replace(&#34;来源：&#34;, &#34;&lt;br /&gt; 来源：&#34;); stringBuilder = $&#34;\r\n&lt;!DOCTYPE html&gt;\r\n&lt;html&gt;\r\n&lt;head&gt;\r\n &lt;meta charset=\&#34;utf-8\&#34; /&gt;\r\n &lt;title&gt;{currentChat.Name}&lt;/title&gt;\r\n&lt;/head&gt;\r\n&lt;body&gt;\r\n&#34; &#43; stringBuilder; stringBuilder &#43;= &#34;\r\n&lt;/body&gt;\r\n&lt;/html&gt;&#34;; } return stringBuilder; } }">
+
+	 
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-YZLV0NMXNB"></script>
+ <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+
+   gtag('config', 'G-YZLV0NMXNB');
+ </script>
+ 
+ <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  </head><body class="ma0 avenir bg-near-white development">
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/office.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        雨临Lewis的博客
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="https://github.com/lewky" title="&lt;i class=&#39;fab fa-fw fa-github&#39;&gt;&lt;/i&gt; GitHub 页">
+              &lt;i class=&#39;fab fa-fw fa-github&#39;&gt;&lt;/i&gt; GitHub
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/zh/" title="Hello, WelCome FaceMan&#39;Blog 页">
+              Hello, WelCome FaceMan&#39;Blog
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/zh/contact/" title="与我联系 页">
+              与我联系
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"><a href="https://github.com/faceman0814%25!%28EXTRA%20%3cnil%3e%29" target="_blank" rel="noopener"
+        class="ananke-social-link link-transition github link dib z-999 pt3 pt0-l mr1"
+        title="follow on GitHub - Opens in a new window"
+        aria-label="follow on GitHub - Opens in a new window">
+      <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+            
+          </span></a></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">C#实现对话记录转PDF、Word、MD文件</div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        博客
+      </aside><div id="sharing" class="mt3 ananke-socials"><a href="mailto:?&amp;body=http%3A%2F%2Flocalhost%3A1313%2Fzh%2Fpost%2Fc%2523%25E5%25AE%259E%25E7%258E%25B0%25E5%25AF%25B9%25E8%25AF%259D%25E8%25AE%25B0%25E5%25BD%2595%25E8%25BD%25ACpdfwordmd%25E6%2596%2587%25E4%25BB%25B6%2F&amp;subject=C%23%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BD%95%E8%BD%ACPDF%E3%80%81Word%E3%80%81MD%E6%96%87%E4%BB%B6"
+        class="ananke-social-link email no-underline"
+        title="Share on Email" aria-label="Share on Email"
+        target="_blank" rel="nofollow noopener noreferrer">
+        <span class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M64 112c-8.8 0-16 7.2-16 16l0 22.1L220.5 291.7c20.7 17 50.4 17 71.1 0L464 150.1l0-22.1c0-8.8-7.2-16-16-16L64 112zM48 212.2L48 384c0 8.8 7.2 16 16 16l384 0c8.8 0 16-7.2 16-16l0-171.8L322 328.8c-38.4 31.5-93.7 31.5-132 0L48 212.2zM0 128C0 92.7 28.7 64 64 64l384 0c35.3 0 64 28.7 64 64l0 256c0 35.3-28.7 64-64 64L64 448c-35.3 0-64-28.7-64-64L0 128z"/></svg>
+                
+              </span></a></div>
+<h1 class="f1 athelas mt3 mb1">C#实现对话记录转PDF、Word、MD文件</h1>
+      
+      <p class="tracked">
+         <strong>faceman</strong>
+      </p>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2024-11-09T15:51:52+08:00">十一月 9, 2024</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="前言">前言</h1>
+<p>工作中有个场景是chatgpt聊天对话记录下载支持PDF、Word、MD格式，于是有了本篇文章。</p>
+<h1 id="实现思路">实现思路</h1>
+<p>对话中可能会用md格式的回答，且因为不能直接转成pdf或者word，所以这里通过方法转成md或者html代码，使用html格式转成pdf或者word。</p>
+<h1 id="代码实现">代码实现</h1>
+<h2 id="需要的nuget包">需要的nuget包</h2>
+<ul>
+<li>html转pdf
+iTextSharp
+itextsharp.xmlworker</li>
+<li>html转word
+FreeSpire.Doc</li>
+<li>md转html
+Markdig</li>
+</ul>
+<h2 id="创建htmlhelper帮助类">创建HtmlHelper帮助类</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#75715e">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// HTML帮助类</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HtmlHelper</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/// 字体路径</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">string</span> FontPath;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> HtmlHelper(<span style="color:#66d9ef">string</span> fontPath)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		FontPath = fontPath;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> HtmlHelper()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//将html字符串转为pdf字节数组</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">byte</span>[] ConvertHtmlTextToPDF(<span style="color:#66d9ef">string</span> htmlText)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">string</span>.IsNullOrEmpty(htmlText))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">try</span>
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			MemoryStream outputStream = <span style="color:#66d9ef">new</span> MemoryStream(); <span style="color:#75715e">//要把PDF寫到哪個串流</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">byte</span>[] data = Encoding.UTF8.GetBytes(htmlText); <span style="color:#75715e">//字串轉成byte[]</span>
+</span></span><span style="display:flex;"><span>			MemoryStream msInput = <span style="color:#66d9ef">new</span> MemoryStream(data);
+</span></span><span style="display:flex;"><span>			Document doc = <span style="color:#66d9ef">new</span> Document(); <span style="color:#75715e">//要寫PDF的文件，建構子沒填的話預設直式A4</span>
+</span></span><span style="display:flex;"><span>			PdfWriter writer = PdfWriter.GetInstance(doc, outputStream);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">//指定文件預設開檔時的縮放為100%</span>
+</span></span><span style="display:flex;"><span>			PdfDestination pdfDest = <span style="color:#66d9ef">new</span> PdfDestination(PdfDestination.XYZ, <span style="color:#ae81ff">0</span>, doc.PageSize.Height, <span style="color:#ae81ff">1f</span>);
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">//開啟Document文件 </span>
+</span></span><span style="display:flex;"><span>			doc.Open();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">//使用XMLWorkerHelper把Html parse到PDF檔裡</span>
+</span></span><span style="display:flex;"><span>			XMLWorkerHelper.GetInstance().ParseXHtml(writer, doc, msInput, <span style="color:#66d9ef">null</span>, Encoding.UTF8, <span style="color:#66d9ef">new</span> UnicodeFontFactory());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">//將pdfDest設定的資料寫到PDF檔</span>
+</span></span><span style="display:flex;"><span>			PdfAction action = PdfAction.GotoLocalPage(<span style="color:#ae81ff">1</span>, pdfDest, writer);
+</span></span><span style="display:flex;"><span>			writer.SetOpenAction(action);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			doc.Close();
+</span></span><span style="display:flex;"><span>			msInput.Close();
+</span></span><span style="display:flex;"><span>			outputStream.Close();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> outputStream.ToArray();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">catch</span> (Exception ex)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> UserFriendlyException(<span style="color:#e6db74">&#34;转PDF时异常,请联系管理员！&#34;</span>, ex);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//将html字符串转为word字节数组</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">byte</span>[] ConvertHtmlTextToWord(<span style="color:#66d9ef">string</span> htmlText)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">string</span>.IsNullOrEmpty(htmlText))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">try</span>
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			MemoryStream outputStream = <span style="color:#66d9ef">new</span> MemoryStream(); <span style="color:#75715e">//要把Word寫到哪個串流</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">byte</span>[] data = Encoding.UTF8.GetBytes(htmlText); <span style="color:#75715e">//字串轉成byte[]</span>
+</span></span><span style="display:flex;"><span>			MemoryStream  stream = <span style="color:#66d9ef">new</span> MemoryStream(data);
+</span></span><span style="display:flex;"><span>			Spire.Doc.Document doc = <span style="color:#66d9ef">new</span> Spire.Doc.Document(); <span style="color:#75715e">//要寫Word的文件，建構子沒填的話預設直式A4</span>
+</span></span><span style="display:flex;"><span>			doc.LoadFromStream(stream, FileFormat.Html, XHTMLValidationType.None);
+</span></span><span style="display:flex;"><span>			doc.SaveToStream(outputStream, FileFormat.Docx);
+</span></span><span style="display:flex;"><span>			doc.Close();
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> outputStream.ToArray();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">catch</span> (Exception ex)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> UserFriendlyException(<span style="color:#e6db74">&#34;转Word时异常,请联系管理员！&#34;</span>, ex);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//字体工厂</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UnicodeFontFactory</span> : FontFactoryImp
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">override</span> Font GetFont(<span style="color:#66d9ef">string</span> fontname, <span style="color:#66d9ef">string</span> encoding, <span style="color:#66d9ef">bool</span> embedded, <span style="color:#66d9ef">float</span> size, <span style="color:#66d9ef">int</span> style, BaseColor color,
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">bool</span> cached)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			BaseFont baseFont = BaseFont.CreateFont(FontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Font(baseFont, size, style, color);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="创建测试信息类">创建测试信息类</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Message</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> Type { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">string</span> Context { <span style="color:#66d9ef">get</span>; <span style="color:#66d9ef">set</span>; }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="通过控制器调用">通过控制器调用。</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FileController</span><span style="color:#960050;background-color:#1e0010">：</span>Controller
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">readonly</span> IHttpContextAccessor _httpContextAccessor;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> FileController(IHttpContextAccessor httpContextAccessor<span style="color:#960050;background-color:#1e0010">）</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		_httpContextAccessor=httpContextAccessor;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">/// 导出当前对话全部信息为Markdown</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">/// &lt;param name=&#34;messageId&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">		[HttpGet]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">		[DisableAuditing]</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">async</span> Task&lt;IActionResult&gt; GenerateAllMarkdown()
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">var</span> stringBuilder = <span style="color:#66d9ef">await</span> GenerateFile(<span style="color:#e6db74">&#34;md&#34;</span>);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">byte</span>[] markdownBytes = Encoding.UTF8.GetBytes(stringBuilder);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">var</span> fileName = <span style="color:#e6db74">$&#34;文件名称-{Clock.Now.ToString(&#34;</span>yyyyMMddHHmmss<span style="color:#e6db74">&#34;)}.md&#34;</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">var</span> contentType = <span style="color:#e6db74">&#34;text/markdown&#34;</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> File(markdownBytes, contentType, fileName);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">/// 导出当前对话全部信息为Word</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">/// &lt;param name=&#34;messageId&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">		[HttpGet]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">		[DisableAuditing]</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">async</span> Task&lt;ActionResult&gt; GenerateAllWord()
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">var</span> stringBuilder = <span style="color:#66d9ef">await</span> GenerateFile(<span style="color:#e6db74">&#34;html&#34;</span>);
+</span></span><span style="display:flex;"><span>			HtmlHelper pdfHelper = <span style="color:#66d9ef">new</span> HtmlHelper();
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">var</span> byteData = pdfHelper.ConvertHtmlTextToWord(stringBuilder);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">var</span> fileName = <span style="color:#e6db74">$&#34;文件名称-{Clock.Now.ToString(&#34;</span>yyyyMMddHHmmss<span style="color:#e6db74">&#34;)}.docx&#34;</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">var</span> contentType = <span style="color:#e6db74">&#34;application/vnd.openxmlformats-officedocument.wordprocessingml.document&#34;</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> File(byteData, contentType, fileName);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">/// &lt;summary&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">/// 导出当前对话全部信息为PDF</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">/// &lt;/summary&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">/// &lt;param name=&#34;chatId&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">/// &lt;param name=&#34;chatUserId&#34;&gt;&lt;/param&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">/// &lt;exception cref=&#34;UserFriendlyException&#34;&gt;&lt;/exception&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">		[HttpGet]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">		[DisableAuditing]</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">async</span> Task&lt;ActionResult&gt; GeneratePDF()
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			 <span style="color:#66d9ef">var</span> stringBuilder = <span style="color:#66d9ef">await</span> GenerateFile(<span style="color:#e6db74">&#34;html&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">string</span> fontPath = Path.Combine(<span style="color:#e6db74">&#34;字体地址&#34;</span>, <span style="color:#e6db74">&#34;Nsimsun.ttf&#34;</span>);
+</span></span><span style="display:flex;"><span>			HtmlHelper pdfHelper = <span style="color:#66d9ef">new</span> HtmlHelper(fontPath);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">var</span> byteData = pdfHelper.ConvertHtmlTextToPDF(stringBuilder);<span style="color:#75715e">//生成PDF</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">var</span> fileName = <span style="color:#e6db74">$&#34;文件名称-{Clock.Now.ToString(&#34;</span>yyyyMMddHHmmss<span style="color:#e6db74">&#34;)}.pdf&#34;</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">var</span> contentType = <span style="color:#e6db74">&#34;application/pdf&#34;</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> File(byteData, contentType, fileName);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">async</span> Task&lt;<span style="color:#66d9ef">string</span>&gt; GenerateFile(<span style="color:#66d9ef">string</span> type)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> title = <span style="color:#e6db74">&#34;我是标题&#34;</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> UserName = <span style="color:#e6db74">&#34;我是用户&#34;</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> Url = <span style="color:#e6db74">&#34;我是链接&#34;</span>;
+</span></span><span style="display:flex;"><span>		List&lt;Message&gt; currentMessage = <span style="color:#66d9ef">new</span> List&lt;Message&gt;()
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">new</span> Message()
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				Type =<span style="color:#e6db74">&#34;user&#34;</span>,
+</span></span><span style="display:flex;"><span>				Context=<span style="color:#e6db74">&#34;你是谁&#34;</span>
+</span></span><span style="display:flex;"><span>			}<span style="color:#960050;background-color:#1e0010">，</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">new</span> Message()
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				Type =<span style="color:#e6db74">&#34;bot&#34;</span>,
+</span></span><span style="display:flex;"><span>				Context=<span style="color:#e6db74">&#34;hello，我是chatgpt&#34;</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">//...</span>
+</span></span><span style="display:flex;"><span>		};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">//信息查询操作。。。。</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">string</span> stringBuilder = <span style="color:#66d9ef">default</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">string</span> symbolA = <span style="color:#e6db74">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">string</span> symbolB = <span style="color:#e6db74">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">switch</span> (type)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;html&#34;</span>:
+</span></span><span style="display:flex;"><span>				symbolA = <span style="color:#e6db74">&#34;&lt;strong&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>				symbolB = <span style="color:#e6db74">&#34;&lt;/strong&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;md&#34;</span>:
+</span></span><span style="display:flex;"><span>				symbolA = <span style="color:#e6db74">&#34;**&#34;</span>;
+</span></span><span style="display:flex;"><span>				symbolB = <span style="color:#e6db74">&#34;**&#34;</span>;
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">//设置标题</span>
+</span></span><span style="display:flex;"><span>		stringBuilder += <span style="color:#e6db74">$&#34;# {title} \n&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">foreach</span> (<span style="color:#66d9ef">var</span> item <span style="color:#66d9ef">in</span> allMessages)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (item.Type == <span style="color:#e6db74">&#34;bot&#34;</span>)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				stringBuilder += <span style="color:#e6db74">$&#34;{symbolA} AI回答：{symbolB}  \n&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				stringBuilder += <span style="color:#e6db74">$&#34;{symbolA} 用户提问：{symbolB}  \n&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			stringBuilder += <span style="color:#e6db74">$&#34;{item.Content} \n&#34;</span>;
+</span></span><span style="display:flex;"><span>			stringBuilder += <span style="color:#e6db74">&#34;\n&#34;</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">var</span> request = _httpContextAccessor.HttpContext.Request;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">string</span> fullUrl = <span style="color:#e6db74">$&#34;{request.Scheme}://{request.Host}&#34;</span>;
+</span></span><span style="display:flex;"><span>		stringBuilder += <span style="color:#e6db74">$&#34;&gt; 编辑于 {DateTime.Now}\n &#34;</span> +
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">$&#34;&gt;作者：{UserName} \n &#34;</span> +
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">$&#34;&gt;链接：{Url}\n &#34;</span> +
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">$&#34;&gt;来源：我是来源&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (type == <span style="color:#e6db74">&#34;html&#34;</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			stringBuilder = Markdown.ToHtml(stringBuilder);
+</span></span><span style="display:flex;"><span>			stringBuilder = stringBuilder.Replace(<span style="color:#e6db74">&#34;/n&#34;</span>, <span style="color:#e6db74">&#34;&lt;br /&gt;&#34;</span>);
+</span></span><span style="display:flex;"><span>			stringBuilder = stringBuilder.Replace(<span style="color:#e6db74">&#34;&lt;p&gt;&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>);
+</span></span><span style="display:flex;"><span>			stringBuilder = stringBuilder.Replace(<span style="color:#e6db74">&#34;&lt;/p&gt;&#34;</span>, <span style="color:#e6db74">&#34;&lt;br /&gt;&#34;</span>);
+</span></span><span style="display:flex;"><span>			stringBuilder = stringBuilder.Replace(<span style="color:#e6db74">&#34;AI回答：&#34;</span>, <span style="color:#e6db74">&#34;&lt;br /&gt; AI回答：&#34;</span>);
+</span></span><span style="display:flex;"><span>			stringBuilder = stringBuilder.Replace(<span style="color:#e6db74">&#34;用户提问：&#34;</span>, <span style="color:#e6db74">&#34;&lt;br /&gt; 用户提问：&#34;</span>);
+</span></span><span style="display:flex;"><span>			stringBuilder = stringBuilder.Replace(<span style="color:#e6db74">&#34;&lt;blockquote&gt;&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>);
+</span></span><span style="display:flex;"><span>			stringBuilder = stringBuilder.Replace(<span style="color:#e6db74">&#34;&lt;/blockquote&gt;&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>);
+</span></span><span style="display:flex;"><span>			stringBuilder = stringBuilder.Replace(<span style="color:#e6db74">&#34;编辑于：&#34;</span>, <span style="color:#e6db74">&#34;&lt;br /&gt;&lt;br /&gt; 编辑于：&#34;</span>);
+</span></span><span style="display:flex;"><span>			stringBuilder = stringBuilder.Replace(<span style="color:#e6db74">&#34;作者：&#34;</span>, <span style="color:#e6db74">&#34;&lt;br /&gt; 作者：&#34;</span>);
+</span></span><span style="display:flex;"><span>			stringBuilder = stringBuilder.Replace(<span style="color:#e6db74">&#34;链接：&#34;</span>, <span style="color:#e6db74">&#34;&lt;br /&gt; 链接：&#34;</span>);
+</span></span><span style="display:flex;"><span>			stringBuilder = stringBuilder.Replace(<span style="color:#e6db74">&#34;来源：&#34;</span>, <span style="color:#e6db74">&#34;&lt;br /&gt; 来源：&#34;</span>);
+</span></span><span style="display:flex;"><span>			stringBuilder = <span style="color:#e6db74">$&#34;\r\n&lt;!DOCTYPE html&gt;\r\n&lt;html&gt;\r\n&lt;head&gt;\r\n    &lt;meta charset=\&#34;</span>utf-<span style="color:#ae81ff">8</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#e6db74">&#34; /&gt;\r\n    &lt;title&gt;{currentChat.Name}&lt;/title&gt;\r\n&lt;/head&gt;\r\n&lt;body&gt;\r\n&#34;</span> + stringBuilder;
+</span></span><span style="display:flex;"><span>			stringBuilder += <span style="color:#e6db74">&#34;\r\n&lt;/body&gt;\r\n&lt;/html&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> stringBuilder;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul class="pa0">
+  
+   <li class="list di">
+     <a href="/tags/c%23/" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">C#</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/.net/" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">.Net</a>
+   </li>
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+        <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "FaceMan" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">导航</p>
+      <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#实现思路">实现思路</a></li>
+    <li><a href="#代码实现">代码实现</a>
+      <ol>
+        <li><a href="#需要的nuget包">需要的nuget包</a></li>
+        <li><a href="#创建htmlhelper帮助类">创建HtmlHelper帮助类</a></li>
+        <li><a href="#创建测试信息类">创建测试信息类</a></li>
+        <li><a href="#通过控制器调用">通过控制器调用。</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+  </div>
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">相关內容</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/zh/post/swagger&#43;%E5%8A%A8%E6%80%81api%E9%9B%86%E6%88%90/">Swagger&#43;动态API集成</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://localhost:1313/" >
+    &copy;  雨临Lewis的博客 2024-11-13 10:33 
+  
+  </a>
+    <div><div class="ananke-socials"><a href="https://github.com/faceman0814%25!%28EXTRA%20%3cnil%3e%29" target="_blank" rel="noopener"
+        class="ananke-social-link link-transition github link dib z-999 pt3 pt0-l mr1"
+        title="follow on GitHub - Opens in a new window"
+        aria-label="follow on GitHub - Opens in a new window">
+      <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+            
+          </span></a></div>
+</div>
+    <div class="footer-container">
+      本站总访问量<span id="busuanzi_value_site_uv"></span>次
+      &nbsp;
+      <span id="sitetime">载入运行时间...</span>
+    </div>
+  </div>
+  </div>
+  
+</footer>
+<style>
+  .footer-container {
+    color: white; 
+    display: flex;
+    justify-content: center;  
+    align-items: center;      
+  }
+</style>
+
+<script>
+  function siteTime() {
+      var seconds = 1000;
+      var minutes = seconds * 60;
+      var hours = minutes * 60;
+      var days = hours * 24;
+      var years = days * 365;
+      var today = new Date();
+      var startYear = 2024;
+      var startMonth = 11;
+      var startDate = 8;
+      var startHour = 14;
+      var startMinute = 15;
+      var startSecond = 11;
+      var todayYear = today.getFullYear();
+      var todayMonth = today.getMonth() + 1;
+      var todayDate = today.getDate();
+      var todayHour = today.getHours();
+      var todayMinute = today.getMinutes();
+      var todaySecond = today.getSeconds();
+      var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+      var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+      var diff = t2 - t1;
+      var diffYears = Math.floor(diff / years);
+      var diffDays = Math.floor((diff / days) - diffYears * 365);
+      var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+      var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+          minutes);
+      var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+          diffMinutes * minutes) / seconds);
+      if (startYear == todayYear) {
+          
+          document.getElementById("sitetime").innerHTML = "博客已运行 " + diffDays + " 天 " + diffHours +
+              " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+      } else {
+          
+          document.getElementById("sitetime").innerHTML = "博客已运行 " + diffYears + " 年 " + diffDays +
+              " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+      }
+  }
+  setInterval(siteTime, 1000);
+
+</script>
+  </body>
+</html>

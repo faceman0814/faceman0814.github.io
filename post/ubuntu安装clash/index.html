@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
@@ -80,14 +80,14 @@ vim /etc/systemd/system/clash.service">
     
     
     
-      <meta name="robots" content="index, follow">
+      <meta name="robots" content="noindex, nofollow">
     
     
       <meta name="author" content = "faceman">
     
 
     
-<link rel="stylesheet" href="/ananke/css/main.min.62fb708857ebae80c5e3f8ebc5db80e351ff1cf6ba2d9dbb62aa1a00537c4e6e.css" >
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
 
 
 
@@ -101,10 +101,10 @@ vim /etc/systemd/system/clash.service">
     
 
     
-      <link rel="canonical" href="https://blog.faceman.cn/post/ubuntu%E5%AE%89%E8%A3%85clash/">
+      <link rel="canonical" href="http://localhost:1313/post/ubuntu%E5%AE%89%E8%A3%85clash/">
     
 
-    <meta property="og:url" content="https://blog.faceman.cn/post/ubuntu%E5%AE%89%E8%A3%85clash/">
+    <meta property="og:url" content="http://localhost:1313/post/ubuntu%E5%AE%89%E8%A3%85clash/">
   <meta property="og:site_name" content="FaceMan&#39;s Blog">
   <meta property="og:title" content="Ubuntu安装Clash">
   <meta property="og:description" content="下载配置文件或者导入订阅连接配置。
@@ -153,8 +153,6 @@ wget -U &#34;Mozilla/6.0&#34; -O ~/.config/clash/config.yaml 你的Clash订阅�
 # 编辑环境变量 sudo nano /etc/environment # 配置手动代理 http_proxy=&#34;http://127.0.0.1:7890&#34; https_proxy=&#34;https://127.0.0.1:7890&#34; socks_proxy=&#34;socks5h://127.0.0.1:7891&#34; no_proxy=&#34;localhost,127.0.0.1,::1&#34; # CTRL&#43;X 保存 # 应用环境变量 source /etc/environment # 查看代理服务配置 env | grep -i proxy # 重启 sudo reboot 配置服务
 vim /etc/systemd/system/clash.service">
 
-      
-    
 	 
  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YZLV0NMXNB"></script>
  <script>
@@ -167,7 +165,7 @@ vim /etc/systemd/system/clash.service">
  
  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-  </head><body class="ma0 avenir bg-near-white production">
+  </head><body class="ma0 avenir bg-near-white development">
     
    
   
@@ -175,7 +173,7 @@ vim /etc/systemd/system/clash.service">
   
   
   
-  <header class="cover bg-center" style="background-image: url('https://blog.faceman.cn/images/Clash.jpg');">
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/Clash.jpg');">
     <div class="bg-black-60">
       <nav class="pv3 ph3 ph4-ns" role="navigation">
   <div class="flex-l justify-between items-center center">
@@ -204,7 +202,7 @@ vim /etc/systemd/system/clash.service">
           
         </ul>
       
-      <div class="ananke-socials"><a href="https://github.com/faceman0814" target="_blank" rel="noopener"
+      <div class="ananke-socials"><a href="https://github.com/faceman0814%25!%28EXTRA%20%3cnil%3e%29" target="_blank" rel="noopener"
         class="ananke-social-link link-transition github link dib z-999 pt3 pt0-l mr1"
         title="follow on GitHub - Opens in a new window"
         aria-label="follow on GitHub - Opens in a new window">
@@ -236,7 +234,7 @@ vim /etc/systemd/system/clash.service">
       <aside class="instapaper_ignoref b helvetica tracked ttu">
           
         博客
-      </aside><div id="sharing" class="mt3 ananke-socials"><a href="mailto:?&amp;body=https%3A%2F%2Fblog.faceman.cn%2Fpost%2Fubuntu%25E5%25AE%2589%25E8%25A3%2585clash%2F&amp;subject=Ubuntu%E5%AE%89%E8%A3%85Clash"
+      </aside><div id="sharing" class="mt3 ananke-socials"><a href="mailto:?&amp;body=http%3A%2F%2Flocalhost%3A1313%2Fpost%2Fubuntu%25E5%25AE%2589%25E8%25A3%2585clash%2F&amp;subject=Ubuntu%E5%AE%89%E8%A3%85Clash"
         class="ananke-social-link email no-underline"
         title="Share on Email" aria-label="Share on Email"
         target="_blank" rel="nofollow noopener noreferrer">
@@ -409,27 +407,27 @@ vim /etc/systemd/system/clash.service">
 <h2 id="docker-compose安装clash">docker compose安装clash</h2>
 <p>参考链接：<a href="https://www.frank9.com/ubuntu-server-clash-setup.html">ubuntu-server20.04安装clash，并快速配置到可用 - linux学习记录 (frank9.com)</a>
 docker-compose.yml</p>
-<pre tabindex="0"><code>version: &#39;3.9&#39;
-services:
-  clash:
-    image: dreamacro/clash
-    container_name: clash
-    volumes:
-      - ./.config/clash:/root/.config/clash
-    # - ./ui:/ui # dashboard volume
-    ports:
-      - &#34;7890:7890&#34;
-      - &#34;7891:7891&#34;
-      # - &#34;8080:8080&#34; # external controller (Restful API)
-      # TUN
-      # cap_add:
-      # - NET_ADMIN
-      # devices:
-      # - /dev/net/tun
-    restart: unless-stopped
-    network_mode: &#34;host&#34; # or &#34;host&#34; on Linux
-	```
-</code></pre><ul class="pa0">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>version: &#39;3.9&#39;
+</span></span><span style="display:flex;"><span>services:
+</span></span><span style="display:flex;"><span>  clash:
+</span></span><span style="display:flex;"><span>    image: dreamacro/clash
+</span></span><span style="display:flex;"><span>    container_name: clash
+</span></span><span style="display:flex;"><span>    volumes:
+</span></span><span style="display:flex;"><span>      - ./.config/clash:/root/.config/clash
+</span></span><span style="display:flex;"><span>    # - ./ui:/ui # dashboard volume
+</span></span><span style="display:flex;"><span>    ports:
+</span></span><span style="display:flex;"><span>      - &#34;7890:7890&#34;
+</span></span><span style="display:flex;"><span>      - &#34;7891:7891&#34;
+</span></span><span style="display:flex;"><span>      # - &#34;8080:8080&#34; # external controller (Restful API)
+</span></span><span style="display:flex;"><span>      # TUN
+</span></span><span style="display:flex;"><span>      # cap_add:
+</span></span><span style="display:flex;"><span>      # - NET_ADMIN
+</span></span><span style="display:flex;"><span>      # devices:
+</span></span><span style="display:flex;"><span>      # - /dev/net/tun
+</span></span><span style="display:flex;"><span>    restart: unless-stopped
+</span></span><span style="display:flex;"><span>    network_mode: &#34;host&#34; # or &#34;host&#34; on Linux
+</span></span><span style="display:flex;"><span>	```
+</span></span></code></pre></div><ul class="pa0">
   
    <li class="list di">
      <a href="/tags/ubuntu/" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Ubuntu</a>
@@ -466,20 +464,23 @@ services:
       
       </div>
     </div>
-
     <aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
     <p class="f5 b mb3">导航</p>
       <nav id="TableOfContents">
-  <ul>
+  <ol>
     <li>
-      <ul>
-        <li><a href="#方法一">方法一</a></li>
-        <li><a href="#方法二">方法二</a></li>
-      </ul>
+      <ol>
+        <li>
+          <ol>
+            <li><a href="#方法一">方法一</a></li>
+            <li><a href="#方法二">方法二</a></li>
+          </ol>
+        </li>
+        <li><a href="#参考链接">参考链接</a></li>
+        <li><a href="#docker-compose安装clash">docker compose安装clash</a></li>
+      </ol>
     </li>
-    <li><a href="#参考链接">参考链接</a></li>
-    <li><a href="#docker-compose安装clash">docker compose安装clash</a></li>
-  </ul>
+  </ol>
 </nav>
   </div>
 
@@ -493,11 +494,11 @@ services:
     </main>
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
   <div class="flex justify-between">
-  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.faceman.cn/" >
-    &copy;  FaceMan's Blog 2024-11-13 10:12 
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://localhost:1313/" >
+    &copy;  FaceMan's Blog 2024-11-13 10:47 
   
   </a>
-    <div><div class="ananke-socials"><a href="https://github.com/faceman0814" target="_blank" rel="noopener"
+    <div><div class="ananke-socials"><a href="https://github.com/faceman0814%25!%28EXTRA%20%3cnil%3e%29" target="_blank" rel="noopener"
         class="ananke-social-link link-transition github link dib z-999 pt3 pt0-l mr1"
         title="follow on GitHub - Opens in a new window"
         aria-label="follow on GitHub - Opens in a new window">
@@ -569,4 +570,3 @@ services:
 </script>
   </body>
 </html>
-

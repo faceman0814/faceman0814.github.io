@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
@@ -11,14 +11,14 @@
     
     
     
-      <meta name="robots" content="index, follow">
+      <meta name="robots" content="noindex, nofollow">
     
     
       <meta name="author" content = "faceman">
     
 
     
-<link rel="stylesheet" href="/ananke/css/main.min.62fb708857ebae80c5e3f8ebc5db80e351ff1cf6ba2d9dbb62aa1a00537c4e6e.css" >
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
 
 
 
@@ -37,10 +37,10 @@
     
 
     
-      <link rel="canonical" href="https://blog.faceman.cn/tags/hugo/">
+      <link rel="canonical" href="http://localhost:1313/tags/hugo/">
     
 
-    <meta property="og:url" content="https://blog.faceman.cn/tags/hugo/">
+    <meta property="og:url" content="http://localhost:1313/tags/hugo/">
   <meta property="og:site_name" content="FaceMan&#39;s Blog">
   <meta property="og:title" content="Hugo">
   <meta property="og:description" content="从0开始，直到1。">
@@ -55,8 +55,6 @@
   <meta name="twitter:title" content="Hugo">
   <meta name="twitter:description" content="从0开始，直到1。">
 
-      
-    
 	 
  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YZLV0NMXNB"></script>
  <script>
@@ -69,12 +67,12 @@
  
  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-  </head><body class="ma0 avenir bg-near-white production">
+  </head><body class="ma0 avenir bg-near-white development">
     
 
   
   
-  <header class="cover bg-top" style="background-image: url('https://blog.faceman.cn/images/background.jpg');">
+  <header class="cover bg-top" style="background-image: url('http://localhost:1313/images/background.jpg');">
     
     <div class="bg-black-60">
       <nav class="pv3 ph3 ph4-ns" role="navigation">
@@ -104,7 +102,7 @@
           
         </ul>
       
-      <div class="ananke-socials"><a href="https://github.com/faceman0814" target="_blank" rel="noopener"
+      <div class="ananke-socials"><a href="https://github.com/faceman0814%25!%28EXTRA%20%3cnil%3e%29" target="_blank" rel="noopener"
         class="ananke-social-link link-transition github link dib z-999 pt3 pt0-l mr1"
         title="follow on GitHub - Opens in a new window"
         aria-label="follow on GitHub - Opens in a new window">
@@ -161,179 +159,179 @@
 <p>前提：需要有一个自己的域名，如果想以https访问还需要配置证书。</p>
 <p>总所周知，github是需要翻墙才能访问，如果我们想不翻墙访问博客可以到github项目的Page页设置自域名（Custom domain）和nginx代理。</p>
 <h3 id="1配置nginx代理">1.配置nginx代理</h3>
-<pre tabindex="0"><code>error_log /var/log/nginx/error.log;
-
-    server {
-        listen 80;
-        listen 443 ssl;
-        server_name blog.faceman.cn; # 你的域名
-        ssl_protocols TLSv1.2 TLSv1.1 TLSv1; 
-  
-        ssl_certificate      /domains/fullchain.pem; # 证书位置
-        ssl_certificate_key  /domains/key.key; # 证书位置
-        ssl_prefer_server_ciphers on; 
-        ssl_session_timeout  5m;
-        if ($server_port = 80) {
-        rewrite ^(.*)$ https://$host$1 permanent;
-        }
-        location / {
-            proxy_pass https://faceman0814.github.io; # 映射地址
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            root /home/web/;
-            index index.php;
-        }
-    }
-</code></pre><p>重启nginx即可</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript3" data-lang="gdscript3"><span style="display:flex;"><span>error_log <span style="color:#f92672">/</span><span style="color:#66d9ef">var</span><span style="color:#f92672">/</span>log<span style="color:#f92672">/</span>nginx<span style="color:#f92672">/</span>error<span style="color:#f92672">.</span>log;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    server {
+</span></span><span style="display:flex;"><span>        listen <span style="color:#ae81ff">80</span>;
+</span></span><span style="display:flex;"><span>        listen <span style="color:#ae81ff">443</span> ssl;
+</span></span><span style="display:flex;"><span>        server_name blog<span style="color:#f92672">.</span>faceman<span style="color:#f92672">.</span>cn; <span style="color:#75715e"># 你的域名</span>
+</span></span><span style="display:flex;"><span>        ssl_protocols TLSv1<span style="color:#f92672">.</span><span style="color:#ae81ff">2</span> TLSv1<span style="color:#f92672">.</span><span style="color:#ae81ff">1</span> TLSv1; 
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>        ssl_certificate      <span style="color:#f92672">/</span>domains<span style="color:#f92672">/</span>fullchain<span style="color:#f92672">.</span>pem; <span style="color:#75715e"># 证书位置</span>
+</span></span><span style="display:flex;"><span>        ssl_certificate_key  <span style="color:#f92672">/</span>domains<span style="color:#f92672">/</span>key<span style="color:#f92672">.</span>key; <span style="color:#75715e"># 证书位置</span>
+</span></span><span style="display:flex;"><span>        ssl_prefer_server_ciphers on; 
+</span></span><span style="display:flex;"><span>        ssl_session_timeout  <span style="color:#ae81ff">5</span>m;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">$</span>server_port <span style="color:#f92672">=</span> <span style="color:#ae81ff">80</span>) {
+</span></span><span style="display:flex;"><span>        rewrite <span style="color:#f92672">^</span>(<span style="color:#f92672">.*</span>)<span style="color:#f92672">$</span> https:<span style="color:#f92672">//$</span>host<span style="color:#f92672">$</span><span style="color:#ae81ff">1</span> permanent;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        location <span style="color:#f92672">/</span> {
+</span></span><span style="display:flex;"><span>            proxy_pass https:<span style="color:#f92672">//</span>faceman0814<span style="color:#f92672">.</span>github<span style="color:#f92672">.</span>io; <span style="color:#75715e"># 映射地址</span>
+</span></span><span style="display:flex;"><span>            proxy_set_header Host <span style="color:#f92672">$</span>host;
+</span></span><span style="display:flex;"><span>            proxy_set_header X<span style="color:#f92672">-</span>Real<span style="color:#f92672">-</span><span style="color:#a6e22e">IP</span> <span style="color:#f92672">$</span>remote_addr;
+</span></span><span style="display:flex;"><span>            proxy_set_header X<span style="color:#f92672">-</span>Forwarded<span style="color:#f92672">-</span>For <span style="color:#f92672">$</span>proxy_add_x_forwarded_for;
+</span></span><span style="display:flex;"><span>            root <span style="color:#f92672">/</span>home<span style="color:#f92672">/</span>web<span style="color:#f92672">/</span>;
+</span></span><span style="display:flex;"><span>            index index<span style="color:#f92672">.</span>php;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>重启nginx即可</p>
 <h3 id="2设置自域名">2.设置自域名</h3>
 <p><img alt="1731135427227" src="/images/article/1731135427227.png"></p>
 <h2 id="2部署脚本">2.部署脚本</h2>
 <p>为了简化部署流程，我写了一套Windows版本的脚本分享给大家</p>
-<pre tabindex="0"><code>param(
-    [string]$commitMessage = &#34;博客更新&#34;
-)
-
-# 输出部署更新信息
-Write-Host &#34;正在部署到GitHub...&#34; -ForegroundColor Green
-
-# 构建项目
-&amp; hugo
-
-# 进入Public文件夹
-Set-Location public
-
-# 将更改添加到git
-git add .
-
-# 提交更改
-Write-Host $commitMessage -ForegroundColor Green
-git commit -m $commitMessage
-
-# 拉取最新的远程仓库更改以避免冲突
-git pull origin main
-
-# 推送源和构建仓库
-git push origin main
-
-# 返回到项目根目录
-Set-Location ..
-</code></pre><p>根目录下面保存为deploy.ps1(powershell脚本格式)</p>
-<pre tabindex="0"><code>//在根目录下运行
-/deploy.ps1 &#34;提交内容&#34; //默认提交内容为博客更新
-</code></pre><p>我用的ananke主题有些小问题，比如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>param(
+</span></span><span style="display:flex;"><span>    [string]$commitMessage = &#34;博客更新&#34;
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 输出部署更新信息
+</span></span><span style="display:flex;"><span>Write-Host &#34;正在部署到GitHub...&#34; -ForegroundColor Green
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 构建项目
+</span></span><span style="display:flex;"><span>&amp; hugo
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 进入Public文件夹
+</span></span><span style="display:flex;"><span>Set-Location public
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 将更改添加到git
+</span></span><span style="display:flex;"><span>git add .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 提交更改
+</span></span><span style="display:flex;"><span>Write-Host $commitMessage -ForegroundColor Green
+</span></span><span style="display:flex;"><span>git commit -m $commitMessage
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 拉取最新的远程仓库更改以避免冲突
+</span></span><span style="display:flex;"><span>git pull origin main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 推送源和构建仓库
+</span></span><span style="display:flex;"><span>git push origin main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 返回到项目根目录
+</span></span><span style="display:flex;"><span>Set-Location ..
+</span></span></code></pre></div><p>根目录下面保存为deploy.ps1(powershell脚本格式)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>//在根目录下运行
+</span></span><span style="display:flex;"><span>/deploy.ps1 &#34;提交内容&#34; //默认提交内容为博客更新
+</span></span></code></pre></div><p>我用的ananke主题有些小问题，比如：</p>
 <ul>
 <li>github地址生成的时候会有些乱码导致跳转404</li>
 <li>静态图片部署的时候会被损坏</li>
 </ul>
 <p>我在脚本处理，如果你们没有这个问题可以略过。</p>
-<pre tabindex="0"><code>param(
-    [string]$commitMessage = &#34;博客更新&#34;
-)
-
-# 输出部署更新信息
-Write-Host &#34;正在部署到GitHub...&#34; -ForegroundColor Green
-
-# 构建项目
-&amp; hugo
-
-# 进入Public文件夹
-Set-Location public
-
-# 扫描所有文件并替换指定字符串
-$replacements = @{
-    &#34;https://github.com/faceman0814&#34; = &#34;https://github.com/faceman0814&#34;;
-}
-
-# 扫描所有文件并替换指定字符串
-Get-ChildItem -Recurse | Where-Object { !$_.PSIsContainer } | ForEach-Object {
-    $content = Get-Content $_.FullName -Raw
-    foreach ($oldText in $replacements.Keys) {
-        $newText = $replacements[$oldText]
-        $content = $content -replace [regex]::Escape($oldText), $newText
-    }
-    Set-Content $_.FullName -Value $content
-}
-
-# 复制 images 文件夹，使用相对路径回退到根目录再访问static/images
-$sourcePath = &#34;..\static\images&#34;
-$destinationPath = &#34;.\images&#34;
-Copy-Item -Path $sourcePath\* -Destination $destinationPath -Force -Recurse
-
-
-# 将更改添加到git
-git add .
-
-# 提交更改
-Write-Host $commitMessage -ForegroundColor Green
-git commit -m $commitMessage
-
-# 拉取最新的远程仓库更改以避免冲突
-git pull origin main
-
-# 推送源和构建仓库
-git push origin main
-
-# 返回到项目根目录
-Set-Location ..
-</code></pre><h2 id="页脚加运行时间">页脚加运行时间</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>param(
+</span></span><span style="display:flex;"><span>    [string]$commitMessage = &#34;博客更新&#34;
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 输出部署更新信息
+</span></span><span style="display:flex;"><span>Write-Host &#34;正在部署到GitHub...&#34; -ForegroundColor Green
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 构建项目
+</span></span><span style="display:flex;"><span>&amp; hugo
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 进入Public文件夹
+</span></span><span style="display:flex;"><span>Set-Location public
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 扫描所有文件并替换指定字符串
+</span></span><span style="display:flex;"><span>$replacements = @{
+</span></span><span style="display:flex;"><span>    &#34;https://github.com/faceman0814%25!%28EXTRA%20%3cnil%3e%29&#34; = &#34;https://github.com/faceman0814&#34;;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 扫描所有文件并替换指定字符串
+</span></span><span style="display:flex;"><span>Get-ChildItem -Recurse | Where-Object { !$_.PSIsContainer } | ForEach-Object {
+</span></span><span style="display:flex;"><span>    $content = Get-Content $_.FullName -Raw
+</span></span><span style="display:flex;"><span>    foreach ($oldText in $replacements.Keys) {
+</span></span><span style="display:flex;"><span>        $newText = $replacements[$oldText]
+</span></span><span style="display:flex;"><span>        $content = $content -replace [regex]::Escape($oldText), $newText
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    Set-Content $_.FullName -Value $content
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 复制 images 文件夹，使用相对路径回退到根目录再访问static/images
+</span></span><span style="display:flex;"><span>$sourcePath = &#34;..\static\images&#34;
+</span></span><span style="display:flex;"><span>$destinationPath = &#34;.\images&#34;
+</span></span><span style="display:flex;"><span>Copy-Item -Path $sourcePath\* -Destination $destinationPath -Force -Recurse
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 将更改添加到git
+</span></span><span style="display:flex;"><span>git add .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 提交更改
+</span></span><span style="display:flex;"><span>Write-Host $commitMessage -ForegroundColor Green
+</span></span><span style="display:flex;"><span>git commit -m $commitMessage
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 拉取最新的远程仓库更改以避免冲突
+</span></span><span style="display:flex;"><span>git pull origin main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 推送源和构建仓库
+</span></span><span style="display:flex;"><span>git push origin main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># 返回到项目根目录
+</span></span><span style="display:flex;"><span>Set-Location ..
+</span></span></code></pre></div><h2 id="页脚加运行时间">页脚加运行时间</h2>
 <p>在页脚加入代码</p>
-<pre tabindex="0"><code>&lt;div class=&#34;footer-container&#34;&gt;
-      &lt;span id=&#34;sitetime&#34;&gt;载入运行时间...&lt;/span&gt;
- &lt;/div&gt;
-
-&lt;script&gt;
-  function siteTime() {
-      var seconds = 1000;
-      var minutes = seconds * 60;
-      var hours = minutes * 60;
-      var days = hours * 24;
-      var years = days * 365;
-      var today = new Date();
-      var startYear = 2024;
-      var startMonth = 11;
-      var startDate = 8;
-      var startHour = 14;
-      var startMinute = 15;
-      var startSecond = 11;
-      var todayYear = today.getFullYear();
-      var todayMonth = today.getMonth() + 1;
-      var todayDate = today.getDate();
-      var todayHour = today.getHours();
-      var todayMinute = today.getMinutes();
-      var todaySecond = today.getSeconds();
-      var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
-      var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
-      var diff = t2 - t1;
-      var diffYears = Math.floor(diff / years);
-      var diffDays = Math.floor((diff / days) - diffYears * 365);
-      var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
-      var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
-          minutes);
-      var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
-          diffMinutes * minutes) / seconds);
-      if (startYear == todayYear) {
-          //document.getElementById(&#34;year&#34;).innerHTML = todayYear;
-          document.getElementById(&#34;sitetime&#34;).innerHTML = &#34;博客已运行 &#34; + diffDays + &#34; 天 &#34; + diffHours +
-              &#34; 小时 &#34; + diffMinutes + &#34; 分钟 &#34; + diffSeconds + &#34; 秒&#34;;
-      } else {
-          //document.getElementById(&#34;year&#34;).innerHTML = startYear + &#34; - &#34; + todayYear;
-          document.getElementById(&#34;sitetime&#34;).innerHTML = &#34;博客已运行 &#34; + diffYears + &#34; 年 &#34; + diffDays +
-              &#34; 天 &#34; + diffHours + &#34; 小时 &#34; + diffMinutes + &#34; 分钟 &#34; + diffSeconds + &#34; 秒&#34;;
-      }
-  }
-  setInterval(siteTime, 1000);
-
-&lt;/script&gt;
-</code></pre><h2 id="添加访问量计数工具">添加访问量计数工具</h2>
-<pre tabindex="0"><code>&lt;script async src=&#34;https://busuanzi.icodeq.com/busuanzi.pure.mini.js&#34;&gt;&lt;/script&gt;
-
-本文总阅读量 &lt;span id=&#34;busuanzi_value_page_pv&#34;&gt;&lt;/span&gt; 次
-
-本站总访问量 &lt;span id=&#34;busuanzi_value_site_pv&#34;&gt;&lt;/span&gt; 次
-
-本站总访客数 &lt;span id=&#34;busuanzi_value_site_uv&#34;&gt;&lt;/span&gt; 人
-</code></pre><h2 id="遇到的一些坑">遇到的一些坑</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gdscript3" data-lang="gdscript3"><span style="display:flex;"><span><span style="color:#f92672">&lt;</span>div <span style="color:#66d9ef">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;footer-container&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;</span>span id<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;sitetime&#34;</span><span style="color:#f92672">&gt;</span><span style="color:#960050;background-color:#1e0010">载入运行时间</span><span style="color:#f92672">...&lt;/</span>span<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;/</span>div<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;</span>script<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>  function siteTime() {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> seconds <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> minutes <span style="color:#f92672">=</span> seconds <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> hours <span style="color:#f92672">=</span> minutes <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> days <span style="color:#f92672">=</span> hours <span style="color:#f92672">*</span> <span style="color:#ae81ff">24</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> years <span style="color:#f92672">=</span> days <span style="color:#f92672">*</span> <span style="color:#ae81ff">365</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> today <span style="color:#f92672">=</span> new Date();
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> startYear <span style="color:#f92672">=</span> <span style="color:#ae81ff">2024</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> startMonth <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> startDate <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> startHour <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> startMinute <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> startSecond <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> todayYear <span style="color:#f92672">=</span> today<span style="color:#f92672">.</span>getFullYear();
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> todayMonth <span style="color:#f92672">=</span> today<span style="color:#f92672">.</span>getMonth() <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> todayDate <span style="color:#f92672">=</span> today<span style="color:#f92672">.</span>getDate();
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> todayHour <span style="color:#f92672">=</span> today<span style="color:#f92672">.</span>getHours();
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> todayMinute <span style="color:#f92672">=</span> today<span style="color:#f92672">.</span>getMinutes();
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> todaySecond <span style="color:#f92672">=</span> today<span style="color:#f92672">.</span>getSeconds();
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> t1 <span style="color:#f92672">=</span> Date<span style="color:#f92672">.</span>UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> t2 <span style="color:#f92672">=</span> Date<span style="color:#f92672">.</span>UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> diff <span style="color:#f92672">=</span> t2 <span style="color:#f92672">-</span> t1;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> diffYears <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span>floor(diff <span style="color:#f92672">/</span> years);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> diffDays <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span>floor((diff <span style="color:#f92672">/</span> days) <span style="color:#f92672">-</span> diffYears <span style="color:#f92672">*</span> <span style="color:#ae81ff">365</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> diffHours <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span>floor((diff <span style="color:#f92672">-</span> (diffYears <span style="color:#f92672">*</span> <span style="color:#ae81ff">365</span> <span style="color:#f92672">+</span> diffDays) <span style="color:#f92672">*</span> days) <span style="color:#f92672">/</span> hours);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> diffMinutes <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span>floor((diff <span style="color:#f92672">-</span> (diffYears <span style="color:#f92672">*</span> <span style="color:#ae81ff">365</span> <span style="color:#f92672">+</span> diffDays) <span style="color:#f92672">*</span> days <span style="color:#f92672">-</span> diffHours <span style="color:#f92672">*</span> hours) <span style="color:#f92672">/</span>
+</span></span><span style="display:flex;"><span>          minutes);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> diffSeconds <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span>floor((diff <span style="color:#f92672">-</span> (diffYears <span style="color:#f92672">*</span> <span style="color:#ae81ff">365</span> <span style="color:#f92672">+</span> diffDays) <span style="color:#f92672">*</span> days <span style="color:#f92672">-</span> diffHours <span style="color:#f92672">*</span> hours <span style="color:#f92672">-</span>
+</span></span><span style="display:flex;"><span>          diffMinutes <span style="color:#f92672">*</span> minutes) <span style="color:#f92672">/</span> seconds);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (startYear <span style="color:#f92672">==</span> todayYear) {
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">//</span>document<span style="color:#f92672">.</span>getElementById(<span style="color:#e6db74">&#34;year&#34;</span>)<span style="color:#f92672">.</span>innerHTML <span style="color:#f92672">=</span> todayYear;
+</span></span><span style="display:flex;"><span>          document<span style="color:#f92672">.</span>getElementById(<span style="color:#e6db74">&#34;sitetime&#34;</span>)<span style="color:#f92672">.</span>innerHTML <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;博客已运行 &#34;</span> <span style="color:#f92672">+</span> diffDays <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; 天 &#34;</span> <span style="color:#f92672">+</span> diffHours <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34; 小时 &#34;</span> <span style="color:#f92672">+</span> diffMinutes <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; 分钟 &#34;</span> <span style="color:#f92672">+</span> diffSeconds <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; 秒&#34;</span>;
+</span></span><span style="display:flex;"><span>      } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">//</span>document<span style="color:#f92672">.</span>getElementById(<span style="color:#e6db74">&#34;year&#34;</span>)<span style="color:#f92672">.</span>innerHTML <span style="color:#f92672">=</span> startYear <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; - &#34;</span> <span style="color:#f92672">+</span> todayYear;
+</span></span><span style="display:flex;"><span>          document<span style="color:#f92672">.</span>getElementById(<span style="color:#e6db74">&#34;sitetime&#34;</span>)<span style="color:#f92672">.</span>innerHTML <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;博客已运行 &#34;</span> <span style="color:#f92672">+</span> diffYears <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; 年 &#34;</span> <span style="color:#f92672">+</span> diffDays <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34; 天 &#34;</span> <span style="color:#f92672">+</span> diffHours <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; 小时 &#34;</span> <span style="color:#f92672">+</span> diffMinutes <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; 分钟 &#34;</span> <span style="color:#f92672">+</span> diffSeconds <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; 秒&#34;</span>;
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  setInterval(siteTime, <span style="color:#ae81ff">1000</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/</span>script<span style="color:#f92672">&gt;</span>
+</span></span></code></pre></div><h2 id="添加访问量计数工具">添加访问量计数工具</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>&lt;script async src=&#34;https://busuanzi.icodeq.com/busuanzi.pure.mini.js&#34;&gt;&lt;/script&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>本文总阅读量 &lt;span id=&#34;busuanzi_value_page_pv&#34;&gt;&lt;/span&gt; 次
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>本站总访问量 &lt;span id=&#34;busuanzi_value_site_pv&#34;&gt;&lt;/span&gt; 次
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>本站总访客数 &lt;span id=&#34;busuanzi_value_site_uv&#34;&gt;&lt;/span&gt; 人
+</span></span></code></pre></div><h2 id="遇到的一些坑">遇到的一些坑</h2>
 <h3 id="中文博客内容截断过长">中文博客内容截断过长</h3>
 <p>默认情况下，Hugo 可能会根据单词边界来截断摘要，这在处理英文时比较合适，但对于中文等没有明显空格分隔的语言则不太适用。就可能会导致摘要部分过长，导致观感不好，面对这种情况有两个解决方案。</p>
 <h4 id="方案-1自定义-summary-分隔符">方案 1：自定义 Summary 分隔符</h4>
@@ -359,11 +357,11 @@ Set-Location ..
     </main>
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
   <div class="flex justify-between">
-  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.faceman.cn/" >
-    &copy;  FaceMan's Blog 2024-11-13 10:12 
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://localhost:1313/" >
+    &copy;  FaceMan's Blog 2024-11-13 10:38 
   
   </a>
-    <div><div class="ananke-socials"><a href="https://github.com/faceman0814" target="_blank" rel="noopener"
+    <div><div class="ananke-socials"><a href="https://github.com/faceman0814%25!%28EXTRA%20%3cnil%3e%29" target="_blank" rel="noopener"
         class="ananke-social-link link-transition github link dib z-999 pt3 pt0-l mr1"
         title="follow on GitHub - Opens in a new window"
         aria-label="follow on GitHub - Opens in a new window">
@@ -435,4 +433,3 @@ Set-Location ..
 </script>
   </body>
 </html>
-

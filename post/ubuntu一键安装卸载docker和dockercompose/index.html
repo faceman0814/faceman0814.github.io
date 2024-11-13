@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
@@ -62,14 +62,14 @@ Compose V2语法： Compose V2语法是较新版本的Compose语法，其文件�
     
     
     
-      <meta name="robots" content="index, follow">
+      <meta name="robots" content="noindex, nofollow">
     
     
       <meta name="author" content = "faceman">
     
 
     
-<link rel="stylesheet" href="/ananke/css/main.min.62fb708857ebae80c5e3f8ebc5db80e351ff1cf6ba2d9dbb62aa1a00537c4e6e.css" >
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
 
 
 
@@ -83,10 +83,10 @@ Compose V2语法： Compose V2语法是较新版本的Compose语法，其文件�
     
 
     
-      <link rel="canonical" href="https://blog.faceman.cn/post/ubuntu%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BDdocker%E5%92%8Cdockercompose/">
+      <link rel="canonical" href="http://localhost:1313/post/ubuntu%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BDdocker%E5%92%8Cdockercompose/">
     
 
-    <meta property="og:url" content="https://blog.faceman.cn/post/ubuntu%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BDdocker%E5%92%8Cdockercompose/">
+    <meta property="og:url" content="http://localhost:1313/post/ubuntu%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BDdocker%E5%92%8Cdockercompose/">
   <meta property="og:site_name" content="FaceMan&#39;s Blog">
   <meta property="og:title" content="Ubuntu一键安装卸载docker和dockercompose">
   <meta property="og:description" content="前言 在新建的服务器上，我们一般会用几条命令来下载安装docker和docker-compose，这里为了避免每次都去搜索安装命令，所以写成脚本，本文仅支持Ubuntu\CentOS。
@@ -132,8 +132,6 @@ version: &#39;2&#39; services: web: image: nginx:latest ports: - 8080:80 volumes
 services：使用services关键字定义要运行的服务。每个服务都有一个名称和一组配置选项。 image：指定要使用的镜像名称。 ports：定义要映射到主机上的容器端口。 volumes：指定要挂载到容器中的卷。 links：定义与其他服务之间的连接。 environment：设置容器中的环境变量。 depends_on：定义服务之间的依赖关系。 以下是一个Compose V1语法的示例：
 version: &#39;2&#39; services: web: image: nginx:latest ports: - 8080:80 volumes: - ./html:/usr/share/nginx/html db: image: mysql:latest environment: - MYSQL_ROOT_PASSWORD=secret Compose V2语法： Compose V2语法是较新版本的Compose语法，其文件名通常为docker-compose.yaml或docker-compose.yml。以下是一些Compose V2语法的特点：">
 
-      
-    
 	 
  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YZLV0NMXNB"></script>
  <script>
@@ -146,7 +144,7 @@ version: &#39;2&#39; services: web: image: nginx:latest ports: - 8080:80 volumes
  
  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-  </head><body class="ma0 avenir bg-near-white production">
+  </head><body class="ma0 avenir bg-near-white development">
     
    
   
@@ -154,7 +152,7 @@ version: &#39;2&#39; services: web: image: nginx:latest ports: - 8080:80 volumes
   
   
   
-  <header class="cover bg-center" style="background-image: url('https://blog.faceman.cn/images/docker.png');">
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/docker.png');">
     <div class="bg-black-60">
       <nav class="pv3 ph3 ph4-ns" role="navigation">
   <div class="flex-l justify-between items-center center">
@@ -183,7 +181,7 @@ version: &#39;2&#39; services: web: image: nginx:latest ports: - 8080:80 volumes
           
         </ul>
       
-      <div class="ananke-socials"><a href="https://github.com/faceman0814" target="_blank" rel="noopener"
+      <div class="ananke-socials"><a href="https://github.com/faceman0814%25!%28EXTRA%20%3cnil%3e%29" target="_blank" rel="noopener"
         class="ananke-social-link link-transition github link dib z-999 pt3 pt0-l mr1"
         title="follow on GitHub - Opens in a new window"
         aria-label="follow on GitHub - Opens in a new window">
@@ -215,7 +213,7 @@ version: &#39;2&#39; services: web: image: nginx:latest ports: - 8080:80 volumes
       <aside class="instapaper_ignoref b helvetica tracked ttu">
           
         博客
-      </aside><div id="sharing" class="mt3 ananke-socials"><a href="mailto:?&amp;body=https%3A%2F%2Fblog.faceman.cn%2Fpost%2Fubuntu%25E4%25B8%2580%25E9%2594%25AE%25E5%25AE%2589%25E8%25A3%2585%25E5%258D%25B8%25E8%25BD%25BDdocker%25E5%2592%258Cdockercompose%2F&amp;subject=Ubuntu%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BDdocker%E5%92%8Cdockercompose"
+      </aside><div id="sharing" class="mt3 ananke-socials"><a href="mailto:?&amp;body=http%3A%2F%2Flocalhost%3A1313%2Fpost%2Fubuntu%25E4%25B8%2580%25E9%2594%25AE%25E5%25AE%2589%25E8%25A3%2585%25E5%258D%25B8%25E8%25BD%25BDdocker%25E5%2592%258Cdockercompose%2F&amp;subject=Ubuntu%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BDdocker%E5%92%8Cdockercompose"
         class="ananke-social-link email no-underline"
         title="Share on Email" aria-label="Share on Email"
         target="_blank" rel="nofollow noopener noreferrer">
@@ -586,33 +584,37 @@ image、ports、volumes、environment等选项与Compose V1相同。
     <aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
     <p class="f5 b mb3">导航</p>
       <nav id="TableOfContents">
-  <ul>
-    <li><a href="#前言">前言</a></li>
-    <li><a href="#一docker是什么">一、docker是什么？</a></li>
-    <li><a href="#二docker-compose是什么">二、docker compose是什么？</a></li>
-    <li><a href="#三安装步骤">三、安装步骤</a>
-      <ul>
-        <li><a href="#1ubuntu安装脚本">1.Ubuntu安装脚本</a></li>
-        <li><a href="#2生成脚本">2.生成脚本</a></li>
-        <li><a href="#3启动和验证">3.启动和验证</a></li>
-      </ul>
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#前言">前言</a></li>
+        <li><a href="#一docker是什么">一、docker是什么？</a></li>
+        <li><a href="#二docker-compose是什么">二、docker compose是什么？</a></li>
+        <li><a href="#三安装步骤">三、安装步骤</a>
+          <ol>
+            <li><a href="#1ubuntu安装脚本">1.Ubuntu安装脚本</a></li>
+            <li><a href="#2生成脚本">2.生成脚本</a></li>
+            <li><a href="#3启动和验证">3.启动和验证</a></li>
+          </ol>
+        </li>
+        <li><a href="#四卸载步骤">四、卸载步骤</a>
+          <ol>
+            <li><a href="#1ubuntu卸载脚本">1.Ubuntu卸载脚本</a></li>
+            <li><a href="#2保存文件后设置执行权限">2.保存文件后设置执行权限</a></li>
+            <li><a href="#3运行文件">3.运行文件</a></li>
+            <li><a href="#4验证是否删除成功">4.验证是否删除成功</a></li>
+          </ol>
+        </li>
+        <li><a href="#centos">CentOS</a>
+          <ol>
+            <li><a href="#安装脚本">安装脚本</a></li>
+            <li><a href="#卸载脚本">卸载脚本</a></li>
+          </ol>
+        </li>
+        <li><a href="#总结">总结</a></li>
+      </ol>
     </li>
-    <li><a href="#四卸载步骤">四、卸载步骤</a>
-      <ul>
-        <li><a href="#1ubuntu卸载脚本">1.Ubuntu卸载脚本</a></li>
-        <li><a href="#2保存文件后设置执行权限">2.保存文件后设置执行权限</a></li>
-        <li><a href="#3运行文件">3.运行文件</a></li>
-        <li><a href="#4验证是否删除成功">4.验证是否删除成功</a></li>
-      </ul>
-    </li>
-    <li><a href="#centos">CentOS</a>
-      <ul>
-        <li><a href="#安装脚本">安装脚本</a></li>
-        <li><a href="#卸载脚本">卸载脚本</a></li>
-      </ul>
-    </li>
-    <li><a href="#总结">总结</a></li>
-  </ul>
+  </ol>
 </nav>
   </div>
 
@@ -637,11 +639,11 @@ image、ports、volumes、environment等选项与Compose V1相同。
     </main>
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
   <div class="flex justify-between">
-  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.faceman.cn/" >
-    &copy;  FaceMan's Blog 2024-11-13 10:12 
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://localhost:1313/" >
+    &copy;  FaceMan's Blog 2024-11-13 10:43 
   
   </a>
-    <div><div class="ananke-socials"><a href="https://github.com/faceman0814" target="_blank" rel="noopener"
+    <div><div class="ananke-socials"><a href="https://github.com/faceman0814%25!%28EXTRA%20%3cnil%3e%29" target="_blank" rel="noopener"
         class="ananke-social-link link-transition github link dib z-999 pt3 pt0-l mr1"
         title="follow on GitHub - Opens in a new window"
         aria-label="follow on GitHub - Opens in a new window">
@@ -713,4 +715,3 @@ image、ports、volumes、environment等选项与Compose V1相同。
 </script>
   </body>
 </html>
-

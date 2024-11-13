@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
@@ -271,14 +271,14 @@ public class FileController：Controller
     
     
     
-      <meta name="robots" content="index, follow">
+      <meta name="robots" content="noindex, nofollow">
     
     
       <meta name="author" content = "faceman">
     
 
     
-<link rel="stylesheet" href="/ananke/css/main.min.62fb708857ebae80c5e3f8ebc5db80e351ff1cf6ba2d9dbb62aa1a00537c4e6e.css" >
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
 
 
 
@@ -292,10 +292,10 @@ public class FileController：Controller
     
 
     
-      <link rel="canonical" href="https://blog.faceman.cn/post/c%23%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BD%95%E8%BD%ACpdfwordmd%E6%96%87%E4%BB%B6/">
+      <link rel="canonical" href="http://localhost:1313/post/c%23%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BD%95%E8%BD%ACpdfwordmd%E6%96%87%E4%BB%B6/">
     
 
-    <meta property="og:url" content="https://blog.faceman.cn/post/c%23%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BD%95%E8%BD%ACpdfwordmd%E6%96%87%E4%BB%B6/">
+    <meta property="og:url" content="http://localhost:1313/post/c%23%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BD%95%E8%BD%ACpdfwordmd%E6%96%87%E4%BB%B6/">
   <meta property="og:site_name" content="FaceMan&#39;s Blog">
   <meta property="og:title" content="C#实现对话记录转PDF、Word、MD文件">
   <meta property="og:description" content="前言 工作中有个场景是chatgpt聊天对话记录下载支持PDF、Word、MD格式，于是有了本篇文章。
@@ -323,8 +323,6 @@ public class FileController：Controller
 实现思路 对话中可能会用md格式的回答，且因为不能直接转成pdf或者word，所以这里通过方法转成md或者html代码，使用html格式转成pdf或者word。
 代码实现 需要的nuget包 html转pdf iTextSharp itextsharp.xmlworker html转word FreeSpire.Doc md转html Markdig 创建HtmlHelper帮助类 /// &lt;summary&gt; /// HTML帮助类 /// &lt;/summary&gt; public class HtmlHelper { /// &lt;summary&gt; /// 字体路径 /// &lt;/summary&gt; private static string FontPath; public HtmlHelper(string fontPath) { FontPath = fontPath; } public HtmlHelper() { } //将html字符串转为pdf字节数组 public byte[] ConvertHtmlTextToPDF(string htmlText) { if (string.IsNullOrEmpty(htmlText)) { return null; } try { MemoryStream outputStream = new MemoryStream(); //要把PDF寫到哪個串流 byte[] data = Encoding.UTF8.GetBytes(htmlText); //字串轉成byte[] MemoryStream msInput = new MemoryStream(data); Document doc = new Document(); //要寫PDF的文件，建構子沒填的話預設直式A4 PdfWriter writer = PdfWriter.GetInstance(doc, outputStream); //指定文件預設開檔時的縮放為100% PdfDestination pdfDest = new PdfDestination(PdfDestination.XYZ, 0, doc.PageSize.Height, 1f); //開啟Document文件 doc.Open(); //使用XMLWorkerHelper把Html parse到PDF檔裡 XMLWorkerHelper.GetInstance().ParseXHtml(writer, doc, msInput, null, Encoding.UTF8, new UnicodeFontFactory()); //將pdfDest設定的資料寫到PDF檔 PdfAction action = PdfAction.GotoLocalPage(1, pdfDest, writer); writer.SetOpenAction(action); doc.Close(); msInput.Close(); outputStream.Close(); return outputStream.ToArray(); } catch (Exception ex) { throw new UserFriendlyException(&#34;转PDF时异常,请联系管理员！&#34;, ex); } } //将html字符串转为word字节数组 public byte[] ConvertHtmlTextToWord(string htmlText) { if (string.IsNullOrEmpty(htmlText)) { return null; } try { MemoryStream outputStream = new MemoryStream(); //要把Word寫到哪個串流 byte[] data = Encoding.UTF8.GetBytes(htmlText); //字串轉成byte[] MemoryStream stream = new MemoryStream(data); Spire.Doc.Document doc = new Spire.Doc.Document(); //要寫Word的文件，建構子沒填的話預設直式A4 doc.LoadFromStream(stream, FileFormat.Html, XHTMLValidationType.None); doc.SaveToStream(outputStream, FileFormat.Docx); doc.Close(); return outputStream.ToArray(); } catch (Exception ex) { throw new UserFriendlyException(&#34;转Word时异常,请联系管理员！&#34;, ex); } } //字体工厂 public class UnicodeFontFactory : FontFactoryImp { public override Font GetFont(string fontname, string encoding, bool embedded, float size, int style, BaseColor color, bool cached) { BaseFont baseFont = BaseFont.CreateFont(FontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED); return new Font(baseFont, size, style, color); } } } 创建测试信息类 public class Message { public string Type { get; set; } public string Context { get; set; } } 通过控制器调用。 public class FileController：Controller { private readonly IHttpContextAccessor _httpContextAccessor; public FileController(IHttpContextAccessor httpContextAccessor） { _httpContextAccessor=httpContextAccessor; } /// &lt;summary&gt; /// 导出当前对话全部信息为Markdown /// &lt;/summary&gt; /// &lt;param name=&#34;messageId&#34;&gt;&lt;/param&gt; /// &lt;returns&gt;&lt;/returns&gt; [HttpGet] [DisableAuditing] public async Task&lt;IActionResult&gt; GenerateAllMarkdown() { var stringBuilder = await GenerateFile(&#34;md&#34;); byte[] markdownBytes = Encoding.UTF8.GetBytes(stringBuilder); var fileName = $&#34;文件名称-{Clock.Now.ToString(&#34;yyyyMMddHHmmss&#34;)}.md&#34;; var contentType = &#34;text/markdown&#34;; return File(markdownBytes, contentType, fileName); } /// &lt;summary&gt; /// 导出当前对话全部信息为Word /// &lt;/summary&gt; /// &lt;param name=&#34;messageId&#34;&gt;&lt;/param&gt; /// &lt;returns&gt;&lt;/returns&gt; [HttpGet] [DisableAuditing] public async Task&lt;ActionResult&gt; GenerateAllWord() { var stringBuilder = await GenerateFile(&#34;html&#34;); HtmlHelper pdfHelper = new HtmlHelper(); var byteData = pdfHelper.ConvertHtmlTextToWord(stringBuilder); var fileName = $&#34;文件名称-{Clock.Now.ToString(&#34;yyyyMMddHHmmss&#34;)}.docx&#34;; var contentType = &#34;application/vnd.openxmlformats-officedocument.wordprocessingml.document&#34;; return File(byteData, contentType, fileName); } /// &lt;summary&gt; /// 导出当前对话全部信息为PDF /// &lt;/summary&gt; /// &lt;param name=&#34;chatId&#34;&gt;&lt;/param&gt; /// &lt;param name=&#34;chatUserId&#34;&gt;&lt;/param&gt; /// &lt;returns&gt;&lt;/returns&gt; /// &lt;exception cref=&#34;UserFriendlyException&#34;&gt;&lt;/exception&gt; [HttpGet] [DisableAuditing] public async Task&lt;ActionResult&gt; GeneratePDF() { var stringBuilder = await GenerateFile(&#34;html&#34;); string fontPath = Path.Combine(&#34;字体地址&#34;, &#34;Nsimsun.ttf&#34;); HtmlHelper pdfHelper = new HtmlHelper(fontPath); var byteData = pdfHelper.ConvertHtmlTextToPDF(stringBuilder);//生成PDF var fileName = $&#34;文件名称-{Clock.Now.ToString(&#34;yyyyMMddHHmmss&#34;)}.pdf&#34;; var contentType = &#34;application/pdf&#34;; return File(byteData, contentType, fileName); } private async Task&lt;string&gt; GenerateFile(string type) { var title = &#34;我是标题&#34;; var UserName = &#34;我是用户&#34;; var Url = &#34;我是链接&#34;; List&lt;Message&gt; currentMessage = new List&lt;Message&gt;() { new Message() { Type =&#34;user&#34;, Context=&#34;你是谁&#34; }， new Message() { Type =&#34;bot&#34;, Context=&#34;hello，我是chatgpt&#34; } //... }; //信息查询操作。。。。 string stringBuilder = default; string symbolA = &#34;&#34;; string symbolB = &#34;&#34;; switch (type) { case &#34;html&#34;: symbolA = &#34;&lt;strong&gt;&#34;; symbolB = &#34;&lt;/strong&gt;&#34;; break; case &#34;md&#34;: symbolA = &#34;**&#34;; symbolB = &#34;**&#34;; break; } //设置标题 stringBuilder &#43;= $&#34;# {title} \n&#34;; foreach (var item in allMessages) { if (item.Type == &#34;bot&#34;) { stringBuilder &#43;= $&#34;{symbolA} AI回答：{symbolB} \n&#34;; } else { stringBuilder &#43;= $&#34;{symbolA} 用户提问：{symbolB} \n&#34;; } stringBuilder &#43;= $&#34;{item.Content} \n&#34;; stringBuilder &#43;= &#34;\n&#34;; } var request = _httpContextAccessor.HttpContext.Request; string fullUrl = $&#34;{request.Scheme}://{request.Host}&#34;; stringBuilder &#43;= $&#34;&gt; 编辑于 {DateTime.Now}\n &#34; &#43; $&#34;&gt;作者：{UserName} \n &#34; &#43; $&#34;&gt;链接：{Url}\n &#34; &#43; $&#34;&gt;来源：我是来源&#34;; if (type == &#34;html&#34;) { stringBuilder = Markdown.ToHtml(stringBuilder); stringBuilder = stringBuilder.Replace(&#34;/n&#34;, &#34;&lt;br /&gt;&#34;); stringBuilder = stringBuilder.Replace(&#34;&lt;p&gt;&#34;, &#34;&#34;); stringBuilder = stringBuilder.Replace(&#34;&lt;/p&gt;&#34;, &#34;&lt;br /&gt;&#34;); stringBuilder = stringBuilder.Replace(&#34;AI回答：&#34;, &#34;&lt;br /&gt; AI回答：&#34;); stringBuilder = stringBuilder.Replace(&#34;用户提问：&#34;, &#34;&lt;br /&gt; 用户提问：&#34;); stringBuilder = stringBuilder.Replace(&#34;&lt;blockquote&gt;&#34;, &#34;&#34;); stringBuilder = stringBuilder.Replace(&#34;&lt;/blockquote&gt;&#34;, &#34;&#34;); stringBuilder = stringBuilder.Replace(&#34;编辑于：&#34;, &#34;&lt;br /&gt;&lt;br /&gt; 编辑于：&#34;); stringBuilder = stringBuilder.Replace(&#34;作者：&#34;, &#34;&lt;br /&gt; 作者：&#34;); stringBuilder = stringBuilder.Replace(&#34;链接：&#34;, &#34;&lt;br /&gt; 链接：&#34;); stringBuilder = stringBuilder.Replace(&#34;来源：&#34;, &#34;&lt;br /&gt; 来源：&#34;); stringBuilder = $&#34;\r\n&lt;!DOCTYPE html&gt;\r\n&lt;html&gt;\r\n&lt;head&gt;\r\n &lt;meta charset=\&#34;utf-8\&#34; /&gt;\r\n &lt;title&gt;{currentChat.Name}&lt;/title&gt;\r\n&lt;/head&gt;\r\n&lt;body&gt;\r\n&#34; &#43; stringBuilder; stringBuilder &#43;= &#34;\r\n&lt;/body&gt;\r\n&lt;/html&gt;&#34;; } return stringBuilder; } }">
 
-      
-    
 	 
  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YZLV0NMXNB"></script>
  <script>
@@ -337,7 +335,7 @@ public class FileController：Controller
  
  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-  </head><body class="ma0 avenir bg-near-white production">
+  </head><body class="ma0 avenir bg-near-white development">
     
    
   
@@ -345,7 +343,7 @@ public class FileController：Controller
   
   
   
-  <header class="cover bg-center" style="background-image: url('https://blog.faceman.cn/images/office.png');">
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/office.png');">
     <div class="bg-black-60">
       <nav class="pv3 ph3 ph4-ns" role="navigation">
   <div class="flex-l justify-between items-center center">
@@ -374,7 +372,7 @@ public class FileController：Controller
           
         </ul>
       
-      <div class="ananke-socials"><a href="https://github.com/faceman0814" target="_blank" rel="noopener"
+      <div class="ananke-socials"><a href="https://github.com/faceman0814%25!%28EXTRA%20%3cnil%3e%29" target="_blank" rel="noopener"
         class="ananke-social-link link-transition github link dib z-999 pt3 pt0-l mr1"
         title="follow on GitHub - Opens in a new window"
         aria-label="follow on GitHub - Opens in a new window">
@@ -406,7 +404,7 @@ public class FileController：Controller
       <aside class="instapaper_ignoref b helvetica tracked ttu">
           
         博客
-      </aside><div id="sharing" class="mt3 ananke-socials"><a href="mailto:?&amp;body=https%3A%2F%2Fblog.faceman.cn%2Fpost%2Fc%2523%25E5%25AE%259E%25E7%258E%25B0%25E5%25AF%25B9%25E8%25AF%259D%25E8%25AE%25B0%25E5%25BD%2595%25E8%25BD%25ACpdfwordmd%25E6%2596%2587%25E4%25BB%25B6%2F&amp;subject=C%23%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BD%95%E8%BD%ACPDF%E3%80%81Word%E3%80%81MD%E6%96%87%E4%BB%B6"
+      </aside><div id="sharing" class="mt3 ananke-socials"><a href="mailto:?&amp;body=http%3A%2F%2Flocalhost%3A1313%2Fpost%2Fc%2523%25E5%25AE%259E%25E7%258E%25B0%25E5%25AF%25B9%25E8%25AF%259D%25E8%25AE%25B0%25E5%25BD%2595%25E8%25BD%25ACpdfwordmd%25E6%2596%2587%25E4%25BB%25B6%2F&amp;subject=C%23%E5%AE%9E%E7%8E%B0%E5%AF%B9%E8%AF%9D%E8%AE%B0%E5%BD%95%E8%BD%ACPDF%E3%80%81Word%E3%80%81MD%E6%96%87%E4%BB%B6"
         class="ananke-social-link email no-underline"
         title="Share on Email" aria-label="Share on Email"
         target="_blank" rel="nofollow noopener noreferrer">
@@ -729,12 +727,18 @@ Markdig</li>
     <aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
     <p class="f5 b mb3">导航</p>
       <nav id="TableOfContents">
-  <ul>
-    <li><a href="#需要的nuget包">需要的nuget包</a></li>
-    <li><a href="#创建htmlhelper帮助类">创建HtmlHelper帮助类</a></li>
-    <li><a href="#创建测试信息类">创建测试信息类</a></li>
-    <li><a href="#通过控制器调用">通过控制器调用。</a></li>
-  </ul>
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#实现思路">实现思路</a></li>
+    <li><a href="#代码实现">代码实现</a>
+      <ol>
+        <li><a href="#需要的nuget包">需要的nuget包</a></li>
+        <li><a href="#创建htmlhelper帮助类">创建HtmlHelper帮助类</a></li>
+        <li><a href="#创建测试信息类">创建测试信息类</a></li>
+        <li><a href="#通过控制器调用">通过控制器调用。</a></li>
+      </ol>
+    </li>
+  </ol>
 </nav>
   </div>
 
@@ -759,11 +763,11 @@ Markdig</li>
     </main>
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
   <div class="flex justify-between">
-  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.faceman.cn/" >
-    &copy;  FaceMan's Blog 2024-11-13 10:12 
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://localhost:1313/" >
+    &copy;  FaceMan's Blog 2024-11-13 10:42 
   
   </a>
-    <div><div class="ananke-socials"><a href="https://github.com/faceman0814" target="_blank" rel="noopener"
+    <div><div class="ananke-socials"><a href="https://github.com/faceman0814%25!%28EXTRA%20%3cnil%3e%29" target="_blank" rel="noopener"
         class="ananke-social-link link-transition github link dib z-999 pt3 pt0-l mr1"
         title="follow on GitHub - Opens in a new window"
         aria-label="follow on GitHub - Opens in a new window">
@@ -835,4 +839,3 @@ Markdig</li>
 </script>
   </body>
 </html>
-

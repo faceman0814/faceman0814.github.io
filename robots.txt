@@ -1,4 +1,2 @@
 User-agent: *
-Allow: /
-Sitemap: https://blog.faceman.cn/sitemap.xml
-
+Disallow: /
